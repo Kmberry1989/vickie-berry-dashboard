@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motherly Medical Model - Memory Recollection - Vickie Berry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Chosen Palette: Serene Sage -->
+    <!-- Application Structure Plan: The application is structured as a user-centric health dashboard. The information architecture prioritizes immediate understanding and task-oriented exploration over a linear report format. The user lands on a "Dashboard" tab, which provides an at-a-glance summary of the most critical information. From there, the user can navigate to dedicated sections via a top navigation bar for deeper dives. A new "Timeline" tab provides a vertical, chronological overview. A "Clinical Suspicions" tab outlines the differential diagnosis for a potential major health event, explaining the clinical reasoning. The "Health Record" tab provides detailed data. "Lab Trends", "Care Plan", and "Log & Tools" sections provide focused, interactive functionality. This structure guides the user from summary to specifics, promoting understanding. -->
+    <!-- Visualization & Content Choices: - Key Diagnoses & Alerts (Goal: Inform/Alert) -> Method: Styled list/cards on Dashboard. Justification: Prioritizes critical information. - Clinical Suspicions (Goal: Organize/Explain) -> Method: Styled accordion cards for each potential diagnosis. Interaction: Click to expand. Justification: Organizes complex clinical reasoning into digestible, self-contained topics. No SVG/Mermaid. - Health Timeline (Goal: Show Change) -> Method: Vertical timeline using structured HTML/CSS with Tailwind. Interaction: Clickable events opening a modal. Justification: Vertical layout is more readable and scannable than horizontal, especially on mobile devices. No SVG/Mermaid. - Lab & Vitals Data (Goal: Analyze Change) -> Method: Interactive Line Charts (Chart.js/Canvas) with a toggle to a data table. Justification: Best method for visualizing time-series data while offering a tabular view for precise data lookup. Library: Chart.js/Canvas. - Lifestyle/Diet Info (Goal: Instruct) -> Method: Visual grocery list. Justification: Easy-to-understand visual dietary guidance. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; 
+            color: #343a40;
+        }
+        .main-container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+        .card { 
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .nav-button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            color: #495057;
+            background-color: transparent;
+            transition: background-color 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+        .nav-button.active, .nav-button:hover {
+            background-color: #6c757d; 
+            color: #ffffff;
+        }
+        .sub-nav-button {
+             padding: 8px 16px;
+             border-bottom: 3px solid transparent;
+             color: #6c757d;
+             font-weight: 500;
+             transition: all 0.2s;
+             cursor: pointer;
+        }
+        .sub-nav-button.active, .sub-nav-button:hover {
+            color: #343a40;
+            border-bottom-color: #6c757d;
+        }
+        .tab-content, .sub-tab-content { display: none; }
+        .tab-content.active, .sub-tab-content.active { display: block; }
+        
+        .primary-concern-item { background-color: #fff9e6; border-left: 4px solid #f59e0b; padding: 16px; border-radius: 8px; margin-bottom: 12px;}
+        .primary-concern-item.critical { background-color: #fef2f2; border-left-color: #ef4444; }
+        .primary-concern-item.resolved { background-color: #f0fdf4; border-left-color: #22c55e; }
+        .primary-concern-item.resolved del { color: #6b7280; }
+        
+        .chart-grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .chart-item-container {
+            background-color: #fdfdff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            padding: 1rem;
+        }
+
+        .chart-item-container canvas {
+            max-height: 300px;
+            width: 100% !important;
+            height: auto !important;
+        }
+        
+        .lab-table {
+            display: none;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .lab-table th, .lab-table td {
+            border: 1px solid #e5e7eb;
+            padding: 8px;
+            text-align: left;
+        }
+        .lab-table th { background-color: #f3f4f6; }
+
+
+        .single-data-point-message {
+            text-align: center;
+            font-size: 1rem;
+            color: #495057;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .single-data-point-message strong {
+            font-size: 1.5rem;
+            color: #343a40;
+        }
+
+        .gemini-button {
+            background-color: #343a40;
+            color: #f8f9fa;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .gemini-button:hover {
+            background-color: #495057;
+        }
+        .gemini-button:disabled {
+            background-color: #adb5bd;
+            cursor: not-allowed;
+        }
+       .gemini-answer-content p, .gemini-answer-content ul, .gemini-answer-content li, .gemini-answer-content h1, .gemini-answer-content h2, .gemini-answer-content h3 { 
+            font-size: 0.95rem; line-height: 1.6; color: #374151; margin-bottom: 0.75rem;
+        }
+        .gemini-answer-content ul { list-style-type: disc; padding-left: 20px; margin-top: 8px;}
+        .gemini-answer-content li { margin-bottom: 0.25rem; }
+        .gemini-answer-content strong { font-weight: 600; color: #1f2937;}
+
+        .report-content-full {
+             max-height: 600px; 
+            overflow-y: auto;
+            border: 1px solid #e5e7eb; 
+            padding: 16px;
+            border-radius: 8px;
+            background-color: #f9fafb; 
+            font-size: 0.875rem; 
+            white-space: pre-wrap;
+            line-height: 1.6;
+            color: #4b5563;
+        }
+
+        details > summary {
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #343a40;
+            padding: 0.75rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        details > summary:hover {
+            background-color: #e9ecef;
+        }
+
+        details[open] > summary {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .details-content {
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-top: none;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        
+        /* Vertical Timeline Styles */
+        .timeline-vertical-container {
+            position: relative;
+            padding: 2rem 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .timeline-vertical-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 1.25rem;
+            height: 100%;
+            width: 4px;
+            background: #e5e7eb;
+            transform: translateX(-50%);
+        }
+        .timeline-vertical-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            padding-left: 3.5rem;
+        }
+        .timeline-vertical-dot {
+            position: absolute;
+            left: 1.25rem;
+            top: 0.25rem;
+            height: 1.5rem;
+            width: 1.5rem;
+            border-radius: 50%;
+            border: 4px solid #f8f9fa;
+            transform: translateX(-50%);
+        }
+        .dot-diagnosis { background-color: #3b82f6; }
+        .dot-visit { background-color: #22c55e; }
+        .dot-emergency { background-color: #ef4444; }
+        .dot-procedure { background-color: #f97316; }
+        .dot-imaging { background-color: #8b5cf6; }
+
+        .timeline-vertical-content {
+            background: #fff;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .timeline-vertical-content:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+
+        .timeline-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .timeline-modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .timeline-modal-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Grocery List Styles */
+        .grocery-category { margin-bottom: 2rem; }
+        .grocery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1.5rem; }
+        .grocery-item { text-align: center; }
+        .grocery-item-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+        .grocery-item-name { font-weight: 500; }
+        
+    </style>
+</head>
+<body>
+    <div id="timeline-modal" class="timeline-modal">
+        <div class="timeline-modal-content">
+            <span class="timeline-modal-close">&times;</span>
+            <h3 id="modal-title" class="text-2xl font-bold mb-2"></h3>
+            <p id="modal-date" class="text-sm text-gray-500 mb-4"></p>
+            <div id="modal-details"></div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-[#343a40]">Vickie Berry</h1>
+            <p class="text-lg text-gray-600 mt-2">Comprehensive Health Dashboard</p>
+        </header>
+
+        <nav class="card flex justify-center flex-wrap gap-2 mb-8">
+            <button class="nav-button active" data-tab="dashboard">Dashboard</button>
+            <button class="nav-button" data-tab="timeline">Timeline</button>
+            <button class="nav-button" data-tab="suspicions">Clinical Suspicions</button>
+            <button class="nav-button" data-tab="healthRecord">Health Record</button>
+            <button class="nav-button" data-tab="labTrends">Lab & Metric Trends</button>
+            <button class="nav-button" data-tab="carePlan">Care Plan & Lifestyle</button>
+            <button class="nav-button" data-tab="tools">Log & Tools</button>
+        </nav>
+
+        <main>
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 card">
+                        <h2 class="text-2xl font-semibold mb-4">Primary Concerns & Alerts</h2>
+                        <div id="dashboardConcerns" class="space-y-3"></div>
+                        <button id="suggestConcernQuestionsBtn" class="gemini-button mt-4"><i class="fas fa-lightbulb"></i>Suggest Questions for My Doctor</button>
+                        <div id="suggestedQuestionsArea" class="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50" style="display:none;">
+                            <h4 class="text-md font-semibold text-gray-700 mb-2">Suggested Questions:</h4>
+                            <div id="suggestedQuestionsContent" class="gemini-answer-content"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="card">
+                            <h2 class="text-2xl font-semibold mb-4">Key Diagnoses</h2>
+                            <div id="dashboardDiagnoses" class="space-y-2 text-gray-700"></div>
+                        </div>
+                        <div class="card">
+                            <h2 class="text-2xl font-semibold mb-4">Upcoming Appointments</h2>
+                            <div id="dashboardAppointments" class="space-y-3"></div>
+                        </div>
+                         <div class="card">
+                            <h2 class="text-2xl font-semibold mb-4">Key Contacts</h2>
+                            <div id="dashboardContacts" class="space-y-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Timeline Tab -->
+            <div id="timeline" class="tab-content">
+                <div class="card">
+                     <h2 class="text-2xl font-semibold mb-4 text-center">Patient Health Timeline</h2>
+                     <p class="text-gray-500 text-center mb-8">A chronological overview of key medical events. Click on any event for more details.</p>
+                    <div id="timeline-vertical-container" class="timeline-vertical-container">
+                        <!-- Vertical timeline events will be injected here by JS -->
+                    </div>
+                </div>
+            </div>
+            
+             <!-- Clinical Suspicions Tab -->
+            <div id="suspicions" class="tab-content">
+                <div class="card">
+                    <h2 class="text-3xl font-bold text-center mb-4 text-[#0a9396]">Clinical Insight: Potential Causes of a Bleeding Event</h2>
+                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg shadow-md mb-8">
+                        <p><strong class="font-bold">Medical Disclaimer:</strong> The information presented here is a clinical synthesis based on the patient's record for informational purposes only. The sudden onset of bloody bowel movements is a **medical emergency** that requires immediate evaluation by a healthcare professional.</p>
+                    </div>
+                    <div class="space-y-4" id="suspicions-content">
+                         <!-- Content injected by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health Record Tab -->
+            <div id="healthRecord" class="tab-content">
+                <div class="card">
+                    <div id="recordSubNav" class="flex flex-wrap border-b border-gray-200 mb-4">
+                        <button class="sub-nav-button active" data-subtab="problems">Problem List</button>
+                        <button class="sub-nav-button" data-subtab="encounters">Encounters</button>
+                        <button class="sub-nav-button" data-subtab="medications">Medications</button>
+                        <button class="sub-nav-button" data-subtab="procedures">Procedures & Imaging</button>
+                         <button class="sub-nav-button" data-subtab="fullReport">Full Report Text</button>
+                    </div>
+                    <div id="problems" class="sub-tab-content active">
+                        <h3 class="text-xl font-semibold mb-4">Problem List</h3>
+                        <div id="problemListOutput" class="report-content-full"></div>
+                    </div>
+                    <div id="encounters" class="sub-tab-content">
+                        <h3 class="text-xl font-semibold mb-4">Encounter History</h3>
+                        <div id="encounterHistoryOutput" class="report-content-full"></div>
+                    </div>
+                    <div id="medications" class="sub-tab-content">
+                        <h3 class="text-xl font-semibold mb-4">Medication History</h3>
+                        <div id="medicationHistoryOutput" class="report-content-full"></div>
+                    </div>
+                    <div id="procedures" class="sub-tab-content">
+                         <h3 class="text-xl font-semibold mb-4">Procedures & Imaging</h3>
+                         <div id="proceduresOutput" class="space-y-4"></div>
+                    </div>
+                     <div id="fullReport" class="sub-tab-content">
+                         <h3 class="text-xl font-semibold mb-3">Complete Consolidated Health Record</h3>
+                         <div id="reportDisplayFull" class="report-content-full">
+                            <p class="text-gray-500">Loading full report...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lab Trends Tab -->
+            <div id="labTrends" class="tab-content">
+                 <div class="card">
+                    <div class="flex justify-between items-center mb-4">
+                         <h2 class="text-2xl font-semibold">Lab Result & Metric Trends</h2>
+                         <div class="flex items-center space-x-2">
+                            <span class="text-sm">Table</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="viewToggle" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-2 peer-focus:ring-blue-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                            <span class="text-sm">Chart</span>
+                        </div>
+                    </div>
+                     <p class="text-center text-gray-500 mb-8">Visualizing key health metrics over time. Hover over points for details.</p>
+                    <div id="chart-view" class="chart-grid-container">
+                        <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">GFR (Non-AA) Trend</h5><canvas id="gfrTrendChart"></canvas></div>
+                        <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">Creatinine Trend</h5><canvas id="creatinineTrendChart"></canvas></div>
+                        <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">BUN Trend</h5><canvas id="bunTrendChart"></canvas></div>
+                        <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">WBC Trend</h5><canvas id="wbcTrendChart"></canvas></div>
+                        <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">Hemoglobin Trend</h5><canvas id="hemoglobinTrendChart"></canvas></div>
+                        <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">Platelet Count Trend</h5><canvas id="plateletTrendChart"></canvas></div>
+                    </div>
+                    <div id="table-view" style="display:none;">
+                        <!-- Lab tables will be injected here -->
+                    </div>
+                    <details class="mt-6">
+                        <summary class="font-semibold cursor-pointer text-gray-700">Understanding These Lab Results</summary>
+                        <div class="mt-2 p-4 bg-gray-100 rounded-lg text-sm text-gray-600 space-y-3">
+                            <p><strong>GFR (Glomerular Filtration Rate):</strong> This is the best test to measure kidney function. A GFR below 60 mL/min indicates Chronic Kidney Disease (CKD). Vickie's GFR has been consistently below this level, confirming her Stage 3 CKD.</p>
+                            <p><strong>Creatinine & BUN (Blood Urea Nitrogen):</strong> These are waste products kidneys remove. Higher levels can be a sign that the kidneys aren't working well. Vickie's levels have been trending high, which is consistent with her CKD diagnosis.</p>
+                            <p><strong>WBC (White Blood Cell Count):</strong> These are the body's "fighter" cells. A high WBC count, like hers on June 17, 2025, is a strong sign of an active infection or significant inflammation.</p>
+                            <p><strong>Hemoglobin (Hgb) & Hematocrit (Hct):</strong> These measure the oxygen-carrying capacity of red blood cells. Consistently low or borderline-low levels can indicate anemia. Her chronic iron-deficiency anemia suggests a slow, ongoing blood loss somewhere in the body, most likely the GI tract.</p>
+                             <p><strong>Platelets:</strong> These are tiny cells that help form blood clots to stop bleeding. Her platelet count itself is normal, but the medications she takes (aspirin and clopidogrel) prevent them from working properly, which is why even a small bleed can become significant.</p>
+                        </div>
+                    </details>
+                 </div>
+            </div>
+
+            <!-- Care Plan & Lifestyle Tab -->
+            <div id="carePlan" class="tab-content">
+                <div class="card">
+                     <h2 class="text-2xl font-semibold mb-4">Care Plan & Lifestyle</h2>
+                     <div id="lifestyleOutput" class="space-y-4"></div>
+                </div>
+                 <div class="card">
+                    <h2 class="text-2xl font-semibold mb-4">Vegetarian Kidney-Friendly Grocery List</h2>
+                    <p class="text-gray-600 mb-6">Focus on these foods to support kidney health and manage gout. Always check with your doctor or a renal dietitian for personalized advice.</p>
+                    
+                    <div class="grocery-category">
+                        <h3 class="text-xl font-semibold mb-4 border-b pb-2">Vegetables (Low Potassium)</h3>
+                        <div class="grocery-grid">
+                            <div class="grocery-item"><div class="grocery-item-icon">🥬</div><div class="grocery-item-name">Cabbage</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🥦</div><div class="grocery-item-name">Cauliflower</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🥒</div><div class="grocery-item-name">Cucumber</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🫑</div><div class="grocery-item-name">Bell Peppers</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🧅</div><div class="grocery-item-name">Onions</div></div>
+                        </div>
+                    </div>
+                    <div class="grocery-category">
+                        <h3 class="text-xl font-semibold mb-4 border-b pb-2">Fruits (Low Potassium)</h3>
+                        <div class="grocery-grid">
+                            <div class="grocery-item"><div class="grocery-item-icon">🍎</div><div class="grocery-item-name">Apples</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🍓</div><div class="grocery-item-name">Berries</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🍒</div><div class="grocery-item-name">Cherries</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🍇</div><div class="grocery-item-name">Grapes</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🍍</div><div class="grocery-item-name">Pineapple</div></div>
+                        </div>
+                    </div>
+                    <div class="grocery-category">
+                        <h3 class="text-xl font-semibold mb-4 border-b pb-2">Plant-Based Proteins</h3>
+                         <div class="grocery-grid">
+                            <div class="grocery-item"><div class="grocery-item-icon">🥚</div><div class="grocery-item-name">Egg Whites</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🌱</div><div class="grocery-item-name">Tofu</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🥣</div><div class="grocery-item-name">Greek Yogurt</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🫘</div><div class="grocery-item-name">Lentils & Beans</div></div>
+                        </div>
+                         <p class="text-xs text-gray-500 mt-2">*Note: Lentils and beans are excellent sources of protein but can be higher in purines. Discuss with your doctor how to incorporate them while managing gout.</p>
+                    </div>
+                     <div class="grocery-category">
+                        <h3 class="text-xl font-semibold mb-4 border-b pb-2">Grains</h3>
+                         <div class="grocery-grid">
+                            <div class="grocery-item"><div class="grocery-item-icon">🍞</div><div class="grocery-item-name">White Bread</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🍚</div><div class="grocery-item-name">White Rice</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🍝</div><div class="grocery-item-name">Refined Pasta</div></div>
+                        </div>
+                    </div>
+                     <div class="grocery-category">
+                        <h3 class="text-xl font-semibold mb-4 border-b pb-2 text-red-600">Limit or Avoid</h3>
+                         <div class="grocery-grid">
+                            <div class="grocery-item"><div class="grocery-item-icon">🥫</div><div class="grocery-item-name">Processed Foods</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🥤</div><div class="grocery-item-name">Dark Sodas</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🥑</div><div class="grocery-item-name">High-Potassium Foods (Avocado, Banana, Potato)</div></div>
+                            <div class="grocery-item"><div class="grocery-item-icon">🥜</div><div class="grocery-item-name">Nuts & Seeds</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tools Tab -->
+            <div id="tools" class="tab-content">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="card">
+                         <h3 class="text-2xl font-semibold mb-4"><i class="fas fa-robot text-gray-700"></i> AI-Powered Query Tool</h3>
+                        <p class="text-sm text-gray-500 mb-4">Ask questions about Vickie's health record in plain language.</p>
+                        <div>
+                            <input type="text" id="queryInput" class="w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., 'Summarize kidney function trend'">
+                            <button id="askButton" class="gemini-button w-full mt-2">Ask AI Assistant</button>
+                        </div>
+                        <div id="answerSection" class="mt-4 pt-4 border-t border-gray-200">
+                            <p id="answerPlaceholder" class="text-gray-500">Answers will appear here...</p>
+                            <div id="answerContent" class="gemini-answer-content"></div>
+                        </div>
+                    </div>
+                     <div class="card">
+                        <h3 class="text-2xl font-semibold mb-4">Symptom & Vitals Log</h3>
+                        <div class="symptom-form-grid grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="logDate" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                                <input type="datetime-local" id="logDate" class="w-full p-2 border border-gray-300 rounded-md">
+                            </div>
+                             <div>
+                                <label for="logPainScale" class="block text-sm font-medium text-gray-700 mb-1">Pain Scale (0-10)</label>
+                                <select id="logPainScale" class="w-full p-2 border border-gray-300 rounded-md">
+                                    <option value="N/A">N/A</option>
+                                    <option value="0">0 - No pain</option>
+                                    <option value="1">1</option> <option value="2">2</option> <option value="3">3</option>
+                                    <option value="4">4</option> <option value="5">5</option> <option value="6">6</option>
+                                    <option value="7">7</option> <option value="8">8</option> <option value="9">9</option>
+                                    <option value="10">10 - Worst pain</option>
+                                </select>
+                            </div>
+                            <div class="col-span-full">
+                                <label for="logDescription" class="block text-sm font-medium text-gray-700 mb-1">Symptom(s)</label>
+                                <input type="text" id="logDescription" class="w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., Joint pain, fatigue">
+                            </div>
+                            <div>
+                                <label for="logBPSystolic" class="block text-sm font-medium text-gray-700 mb-1">BP Systolic</label>
+                                <input type="number" id="logBPSystolic" class="w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., 120">
+                            </div>
+                             <div>
+                                <label for="logBPDiastolic" class="block text-sm font-medium text-gray-700 mb-1">BP Diastolic</label>
+                                <input type="number" id="logBPDiastolic" class="w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., 80">
+                            </div>
+                            <div class="col-span-full">
+                                <label for="logNotes" class="block text-sm font-medium text-gray-700 mb-1">Additional Notes</label>
+                                <textarea id="logNotes" class="w-full p-2 border border-gray-300 rounded-md h-20" placeholder="e.g., Related to activity..."></textarea>
+                            </div>
+                        </div>
+                        <button id="logEntryButton" class="w-full mt-2 gemini-button">Log Entry</button>
+                        
+                        <h4 class="text-lg font-semibold mt-6 mb-3">Logged Entries:</h4>
+                        <div id="logDisplay" class="max-h-60 overflow-y-auto p-3 bg-gray-50 rounded-lg border border-gray-200">
+                            <p class="text-gray-500">No entries logged yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="text-center mt-12 mb-6">
+            <p class="text-sm text-gray-500">© <span id="currentYear"></span> Motherly Medical Memory. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script type="text/plain" id="healthReportDataContainer">
+## Vickie Berry - Comprehensive Care Plan (Most Current Directive)
+Patient: Vickie Berry
+Age: 71
+Diagnoses:
+ * Stage 3b Chronic Kidney Disease (CKD)
+ * Gout (Recent Diagnosis)
+ * Hypertension
+ * Hemorrhoids
+
+1. Patient Overview
+Vickie Berry is a 71-year-old woman with complex health challenges. She has a standing diagnosis of Stage 3b Chronic Kidney Disease and has recently been diagnosed with gout. Her case involves significant medication management, necessary dietary restrictions, and the potential impact of Long COVID symptoms from three previous infections. Her situation underscores the need for comprehensive care coordination and meticulous consideration of treatment options due to multiple chronic conditions.
+
+2. Kidney Function Trend (Incorporating data from all records)
+A notable decline in kidney function has been observed:
+ * Mar 17, 2016 (CMPRO): Creatinine 1.1 mg/dL (H), BUN 15 mg/dL, GFR 53.3 mL/min (L).
+ * Mar 24, 2021 (Health Summary/Logansport Family): Creatinine 0.87 mg/dL, BUN 15 mg/dL, GFR (calculated, approx. 70-75 based on age/Cr).
+ * Oct 2021 (Health Summary): Glomerular Filtration Rate (GFR) Non-AA was 71 mL/min.
+ * Feb 07, 2022 (Health Summary/LMPN Surgical Services): Creatinine 0.98 mg/dL, BUN 19 mg/dL.
+ * Mar 08, 2022 (Health Summary/Logansport Family): Creatinine 0.95 mg/dL, BUN 18 mg/dL.
+ * July 19, 2022: Creatinine 1.00 mg/dL (High).
+ * Jan 09, 2023 (Health Summary/LMPN Surgical Services): Creatinine 1.11 mg/dL, BUN 20 mg/dL, eGFR Non-AA 54 mL/min.
+ * Nov 06, 2023 (Logansport Family): Est Creatinine Clearance 54.00 mL/min.
+ * April 24, 2023: Creatinine 1.10 mg/dL (High), eGFR Non-AA 55 mL/min (Low).
+ * November 03, 2023: Creatinine 1.18 mg/dL (High), eGFR Non-AA 49 mL/min (Low). Total Cholesterol 176.70.
+ * Mar 06, 2024 (Health Summary/LMPN Surgical Services): Creatinine 1.21 mg/dL, BUN 22 mg/dL, eGFR Non-AA 46 mL/min.
+ * May 17, 2024 (Logansport Memorial Hospital Results): Creatinine 1.28 mg/dL (High), eGFR Non-AA 41 mL/min (Low), BUN 25.0 mg/dL (High).
+ * Oct 11, 2024 (Health Summary/Logansport Family): Encounter diagnosis of Chronic kidney disease.
+ * October 09, 2024: Creatinine 1.25 mg/dL (High), eGFR Non-AA 42 mL/min (Low), eGFR AA 51 mL/min (Low). BUN 24.0 mg/dL (High).
+ * Jan 15, 2025 (Logansport Memorial Hospital Results / Health Summary): Creatinine 1.03 mg/dL (High), eGFR Non-AA 53 mL/min (L), EGFR AA 64 mL/min, BUN 22.0 mg/dL (High).
+ * May 27, 2025 (Logansport Memorial Hospital Results): Creatinine 1.07 mg/dL (High), BUN 19.0 mg/dL, eGFR Non-AA 50 mL/min (Low), eGFR AA 61 mL/min.
+ * Jun 02, 2025 (Nephrology): Addressed Chronic kidney disease stage 2. Labs ordered for 1 week before next visit.
+ * Jun 17, 2025 (Logansport Memorial Hospital Results): WBC 13.6 (High), Neutro Absolute 9.60 (High). Urinalysis positive for leukocytes, trace blood, trace protein, 100 mg/dL glucose. BP 162/104. Temp 99.3F. eGFR Non-AA 54.
+This progression signifies a worsening of CKD to Stage 3b (based on Oct 2024 GFR of 42 mL/min, with recent fluctuations), characterized by moderate to severe kidney damage. The consistent decline raises concerns about the efficacy of current treatment strategies and emphasizes the need for more aggressive management to slow further deterioration.
+
+3. Critical Oversights and Immediate Action Plan (from Care Plan)
+ * Lack of Nephrology Referral: Despite a significant GFR decline and a new Stage 3b CKD diagnosis, there is no documented referral to a nephrologist.
+   * Action: Schedule an immediate nephrology consultation. *(Note: Nephrology visit occurred Jan 13, 2025, with Dr. Melissa Anderson, Indiana Kidney Specialists, 3508 LaFountain Street, Kokomo, IN 46902, Phone: (317) 924-8425. Follow-up occurred on June 2, 2025. Next follow-up scheduled for December 8, 2025).*
+ * Management of New Gout Diagnosis:
+   * Action: Develop a management plan for gout, considering her CKD. This includes appropriate medication and specific dietary advice.
+ * Incomplete Cardiac Evaluation: No comprehensive cardiac evaluation has been documented. *(Note: Echocardiograms were performed Aug 2020 and Mar 2016. The August 2020 echo showed normal systolic function (EF 60-65%) but a mild calcification of the aortic valve. A current comprehensive evaluation may still be warranted based on evolving CKD and other risk factors).*
+ * Contraindicated Medication: Continued prescription of Ibuprofen 800mg, which is contraindicated for CKD patients (and can exacerbate gout).
+   * Action: See Medication Adjustments (Section 4). *(Note: "1 of 1 - My Health Summary.PDF" p.23 indicates Ibuprofen 800mg was discontinued 01/13/2025. An ED note from 4/11/2022 shows it was prescribed for ankle fracture pain. An ED note from 5/9/2025 advises its use for knee pain. The care plan's emphasis on immediate discontinuation is critical).*
+ * Missing Screenings/Assessments:
+   * No recent sleep study. *(DISCREPANCY: Polysomnography was performed Nov 8, 2011 at Howard Regional Health System, 765-454-4589. It showed no significant obstructive sleep apnea (AHI 0.2) but did note PLMs (Index 20.4/hr) and a complete absence of Stage N3 (deep) sleep. This historical finding is important. Current symptoms and the age of this study may warrant a new one).*
+   * No bone density screening. *(Note: Bone Density Exam was done July 20, 2022, showing osteopenia. Follow-up in 18-24 months was recommended then, making it due around Jan-July 2024).*
+   * No Long COVID assessment, despite three previous infections.
+ * General Recommendations:
+   * Implement a home blood pressure monitoring plan. (Reiterated by Dr. Anderson on 6/2/2025)
+   * Conduct a comprehensive medication review, considering the new gout diagnosis and its potential interactions with existing medications and CKD.
+   * Initiate a structured exercise program.
+   * Perform a fall risk assessment.
+   * Arrange detailed dietary counseling with a renal dietitian, incorporating gout management. (Dietician consult for stroke was done on 3/18/2016, recommending low sodium diet).
+The goal is to adopt a more proactive and comprehensive approach to managing Vickie’s complex health conditions.
+
+4. Medication Management and Recommended Adjustments (from Care Plan)
+ * olmesartan 40 MG tablet (BENICAR): **STOP taking** as of June 2, 2025, per Dr. Melissa Anderson. (Note: was previously trialed in April 2024 for a cough suspected to be from Lisinopril, but patient switched herself back).
+ * Ibuprofen 800mg: **IMMEDIATE DISCONTINUATION** is crucial due to its contraindication with CKD and potential to worsen gout.
+ * Gout Medications: Initiate appropriate medication for gout management, with careful consideration for dosage adjustments due to Stage 3b CKD. Options like allopurinol or febuxostat (for long-term management) or colchicine (for acute attacks) require renal dosing.
+ * Trazodone 200mg (if taking 4x50mg tabs): High dosage requires reevaluation, considering potential interactions with declining kidney function and lack of N3 sleep observed in 2011 sleep study at an even higher dose.
+ * Venlafaxine 150mg ER (twice daily): Dosage should be reduced by 25-50% due to GFR <45 mL/min.
+ * Amlodipine: Dosage increased from 5mg to 10mg on March 24, 2025, due to elevated blood pressure readings.
+ * Comprehensive medication review by a pharmacist is essential.
+
+5. Dietary and Lifestyle Recommendations (from Care Plan)
+A kidney-friendly vegetarian diet and specific lifestyle adjustments are crucial for managing Vickie’s Stage 3b CKD and new gout diagnosis.
+Dietary Recommendations:
+ * Sodium Intake: Limit to less than 2,300mg daily. (Low sodium diet recommended by dietician in 2016).
+ * Vegetables: Focus on low-potassium options such as cabbage, cauliflower, and zucchini.
+   * Gout consideration: While many vegetables are fine, be mindful of and potentially limit high-purine vegetables (e.g., asparagus, spinach, mushrooms, peas, lentils, beans) based on individual tolerance and dietitian advice.
+ * Protein: Estimated needs 79-94 gm/day (1.1-1.3 gm/kg) per 2016 dietician consult. Choose plant-based proteins like plain tofu and tempeh.
+ * Fluid Intake: Estimated needs 1800 ml/day per 2016 dietician consult, but must be carefully monitored per current renal and gout guidelines.
+ * Foods to Avoid: High-phosphorus foods like dark sodas and large quantities of nuts. High-purine foods. Sugary drinks.
+ * Alcohol: Avoid alcohol, especially beer and spirits.
+Lifestyle Recommendations:
+ * Exercise: Regular, low-impact exercise such as walking or chair yoga is encouraged.
+ * Weight Management: If overweight (BMI 30.73-31.41 noted in records), gradual weight loss can help reduce uric acid levels and stress on joints.
+ * Blood Pressure: Check home blood pressure. Call if top number is less than 100 or higher than 150s.
+
+## Detailed Historical Medical Information (Consolidated from all provided records)
+
+### Patient Demographics and Vital Information
+* **Name:** Vickie L. Berry
+* **DOB:** 03/01/1953 (Age 72 as of current date)
+* **Residence:** 108 Western Avenue, Logansport, IN 46947
+* **Contact:** (574) 721-6940 (Home/Mobile), vickielynnberry@gmail.com
+* **PCP:** Dr. Olusina Akande, Logansport Memorial Hospital, 1201 MICHIGAN Ave Ste 270, Logansport, IN, Phone: (574) 722-4921.
+* **Latest Vitals (June 17, 2025 - Labs):** BP 162/104 mmHg (High), Temp 99.3F (High)
+* **Selected Historical Vitals (Date - Source: BP, Pulse, Temp, SpO2, Wt, BMI):**
+   * Jun 02, 2025 (Nephrology): BP 128/68, Pulse 91, Resp 16, SpO2 96%, Wt 180 lb, BMI 30.90.
+   * May 09, 2025 (ED, Logansport Memorial): BP 118/96, Pulse 101, Temp 98.1F (36.7C), SpO2 99%, Wt 181.22 lb (82.20kg), BMI 31.11. Pain Score: 3/10 (R Knee).
+   * Apr 22, 2025 (Logansport Family): BP 102/83, Pulse 70, Temp 35.6C, SpO2 96%, Wt 82.3kg (181.4 lb), BMI 31.14. (PHQ-9 Score: 12)
+   * Mar 24, 2025 (Logansport Family): BP 144/92 (Rpt 150/98), Pulse 117, SpO2 98%, Wt 81.7kg, BMI 30.92.
+   * Jan 13, 2025 (Nephrology): BP 146/80, Pulse 103, Resp 16, SpO2 97%, Wt 179 lb, BMI 30.73.
+   * Dec 13, 2024 (Ascension): BP 143/80, HR 111, SpO2 98%, Wt 79.83kg.
+   * Oct 11, 2024 (Logansport Family): BP 130/76, Pulse 88, SpO2 98%, Wt 178 lb, BMI 30.56.
+   * May 17, 2024 (Logansport Memorial Hospital - Results): Wt 181.22 lbs.
+   * Apr 29, 2024 (Logansport Memorial): BP 125/78, Pulse 96, Wt 182.98 lb (83.0 kg), BMI 31.41, Resp 16.
+   * Mar 06, 2024 (LMPN Surgical): BP 150/83, Temp 36.9C, HR 91, Resp 17, SpO2 99%, Wt 82.69kg (182.3 lb), BMI 31.29.
+   * Nov 06, 2023 (Logansport Family): BP 131/77, Pulse 95, Temp 36.4C, SpO2 98%, Wt 82.2kg (181.2 lb).
+   * Apr 05, 2023 (Logansport Family): BP 110/72, Pulse 106, Temp 36.1C, SpO2 96%, Wt 81.0 kg, BMI 30.65.
+   * Jan 09, 2023 (LMPN Surgical): BP 140/82, Pulse 110, Temp 36.5C, SpO2 99%, Wt 81.47kg (179.6 lb), BMI 30.83.
+   * Oct 05, 2022 (Logansport Family): BP 122/80, Pulse 72, Temp 36.4C, SpO2 96%, Wt 77.9 kg (171.7 lb).
+   * Sep 12, 2022 (Logan Internists): BP 130/82, Pulse 84, Temp 36.6C, SpO2 99%, Wt 78.15kg (172.3 lb).
+   * Aug 10, 2022 (Orthopedics): BP 105/69, Pulse 87, Temp 36.9C, SpO2 100%, Wt 82.05 kg (180.9 lb).
+   * Jun 28, 2022 (Logan Internists): BP 148/86 (Rpt 146/84), Pulse 90, Temp 36.6C, SpO2 97%, Wt 82.05kg (180.9 lb).
+   * May 04, 2022 (Orthopedics): BP 113/74, Pulse 88, Temp 36.8C, SpO2 99%, Wt 77.111 kg, BMI 30.
+   * Apr 13, 2022 (Orthopedics): BP 117/74, Pulse 95, Temp 36.7C, SpO2 99%, Wt 77.11 kg (169.9 lb).
+   * Apr 11, 2022 (ED): BP 108/83, Pulse 98, Temp 36.8C, SpO2 97%, Wt 77.11kg (169.9 lb). Pain 8/10.
+   * Mar 08, 2022 (Logansport Family): BP 132/88, Pulse 90, Temp 36.9C, SpO2 98%, Wt 80.7 kg (177.9 lb).
+   * Apr 06, 2021 (Franciscan Proctology): Temp 98.6F (37.0C).
+   * Apr 14, 2021 (LMPN Surgical): BP 106/72, Pulse 100, SpO2 99%, Wt 75.16 kg, BMI 28.
+   * Mar 24, 2021 (Logansport Family): BP 129/83 (Rpt 140/76), Pulse 100 (Rpt 74), Temp 36.6C (Rpt 36.8C), SpO2 98%, Wt 75.7kg (166.9 lb), BMI 29. Total Cholesterol 179.
+   * Sep 16, 2020 (Logansport Family): BP 131/87, Pulse 101, Temp 36.6C, SpO2 97%, Wt 80kg (176.4 lb), BMI 30.
+   * Jul 29, 2020 (Franciscan Cardiology): BP 128/62, Wt 180.3 lb (81.7 kg), Ht 5'4", BMI 30.93.
+   * Mar 17, 2016 (ER Visit): BP 138/96, Pulse 86, Wt 159.3 lb (72.3 kg), Ht 5'4", BMI 27.35. Total Cholesterol 156.
+   * Nov 08, 2011 (Sleep Study): Wt 173 lb, BMI 29.7.
+
+### Social and Personal Factors
+* Married (Spouse: Don Berry, Contact: (574) 721-6943) 
+* Children: Kyle Berry (Son, (574) 721-1666), Kristen Berry/Calisto (Daughter, (317) 601-1501)
+* Family History: Congestive Heart Failure (Mother), Hypertension (Mother, Father).
+* Religion: Methodist; Race: White; Ethnic Group: Not Hispanic or Latino; Language: English
+* Tobacco Use: Never Smoker; Alcohol Consumption: None; Caffeine Consumption: Moderate
+* Diet: Vegetarian; Employment: Retired
+
+### Allergies
+* No Known Allergies / No Known Medication Allergies (consistently reported)
+
+### Comprehensive Problem List / Medical History
+* **Current Primary Diagnoses (per Care Plan):** CKD Stage 3b; Gout
+* **Historical/Ongoing Conditions (Selected, with earliest noted dates where available):**
+   * Essential Hypertension (Mar 2016)
+   * Mixed Hyperlipidemia (Mar 2016)
+   * Hypothyroidism, Acquired, Autoimmune (Dx 03/18/2016)
+   * Depression with Anxiety (Mar 2016)
+   * Grief Reaction (noted Apr 2023)
+   * Iron Deficiency Anemia (Sept 2020)
+   * History of CVA (Stroke) without residual deficits (2016)
+   * Cerebral Aneurysm(s) (Identified Mar 2016)
+   * Asymptomatic Stenosis of Intracranial Artery (Aug 2022)
+   * Carotid Artery Stenosis (Left ICA 50-69% as of Sept 2023)
+   * GERD without esophagitis (Mar 2021)
+   * Grade III Hemorrhoids (Apr 2021)
+   * History of Basal Cell Carcinoma (on back and lip, treated prior to 2023)
+   * Actinic Keratosis (Oct 2020, Jan 2023, Mar 2024, Apr 2025)
+   * Insomnia (Problem list, Nov 2023)
+   * Restless Leg Syndrome (RLS) / Periodic Limb Movements (PLMs) (2011)
+   * COVID-19 Infections (June 2021 suspected, Feb 2022 resolved, Dec 2023)
+   * Fracture, Right Ankle & Foot (ORIF April 19, 2022)
+   * Osteopenia (DEXA July 20, 2022)
+   * Right knee pain / Arthritis of knee (May 09, 2025)
+   * Colitis / Diverticulitis (June 2025)
+   * Urinary Tract Infection (Mar 2022, Jun 2025)
+   * Chronic Cough (noted Apr 2024)
+
+### Medication Regimen
+*(Focus on current user-provided list, cross-referenced with care plan advice. Full historical list is extensive and available in "Full Report" tab)*
+* **Current Recommendations (from Comprehensive Care Plan):** Olmesartan (STOPPED 6/2/2025), Ibuprofen (Discontinue), Gout Medications (Initiate), Trazodone (Reevaluate), Venlafaxine (Reduce dose), Comprehensive medication review.
+* **Active Medications (User Provided List & Report Notes - as of June 2025):**
+   * amLODIPine 10 mg: For Blood Pressure (increased from 5mg on 3/24/2025).
+   * clopidogrel 75 mg: Antiplatelet/Stroke Prevention.
+   * ferrous sulfate 325 mg: Iron Deficiency.
+   * hydrochlorothiazide 25 mg: Blood Pressure (Diuretic).
+   * levothyroxine 100 mcg: Thyroid.
+   * lisinopril 40 mg: Blood Pressure. (Patient was switched to Olmesartan on 4/29/24 due to cough, but switched herself back prior to 3/24/25).
+   * omeprazole 40 mg: Acid Reflux.
+   * pravastatin 20 mg: Cholesterol.
+   * traZODone 50 mg (x4 at bedtime prn = 200mg): Sleep. (Care Plan Concern: High dosage, reevaluate).
+   * venlafaxine 150 mg (x2 daily = 300mg total): Depression/Anxiety. (Care Plan Action: Reduce dose).
+   * Calcium 500 + D: For bone health.
+* **Short-term Medications (Historical):**
+   * Ciprofloxacin 500mg: Prescribed for Colitis/Diverticulitis (Jun 17, 2025).
+   * Metronidazole 500mg: Prescribed for Colitis/Diverticulitis (Jun 17, 2025).
+   * Norco 5-325mg (hydrocodone-acetaminophen): Prescribed for 3 days post-ankle fracture (Apr 11, 2022).
+   * Bactrim DS (sulfamethoxazole-trimethoprim): Prescribed for UTI (Mar 8, 2022).
+   * Pyridium (phenazopyridine): Prescribed for UTI symptoms (Mar 8, 2022).
+
+### Immunizations (Selected)
+* COVID-19 (Moderna): 3 doses (Last: Nov 27, 2021)
+* Influenza: Oct 05, 2022 (Fluarix Quad); Sep 28, 2021 (Fluarix Quad); Oct 23, 2015; Nov 14, 2014; Nov 18, 2013.
+* Tdap: May 13, 2022.
+* Novel Influenza-H1N1-09: Jan 29, 2010.
+
+### Procedures & Significant Surgical/Medical History (Selected)
+* CT Abdomen/Pelvis w/ Contrast: June 17, 2025 (Revealed colonic wall thickening and inflammation in the sigmoid colon, suggestive of colitis).
+* ORIF R ankle/foot fracture: April 19, 2022. (Open Reduction Internal Fixation of right lateral malleolus and 5th metatarsal. Hardware included a 3.5mm hook plate and multiple screws).
+* Suture Removal from Forehead: May 19, 2022 (following injury from scooter accident on May 13, 2022).
+* Hemorrhoid Rubber Band Ligation: April 6, 2021; March 9, 2021
+* Colonoscopy: Dec 21, 2015; April 14, 2008
+* Polysomnography (Sleep Study): Nov 08, 2011
+* Echocardiograms: Aug 27, 2020 (Normal LV systolic function, EF 60-65%, mildly calcified aortic valve); Mar 17, 2016
+* Kidney Ultrasound: Jan 29, 2025
+* Bone Density DEXA: July 20, 2022 (Result: Osteopenia)
+* CT Head/Brain (various): Mar 2016 (Stroke Protocol & w/o Contrast), May 2022 (post-fall, no acute intracranial pathology), July 2022 (CTA Head, no aneurysm)
+* MRI/MRA Brain/Head (w/o contrast): Sep/Oct 2020 (Normal MRI of brain, normal intracranial vessels).
+* Carotid Duplex Ultrasounds: Nov 2019, Sep 2020, Sep 2022, Sep 2023, Dec 2024
+* Mammograms: Aug 19, 2024 (BI-RADS 1: Negative); July 20, 2022 (BI-RADS 2: Benign); Sep 2020. Annual screening recommended.
+* Chest X-Ray: Mar 17, 2016
+* EKG: Mar 17, 2016; July 05, 2016; Apr 13, 2022 (Sinus rhythm, nonspecific T-wave abnormality, borderline)
+* XR Knee 3 Views Right: May 09, 2025 (Moderate degenerative joint disease without traumatic findings)
+* XR Ankle/Foot Right: April 11, 2022 (Nondisplaced fracture of lateral malleolus and comminuted fracture of 5th metatarsal base). Follow-up X-rays showed satisfactory healing, with fractures considered well-healed by Aug 11, 2022.
+
+### Key Laboratory Findings (Selected Historical and Recent for Trends)
+* **GFR (Non-AA, mL/min):** 53.3 (Mar 2016), ~70-75 (Mar 2021), 71 (Oct 2021), 54 (Jan 2023), 55 (Apr 2023), 49 (Nov 2023), 46 (Mar 2024), 41 (May 2024), 42 (Oct 2024), 53 (Jan 15, 2025), 54 (Jun 17, 2025), 50 (May 27, 2025).
+* **Creatinine (mg/dL):** 1.1 (Mar 2016), 0.87 (Mar 2021), 0.98 (Feb 2022), 0.95 (Mar 2022), 1.00 (Jul 2022), 1.11 (Jan 2023), 1.10 (Apr 2023), 1.18 (Nov 2023), 1.21 (Mar 2024), 1.28 (May 2024), 1.25 (Oct 2024), 1.03 (Jan 15, 2025), 1.01 (Jun 17, 2025), 1.07 (May 27, 2025 - High).
+* **BUN (mg/dL):** 15 (Mar 2016), 15 (Mar 2021), 19 (Feb 2022), 18 (Mar 2022), 20 (Jan 2023), 22 (Mar 2024), 25 (May 2024), 24 (Oct 2024), 22 (Jan 15, 2025), 14.0 (Jun 17, 2025), 19.0 (May 27, 2025).
+* **Alkaline Phosphatase (ALP U/L or IntUnit/L):** 96 (Mar 2016), 114 (Jan 2023), 128 (Mar 2024), 132 (May 17, 2024), 132 (Jun 17, 2025 - High), 121 (May 27, 2025 - High).
+* **WBC (x10^3/mcL):** 8.1 (Jan 15, 2025), 13.6 (Jun 17, 2025 - High)
+* **Hemoglobin (g/dL):** 14.2 (Jan 15, 2025), 14.6 (Jun 17, 2025)
+* **Hematocrit (%):** 42.0 (Jan 15, 2025), 43.8 (Jun 17, 2025)
+* **Platelets (x10^3/mcL):** 294 (Jan 15, 2025), 355 (Jun 17, 2025)
+* **Sodium (mEq/L):** 140 (Mar 2016), 140 (Mar 2021), 139 (Feb 2022), 141 (Mar 2022), 140 (Jan 2023), 138 (Mar 2024), 140.0 (Jan 15, 2025), 139.0 (Jun 17, 2025), 140.0 (May 27, 2025).
+* **Potassium (mEq/L):** 3.7 (Mar 2016), 4.3 (Mar 2021), 4.1 (Feb 2022), 4.0 (Mar 2022), 4.2 (Jan 2023), 4.0 (Mar 2024), 3.8 (Jan 15, 2025), 4.0 (Jun 17, 2025), 3.8 (May 27, 2025).
+* **Urine Microalbumin/Creatinine Ratio (mg/g Cr):** 1 (Mar 2021), 7 (May 2024), 6 (Jan 15, 2025).
+* **Urinalysis (Jun 17, 2025):** Glucose 100 mg/dL (Abnormal), Ketones Trace (Abnormal), Blood TRACE, Protein TRACE, Leuk Est Small (Abnormal), Culture Indicated YES.
+
+### Key Medical Encounters (Summarized - recent first)
+* **Jun 17, 2025 - ED Visit:** Presented with rectal bleeding and cramping. CT scan showed colitis of the sigmoid colon. Diagnosed with colitis/diverticulitis and discharged with Ciprofloxacin and Flagyl.
+* **Jun 02, 2025 - Nephrology (Dr. Melissa Anderson):** BP 128/68, P 91, SpO2 96%, Wt 180lb, BMI 30.90. Olmesartan stopped. Labs ordered for 1 week before next visit. Next scheduled f/u Dec 8, 2025.
+* **May 09, 2025 - ED (Dr. Tai N Duong, Logansport Memorial):** R knee pain. Dx: R knee pain, Arthritis of knee (Moderate degenerative joint disease). X-ray performed. Advised Tylenol and ibuprofen for pain.
+* **Apr 22, 2025 - Logansport Family (Dr. Olusina Akande):** Anxiety f/u. Patient reports feeling "miserable" and "going nuts." PHQ-9 score 12. Referral made to Integrity Family Counseling in Kokomo.
+* **Apr 14, 2025 - LMPN Surgical Services (Jan Hoover, FNP):** 1-year skin check. 8 Actinic Keratosis lesions on face treated with liquid nitrogen.
+* **Mar 24, 2025 - Logansport Family (Kelly Carden, NP):** High BP follow-up. Patient reports switching herself back to Lisinopril from Olmesartan. Amlodipine increased from 5mg to 10mg.
+* **Jan 13, 2025 - Nephrology (Dr. Melissa Anderson, Indiana Kidney Specialists):** Eval for CKD. Plan: Labs, Kidney US, Home BP monitoring.
+* **Oct 11, 2024 - Logansport Family (Dr. Olusina Akande):** Encounter diagnoses CKD, Depression.
+* **Apr 29, 2024 - Logansport Family (Dr. Olusina Akande):** Visit for persistent cough >1 year. Lisinopril suspected as cause, switched to Olmesartan 40mg.
+* **Mar 06, 2024 - LMPN Surgical Services (Dr. Alan J Anthony):** Dx: Actinic Keratosis, Solar Lentigo. History of Basal Cell Carcinoma noted. Cryotherapy to >15 lesions on face, hands, back, and arms.
+* **Nov 06, 2023 - Logansport Family (Dr. Olusina Akande):** Grief, Vertigo, HTN, Insomnia.
+* **Sep 18, 2023 - Logan Internists (Dr. Cheng Du):** F/u carotid stenosis. US showed L ICA 50-69% stenosis (increase). Referral to CV surgery.
+* **Apr 05, 2023 - Logansport Family (Dr. Olusina Akande):** Follow-up for grief reaction after recent death of both parents in the same week.
+* **Jan 09, 2023 - LMPN Surgical Services (Dr. Alan J Anthony):** Skin check. Dx: AK, Solar lentigo, Skin tag. Cryotherapy to >15 lesions.
+* **Oct 05, 2022 - Logansport Family (Dr. Olusina Akande):** F/u ankle fx, anosmia. Flu shot. PT referral.
+* **Aug 24, 2022 - Orthopedics (Dr. Kral Varhan):** Follow-up for ankle fracture. Swelling decreased. Advised to gradually increase activity.
+* **May 19, 2022 - Express Medical Center (Nurse/MA):** Suture removal (x5) from forehead above left eye.
+* **May 04, 2022 - Orthopedics (Jamie L Ross, NP):** 2-week post-op for ankle fracture. Staples removed. Placed in tall walking boot.
+* **Apr 19, 2022 - Logansport Memorial Hospital (Dr. Kral Varhan):** ORIF R ankle/foot fracture. Admitted for surgery.
+* **Apr 13, 2022 - Orthopedics (Dr. Kral Varhan):** New patient exam for ankle/foot fracture. Discussed surgical options. Patient elected for surgery.
+* **Apr 11, 2022 - ED (Dr. Jin Kim, Logansport Memorial):** R ankle injury after missing a step. Dx: Fractures of right ankle and foot. Splint applied, crutches dispensed. Prescribed Norco and Ibuprofen.
+* **Apr 04, 2022 - Logansport Family (Dr. Olusina Akande):** 6-month follow-up. Referral given to Dr. Du for second opinion on cerebral aneurysms.
+* **Mar 08, 2022 - Logansport Family (Brianna Cover, NP):** Visit for UTI symptoms. Urinalysis positive for blood and leukocytes. Prescribed Bactrim DS and Pyridium.
+* **Feb 07, 2022 - LMPN Surgical Services (Nurse/MA):** COVID-19 Testing.
+* **Dec 27, 2021 - LMPN Surgical Services (Dr. Michael Lalla):** Consultation for hemorrhoids. Patient overdue for colonoscopy.
+* **Oct 04, 2021 - Logansport Family (Dr. Olusina Akande):** Medicare Wellness Visit. Depression Screen (PHQ-9 score 13). Referral to general surgery for hemorrhoids.
+* **Jun 12, 2021 - Express Medical Center (Rachel Emery, NP):** Visit for cough, loss of smell and taste. Suspected COVID-19.
+* **Apr 14, 2021 - LMPN Surgical Services (Dr. Alan J Anthony):** Follow-up for Actinic Keratosis. New lesions treated with liquid nitrogen. Noted reaction to adhesive from a recent procedure.
+* **Apr 06, 2021 - Franciscan Physician Network Central Indiana Proctology (Dr. Paul E Broderick):** Hemorrhoids. Procedure: Rubber band ligation.
+* **Mar 24, 2021 - Logansport Family (Dr. Olusina Akande):** 6mo f/u HTN, GERD, Hypothyroidism, etc. Patient reports being found to have 2 aneurysms on recent imaging.
+* **Mar 17-18, 2016 - Parkview Health (Dr. Rakesh Khatri, Dr. Brian P Zehr):** Admission for Stroke/TIA. Given TPA. Discharged with consults for Neurology and Dietician.
+* **Nov 08, 2011 - Howard Regional Health System:** Polysomnography.
+
+### Preventive Care (Status based on various record dates)
+* **Breast Cancer Screening (Mammogram):** Done Aug 19, 2024 (BI-RADS 1: Negative), July 20, 2022 (BI-RADS 2: Benign). Annual screening recommended.
+* **Colorectal Cancer Screening:** Colonoscopies Dec 21, 2015, Apr 2008. Likely due.
+* **Bone Density Screening:** Done July 20, 2022 (Result: Osteopenia). F/U 18-24 months recommended (due around Jan-July 2024). Ordered again June 17, 2025.
+* **Sleep Study:** Done Nov 08, 2011. Care plan noted missing; this finding is old but available. Current symptoms may warrant new study.
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- DATA ---
+        const reportText = document.getElementById('healthReportDataContainer').textContent;
+        let logEntries = [];
+
+        // --- UTILITY FUNCTIONS ---
+        /**
+         * Generic function to extract a section of text between two headings.
+         * @param {string} startHeading - The heading to start from.
+         * @param {string} endHeading - The heading to end at.
+         * @returns {string} The extracted text.
+         */
+        function extractSection(startHeading, endHeading) {
+            const startRegex = new RegExp(`^${startHeading.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}`, 'm');
+            const startIndex = reportText.search(startRegex);
+            if (startIndex === -1) return '';
+
+            let endIndex;
+            if (endHeading) {
+                 const endRegex = new RegExp(`^${endHeading.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}`, 'm');
+                endIndex = reportText.substring(startIndex + startHeading.length).search(endRegex);
+                if (endIndex !== -1) {
+                    endIndex += startIndex + startHeading.length;
+                }
+            }
+            
+            return endIndex !== -1 && endIndex !== undefined 
+                ? reportText.substring(startIndex, endIndex).trim() 
+                : reportText.substring(startIndex).trim();
+        }
+
+        /**
+        * Simple markdown-to-HTML converter for lists and bolding
+        */
+        function formatSimpleMarkdown(text) {
+             return text
+                .replace(/^\s*\*\s(.*?)$/gm, '<p class="mb-2 ml-4">&bull; $1</p>') 
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>') 
+        }
+        
+        function formatPhoneNumber(phoneStr) {
+            const cleaned = ('' + phoneStr).replace(/\D/g, '');
+            const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+            if (match) {
+                return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+            }
+            return phoneStr;
+        }
+
+        // --- NAVIGATION ---
+        function setupNavigation(navContainer, contentPrefix, buttonClass, contentClass) {
+            const nav = document.getElementById(navContainer) || document.querySelector(navContainer);
+            if (!nav) return;
+            
+            nav.addEventListener('click', (e) => {
+                if (!e.target.matches(`.${buttonClass}`)) return;
+
+                const tabId = e.target.dataset.tab || e.target.dataset.subtab;
+                
+                nav.querySelectorAll(`.${buttonClass}`).forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+
+                document.querySelectorAll(`.${contentClass}`).forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === tabId) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        setupNavigation('nav', 'tab', 'nav-button', 'tab-content');
+        setupNavigation('recordSubNav', 'sub-tab', 'sub-nav-button', 'sub-tab-content');
+
+        // --- GEMINI API CALLER ---
+        async function callGemini(prompt, button) {
+            const originalButtonText = button.innerHTML;
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            
+                        
+            try {
+                const response = await fetch('/api/call_gemini', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: prompt })
+                });
+
+                if (!response.ok) {
+                     const errorData = await response.json();
+                    throw new Error(`API Error: ${response.status} ${response.statusText} - ${errorData.error}`);
+                }
+                
+                const result = await response.json();
+                return result.text;
+
+            } catch (error) {
+                console.error('Error calling backend function:', error);
+                return `An error occurred while contacting the AI assistant: ${error.message}`;
+            } finally {
+                button.disabled = false;
+                button.innerHTML = originalButtonText;
+            }
+        }
+
+
+        // --- UI POPULATION FUNCTIONS ---
+
+        function populateDashboard() {
+            // Key Diagnoses
+            const keyDiagnoses = [
+                'Chronic Kidney Disease, Stage 3b',
+                'Hypertension',
+                'Colitis / Diverticulitis',
+                'Gout',
+                'History of Stroke (CVA)',
+                'Carotid Artery Stenosis',
+                'Osteopenia',
+                'Depression with Anxiety'
+            ];
+            const dashboardDiagnoses = document.getElementById('dashboardDiagnoses');
+            dashboardDiagnoses.innerHTML = keyDiagnoses.map(d => `<div class="p-2 bg-gray-100 rounded">${d}</div>`).join('');
+
+            // Primary Concerns & Alerts
+            const concerns = [
+                 { text: 'Comprehensive medication review needed for CKD, including dose adjustments for Venlafaxine and re-evaluation of high-dose Trazodone.', priority: 1, critical: false, status: 'active' },
+                 { text: 'Develop a management plan for new Gout diagnosis, considering CKD.', priority: 2, critical: false, status: 'active' },
+                 { text: 'Follow-up needed for Osteopenia (low bone density), due around Jan-July 2024.', priority: 3, critical: false, status: 'active' },
+                 { text: 'Cardiovascular monitoring: Home blood pressure monitoring and consider a comprehensive cardiac evaluation.', priority: 4, critical: false, status: 'active' },
+                 { text: 'Assess for Long COVID symptoms, given history of multiple infections.', priority: 5, critical: false, status: 'active' },
+                 { text: 'Evaluate need for a new sleep study, as the last one was in 2011.', priority: 6, critical: false, status: 'active' },
+                 { text: 'Contraindicated Medication: Ibuprofen use was noted as recently as May 2025. This has been discontinued.', priority: 7, critical: true, status: 'resolved' },
+                 { text: 'Initial Nephrology Referral', priority: 8, critical: false, status: 'resolved' }
+            ];
+
+            const activeConcerns = concerns.filter(c => c.status === 'active').sort((a,b) => a.priority - b.priority);
+            const resolvedConcerns = concerns.filter(c => c.status === 'resolved').sort((a,b) => a.priority - b.priority);
+            const sortedConcerns = [...activeConcerns, ...resolvedConcerns];
+
+            const dashboardConcerns = document.getElementById('dashboardConcerns');
+            dashboardConcerns.innerHTML = sortedConcerns.map(item => {
+                const text = item.text;
+                if(item.status === 'resolved') {
+                    return `<div class="primary-concern-item resolved"><del>${text}</del></div>`;
+                }
+                return `<div class="primary-concern-item ${item.critical ? 'critical' : ''}">${text}</div>`;
+            }).join('');
+            
+            // Appointments
+            const appointments = [];
+            const nephrologyFupMatch = reportText.match(/Next scheduled f\/u (.*?)\./);
+            if (nephrologyFupMatch) {
+                appointments.push({ date: nephrologyFupMatch[1], desc: 'Nephrology Follow-up with Dr. Anderson' });
+            }
+            const boneDensityMatch = reportText.match(/Bone Density Exam was done (.*?)\).*?making it due around (.*?)\./);
+             if (boneDensityMatch) {
+                appointments.push({ date: `Due ${boneDensityMatch[2]}`, desc: 'Bone Density Screening' });
+            }
+            const dashboardAppointments = document.getElementById('dashboardAppointments');
+             if (appointments.length > 0) {
+                dashboardAppointments.innerHTML = appointments.map(appt => `
+                    <div class="p-3 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
+                        <p class="font-semibold text-blue-800">${appt.desc}</p>
+                        <p class="text-sm text-blue-700">${appt.date}</p>
+                    </div>
+                `).join('');
+            } else {
+                dashboardAppointments.innerHTML = '<p class="text-gray-500">No upcoming appointments noted.</p>';
+            }
+
+            // Key Contacts
+            const dashboardContacts = document.getElementById('dashboardContacts');
+             const contacts = [
+                { role: 'PCP', name: 'Dr. Olusina Akande', phone: '5747224921' },
+                { role: 'Nephrology', name: 'Dr. Melissa Anderson', phone: '3179248425' },
+                { role: 'Spouse', name: 'Don Berry', phone: '5747216943' },
+                { role: 'Son', name: 'Kyle Berry', phone: '5747211666' },
+                { role: 'Daughter', name: 'Kristen Berry/Calisto', phone: '3176011501' },
+            ];
+            dashboardContacts.innerHTML = contacts.map(c => `
+                <div>
+                    <p class="font-semibold">${c.name} <span class="text-sm font-normal text-gray-500">(${c.role})</span></p>
+                    <p class="text-sm text-gray-600">${formatPhoneNumber(c.phone)}</p>
+                </div>
+            `).join('');
+
+        }
+
+        function populateHealthRecord() {
+            // Full Report
+            document.getElementById('reportDisplayFull').textContent = reportText;
+            
+            // Problem List
+            const problemsText = extractSection('### Comprehensive Problem List', '### Medication Regimen');
+            document.getElementById('problemListOutput').innerHTML = formatSimpleMarkdown(problemsText);
+
+            // Encounters
+            const encountersText = extractSection('### Key Medical Encounters', '### Preventive Care');
+            document.getElementById('encounterHistoryOutput').innerHTML = formatSimpleMarkdown(encountersText);
+
+            // Medications
+            const medsText = extractSection('### Medication Regimen', '### Immunizations');
+            document.getElementById('medicationHistoryOutput').innerHTML = formatSimpleMarkdown(medsText);
+            
+            // Procedures
+            const proceduresText = extractSection('### Procedures & Significant Surgical/Medical History', '### Key Laboratory Findings');
+            const proceduresOutput = document.getElementById('proceduresOutput');
+
+            // More informative imaging results
+            const formattedProcedures = proceduresText
+                .replace(/^(CT Abdomen\/Pelvis w\/ Contrast: June 17, 2025 \(Revealed colonic wall thickening and inflammation in the sigmoid colon, suggestive of colitis\))/, "$1<br><small class='text-gray-500 pl-4'>- This is the key finding that led to the diagnosis of colitis/diverticulitis.</small>")
+                .replace(/^(XR Knee 3 Views Right: May 09, 2025 \(Moderate degenerative joint disease without traumatic findings\))$/, "$1<br><small class='text-gray-500 pl-4'>- This means arthritis was seen, but no new injury like a break.</small>")
+                .replace(/^(Echocardiograms: Aug 27, 2020 \(Normal LV systolic function, EF 60-65%, mildly calcified aortic valve\))$/, "$1<br><small class='text-gray-500 pl-4'>- Her heart's main pumping function is normal. EF (Ejection Fraction) is a measure of how much blood is pumped out with each beat. A normal EF is about 50-70%. 'Mildly calcified' means there's some minor stiffening of a heart valve.</small>")
+                .replace(/^(Bone Density DEXA: July 20, 2022 \(Result: Osteopenia\))$/, "$1<br><small class='text-gray-500 pl-4'>- Osteopenia is a condition where bone density is lower than normal, which can be a precursor to osteoporosis. It increases the risk of fractures.</small>")
+                .replace(/^(MRI\/MRA Brain\/Head \(w\/o contrast\): Sep\/Oct 2020 \(Normal MRI of brain, normal intracranial vessels\)\.)$/, "$1<br><small class='text-gray-500 pl-4'>- These scans looked at the brain tissue and its blood vessels and found no abnormalities at that time.</small>");
+            
+            proceduresOutput.innerHTML = formatSimpleMarkdown(formattedProcedures);
+        }
+
+        function populateCarePlan() {
+            const medicationPlan = extractSection('4. Medication Management', '5. Dietary and Lifestyle');
+            const dietPlan = extractSection('5. Dietary and Lifestyle', '## Detailed Historical Medical Information');
+
+            const outputHtml = `
+                <details open>
+                    <summary>Medication Management & Adjustments</summary>
+                    <div class="details-content">
+                        <div class="prose max-w-none">${formatSimpleMarkdown(medicationPlan.replace('4. Medication Management and Recommended Adjustments (from Care Plan)', ''))}</div>
+                    </div>
+                </details>
+                <details>
+                    <summary>Dietary & Lifestyle Recommendations</summary>
+                    <div class="details-content">
+                         <div class="prose max-w-none">${formatSimpleMarkdown(dietPlan.replace('5. Dietary and Lifestyle Recommendations (from Care Plan)', ''))}</div>
+                    </div>
+                </details>
+            `;
+            document.getElementById('lifestyleOutput').innerHTML = outputHtml;
+        }
+
+
+        // --- CHARTING FUNCTIONS ---
+        const createdCharts = {};
+
+        function parseDataForChart(metricRegex, valueExtractor) {
+            const dataPoints = [];
+            const regex = new RegExp(metricRegex, 'g');
+            let match;
+            while ((match = regex.exec(reportText)) !== null) {
+                try {
+                    const date = new Date(match[1].replace('(','').replace(')','').trim());
+                    const values = valueExtractor(match);
+                    if (date && !isNaN(date) && values) {
+                        dataPoints.push({ x: date, ...values });
+                    }
+                } catch(e) {
+                    console.warn("Could not parse data point:", match[0]);
+                }
+            }
+            return dataPoints.sort((a, b) => a.x - b.x);
+        }
+
+        function createTrendChart(canvasId, label, data, borderColor, backgroundColor, unit = '', yAxisBeginAtZero = false) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            const parent = ctx.parentElement;
+            if (createdCharts[canvasId]) createdCharts[canvasId].destroy();
+             
+             if (data.length <= 1) {
+                let message = `<div class="single-data-point-message">No trend data available for ${label}.</div>`;
+                if(data.length === 1) {
+                    message = `<div class="single-data-point-message">Only one data point available:<br><strong>${data[0].y} ${unit}</strong><span class="text-sm mt-1">on ${data[0].x.toLocaleDateString()}</span></div>`;
+                }
+                ctx.style.display = 'none';
+                if (!parent.querySelector('.single-data-point-message')) {
+                    const messageEl = document.createElement('div');
+                    messageEl.innerHTML = message;
+                    parent.appendChild(messageEl);
+                }
+                return;
+            }
+
+            createdCharts[canvasId] = new Chart(ctx, {
+                type: 'line',
+                data: { datasets: [{ label: label, data: data, borderColor: borderColor, backgroundColor: backgroundColor, borderWidth: 2, pointBackgroundColor: borderColor, pointRadius: 4, pointHoverRadius: 6, tension: 0.1, fill: false }] },
+                options: { responsive: true, maintainAspectRatio: false, scales: { x: { type: 'time', time: { unit: 'year' }, grid: { display: false } }, y: { beginAtZero: yAxisBeginAtZero, ticks: { callback: (value) => value + ` ${unit}` } } }, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (context) => `${context.dataset.label}: ${context.parsed.y} ${unit}` } } } }
+            });
+        }
+        
+        function populateLabTables() {
+             const allData = {
+                gfr: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:e?GFR Non-AA|GFR)\s(?:was\s)?(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})),
+                creatinine: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Creatinine)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})),
+                bun: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:BUN)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})),
+                wbc: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:WBC)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})),
+                hemoglobin: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Hgb|Hemoglobin)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})),
+                platelets: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Platelets)\s(\d+)/g, m => ({y: parseInt(m[2])})),
+            };
+
+            const allDates = [...new Set(Object.values(allData).flat().map(d => d.x.getTime()))].sort((a,b) => b-a);
+            const tableView = document.getElementById('table-view');
+            
+            let tableHTML = `
+                <table class="lab-table w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                        <tr>
+                            <th scope="col" class="py-3 px-6">Date</th>
+                            <th scope="col" class="py-3 px-6">GFR</th>
+                            <th scope="col" class="py-3 px-6">Creatinine</th>
+                            <th scope="col" class="py-3 px-6">BUN</th>
+                            <th scope="col" class="py-3 px-6">WBC</th>
+                            <th scope="col" class="py-3 px-6">Hemoglobin</th>
+                            <th scope="col" class="py-3 px-6">Platelets</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            allDates.forEach(time => {
+                const date = new Date(time);
+                const find = (data, d) => data.find(p => p.x.getTime() === d.getTime());
+                
+                tableHTML += `<tr class="bg-white border-b">
+                    <td class="py-4 px-6">${date.toLocaleDateString()}</td>
+                    <td class="py-4 px-6">${find(allData.gfr, date)?.y || 'N/A'}</td>
+                    <td class="py-4 px-6">${find(allData.creatinine, date)?.y || 'N/A'}</td>
+                    <td class="py-4 px-6">${find(allData.bun, date)?.y || 'N/A'}</td>
+                    <td class="py-4 px-6">${find(allData.wbc, date)?.y || 'N/A'}</td>
+                    <td class="py-4 px-6">${find(allData.hemoglobin, date)?.y || 'N/A'}</td>
+                    <td class="py-4 px-6">${find(allData.platelets, date)?.y || 'N/A'}</td>
+                </tr>`;
+            });
+            
+            tableHTML += `</tbody></table>`;
+            tableView.innerHTML = tableHTML;
+        }
+
+
+        function populateCharts() {
+             // GFR
+            createTrendChart('gfrTrendChart', 'GFR', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:e?GFR Non-AA|GFR)\s(?:was\s)?(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), '#3b82f6', '#bfdbfe', 'mL/min');
+            // Creatinine
+            createTrendChart('creatinineTrendChart', 'Creatinine', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Creatinine)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), '#ef4444', '#fecaca', 'mg/dL');
+            // BUN
+            createTrendChart('bunTrendChart', 'BUN', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:BUN)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), '#f97316', '#fed7aa', 'mg/dL');
+            // WBC
+            createTrendChart('wbcTrendChart', 'WBC', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:WBC)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), '#10b981', '#a7f3d0', 'x10³/mcL');
+            // Hemoglobin
+            createTrendChart('hemoglobinTrendChart', 'Hemoglobin', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Hgb|Hemoglobin)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), '#d946ef', '#f5d0fe', 'g/dL');
+            // Platelets
+            createTrendChart('plateletTrendChart', 'Platelets', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Platelets)\s(\d+)/g, m => ({y: parseInt(m[2])})), '#6366f1', '#c7d2fe', 'x10³/mcL');
+        }
+
+        // --- INTERACTIVE TOOLS ---
+
+        function setupTools() {
+            // Unified Log
+            const logButton = document.getElementById('logEntryButton');
+            logButton.addEventListener('click', () => {
+                const dateTime = document.getElementById('logDate').value;
+                const pain = document.getElementById('logPainScale').value;
+                const desc = document.getElementById('logDescription').value;
+                const notes = document.getElementById('logNotes').value;
+                const bpSystolic = document.getElementById('logBPSystolic').value;
+                const bpDiastolic = document.getElementById('logBPDiastolic').value;
+
+                if (!dateTime || (!desc && !bpSystolic)) {
+                    alert('Please provide at least a date and either a symptom or a BP reading.');
+                    return;
+                }
+                
+                const bpReading = bpSystolic && bpDiastolic ? `${bpSystolic}/${bpDiastolic}` : null;
+
+                logEntries.unshift({ dateTime, pain, desc, bpReading, notes });
+                updateLogDisplay();
+
+                // Clear form
+                document.getElementById('logDate').value = '';
+                document.getElementById('logPainScale').value = 'N/A';
+                document.getElementById('logDescription').value = '';
+                document.getElementById('logBPSystolic').value = '';
+                document.getElementById('logBPDiastolic').value = '';
+                document.getElementById('logNotes').value = '';
+                
+                // Set new default date/time
+                 document.getElementById('logDate').value = new Date().toISOString().slice(0,16);
+            });
+
+            // AI Query Tool
+            const askButton = document.getElementById('askButton');
+            askButton.addEventListener('click', async () => {
+                const query = document.getElementById('queryInput').value;
+                if (!query) return;
+
+                const answerContent = document.getElementById('answerContent');
+                const answerPlaceholder = document.getElementById('answerPlaceholder');
+                answerPlaceholder.style.display = 'none';
+                answerContent.innerHTML = '';
+
+                const prompt = `Based on the following health record for Vickie Berry, please answer this question in a clear, concise manner suitable for a patient or caregiver. Use markdown for formatting if needed (lists, bolding). Question: "${query}".\n\nFull Health Record:\n${reportText}`;
+                
+                const responseText = await callGemini(prompt, askButton);
+                answerContent.innerHTML = marked.parse(responseText);
+            });
+            
+            // Suggest Questions
+            const suggestButton = document.getElementById('suggestConcernQuestionsBtn');
+            suggestButton.addEventListener('click', async () => {
+                const concernsText = extractSection('3. Critical Oversights and Immediate Action Plan', '4. Medication Management');
+                const prompt = `Based on these primary health concerns for a 71-year-old female patient, generate 3-5 clear, simple, and actionable questions she could ask her doctor at her next appointment. Format the response as a simple list. Concerns:\n${concernsText}`;
+                
+                const questionsArea = document.getElementById('suggestedQuestionsArea');
+                const questionsContent = document.getElementById('suggestedQuestionsContent');
+                questionsArea.style.display = 'block';
+                questionsContent.innerHTML = 'Generating questions...';
+
+                const responseText = await callGemini(prompt, suggestButton);
+                questionsContent.innerHTML = marked.parse(responseText);
+            });
+        }
+        
+        function updateLogDisplay() {
+            const display = document.getElementById('logDisplay');
+            if (logEntries.length === 0) {
+                display.innerHTML = '<p class="text-gray-500">No entries logged yet.</p>';
+            } else {
+                 display.innerHTML = logEntries.map(entry => {
+                    const date = new Date(entry.dateTime);
+                    const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                    const formattedTime = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+                    let content = '';
+                    if (entry.desc) {
+                        content += `<p class="font-semibold text-gray-800">${entry.desc}</p>`;
+                        if (entry.pain !== 'N/A') {
+                           content += `<p class="text-sm text-gray-600">Pain Scale: ${entry.pain}/10</p>`;
+                        }
+                    }
+                     if (entry.bpReading) {
+                        content += `<p class="font-semibold text-gray-800">Blood Pressure: ${entry.bpReading} mmHg</p>`;
+                    }
+                    if (entry.notes) {
+                       content += `<p class="text-sm text-gray-500 mt-1 pl-2 border-l-2 border-gray-300">${entry.notes}</p>`;
+                    }
+                    
+                    return `
+                        <div class="p-3 border-b border-gray-200 last:border-b-0">
+                            <p class="text-xs text-gray-500 mb-1">${formattedDate} at ${formattedTime}</p>
+                            ${content}
+                        </div>`;
+                }).join('');
+            }
+        }
+        
+        function populateTimeline() {
+             const events = [
+                { date: '2011-11-08', type: 'procedure', desc: 'First Sleep Study (Polysomnography)', details: 'Showed no significant obstructive sleep apnea but did reveal periodic limb movements and a complete absence of deep sleep.'},
+                { date: '2016-03-17', type: 'emergency', desc: 'Hospitalization for Stroke (CVA)', details: 'Admitted to Parkview Health for a stroke/TIA. Treated with TPA.' },
+                { date: '2020-08-27', type: 'imaging', desc: 'Echocardiogram', details: 'Normal LV systolic function, EF 60-65%, mildly calcified aortic valve.' },
+                { date: '2021-04-06', type: 'procedure', desc: 'Hemorrhoid Banding', details: 'First of two rubber band ligation procedures for hemorrhoids.'},
+                { date: '2021-06-12', type: 'emergency', desc: 'Suspected COVID-19 Infection', details: 'Visit for cough, loss of smell and taste. This likely marks her first COVID infection.' },
+                { date: '2022-03-08', type: 'diagnosis', desc: 'Urinary Tract Infection', details: 'Diagnosed and treated for a UTI with Bactrim and Pyridium.' },
+                { date: '2022-04-11', type: 'emergency', desc: 'Ankle/Foot Fracture', details: 'ER visit after fall. Diagnosed with fractures of right ankle and foot.' },
+                { date: '2022-04-19', type: 'procedure', desc: 'Ankle Surgery (ORIF)', details: 'Open reduction and internal fixation of right ankle and foot fractures.' },
+                { date: '2022-07-20', type: 'diagnosis', desc: 'Osteopenia Diagnosis', details: 'Bone Density (DEXA) scan confirmed low bone mass, a precursor to osteoporosis.'},
+                { date: '2023-04-05', type: 'visit', desc: 'Grief Reaction Noted', details: 'Follow-up visit discussing recent death of both parents.'},
+                { date: '2023-09-18', type: 'imaging', desc: 'Carotid Stenosis Worsens', details: 'Ultrasound shows left carotid artery stenosis increased to a moderate 50-69% blockage.' },
+                { date: '2024-04-29', type: 'visit', desc: 'Chronic Cough Evaluation', details: 'Lisinopril suspected as cause of a year-long cough; switched to Olmesartan.'},
+                { date: '2025-01-13', type: 'visit', desc: 'First Nephrology Visit', details: 'Initial evaluation for Chronic Kidney Disease with Dr. Anderson.' },
+                { date: '2025-04-22', type: 'visit', desc: 'Worsening Anxiety', details: 'PHQ-9 score of 12 indicates moderate depression. Referred to Integrity Family Counseling.' },
+                { date: '2025-05-09', type: 'emergency', desc: 'Knee Pain', details: 'ER visit for right knee pain. Diagnosed with moderate degenerative joint disease (arthritis).' },
+                { date: '2025-06-17', type: 'emergency', desc: 'Acute Colitis/Diverticulitis', details: 'ER visit for rectal bleeding. CT scan confirmed sigmoid colitis. Discharged on Ciprofloxacin and Flagyl.'}
+            ];
+            events.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            const timeline = document.getElementById('timeline-vertical-container');
+            const modal = document.getElementById('timeline-modal');
+            const modalClose = document.querySelector('.timeline-modal-close');
+            
+            timeline.innerHTML = events.map((event, index) => {
+                const eventDate = new Date(event.date);
+                return `
+                    <div class="timeline-vertical-item">
+                        <div class="timeline-vertical-dot dot-${event.type}"></div>
+                        <div class="timeline-vertical-content" data-index="${index}">
+                            <time class="mb-1 text-sm font-normal leading-none text-gray-400">${eventDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+                            <h3 class="text-lg font-semibold text-gray-900">${event.desc}</h3>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            timeline.addEventListener('click', e => {
+                const eventElement = e.target.closest('.timeline-vertical-content');
+                if (eventElement) {
+                    const event = events[eventElement.dataset.index];
+                    document.getElementById('modal-title').textContent = event.desc;
+                    document.getElementById('modal-date').textContent = new Date(event.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                    document.getElementById('modal-details').innerHTML = `<p>${event.details}</p>`;
+                    modal.style.display = 'block';
+                }
+            });
+            modalClose.onclick = () => { modal.style.display = 'none'; };
+            window.onclick = (e) => { if (e.target == modal) { modal.style.display = 'none'; } };
+        }
+        
+        function populateSuspicions() {
+             const suspicions = [
+                { 
+                    title: 'Severe Hemorrhoid Exacerbation', 
+                    concern: 'Concerning / Urgent', 
+                    color: 'orange-600',
+                    howItStarts: "With her known Grade III hemorrhoids and constipation, a period of straining could cause them to become severely swollen, inflamed, and bleed.",
+                    whatItFeelsLike: "Intense pressure and fullness, feeling like a constant need to have a bowel movement. The bleeding would be bright red, and the loss of control would feel more like leakage because swollen hemorrhoids prevent the sphincter from closing completely."
+                },
+                { 
+                    title: 'Ischemic Colitis', 
+                    concern: 'Very High Concern / Medical Emergency', 
+                    color: 'red-600',
+                    howItStarts: "Her extensive vascular disease (stroke history, carotid stenosis, hypertension) puts her at high risk. A temporary clot or drop in blood pressure could cut off blood flow to a section of the colon.",
+                    whatItFeelsLike: "Sudden, severe, cramping abdominal pain, often on the left side, followed by a desperate urge to go to the bathroom, producing bloody diarrhea. She would likely feel very sick and weak."
+                },
+                { 
+                    title: 'Diverticulitis or Diverticular Bleeding', 
+                    concern: 'High Concern',
+                    color: 'red-600',
+                    howItStarts: "Small pouches in the colon (diverticulosis) are common at her age. An infection in a pouch (diverticulitis) or a rupture of a blood vessel within one (diverticular bleeding) can cause these symptoms.",
+                    whatItFeelsLike: "If diverticulitis, there would be steady pain (usually lower left abdomen) and fever. If diverticular bleeding, it can be painless, with a sudden, large amount of maroon or red blood per rectum."
+                },
+                { 
+                    title: 'Infectious Colitis', 
+                    concern: 'Concerning / Urgent',
+                    color: 'orange-600',
+                    howItStarts: "She could have acquired a bacterial infection (like C. diff) from food or due to a disruption in her normal gut bacteria, potentially from past antibiotic use.",
+                    whatItFeelsLike: "Feeling generally unwell, perhaps with cramping and fever. The diarrhea would be frequent, watery, urgent, and bloody, with loss of control due to severe inflammation."
+                },
+                 { 
+                    title: 'Inflammatory Bowel Disease (IBD) Flare', 
+                    concern: 'Serious / Requires Specialist',
+                    color: 'orange-600',
+                    howItStarts: "Less common to start at her age, but a dormant autoimmune condition like Ulcerative Colitis could be triggered by stress or an infection.",
+                    whatItFeelsLike: "Similar to an infection, with cramping pain and frequent, urgent, bloody diarrhea. A key feature is *tenesmus*—a feeling of constantly needing to pass stools, even when the bowels are empty."
+                }
+            ];
+
+            const container = document.getElementById('suspicions-content');
+            container.innerHTML = suspicions.map(item => `
+                <details class="bg-white rounded-lg shadow">
+                    <summary class="flex justify-between items-center p-4 cursor-pointer">
+                        <span class="text-xl font-semibold text-gray-800">${item.title}</span>
+                        <span class="text-sm font-bold text-${item.color}">${item.concern}</span>
+                    </summary>
+                    <div class="p-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-700 mb-2">How It Might Start in Her Case:</h4>
+                        <p class="text-gray-600 mb-4">${item.howItStarts}</p>
+                        <h4 class="font-semibold text-gray-700 mb-2">What It Might Feel Like:</h4>
+                        <p class="text-gray-600">${item.whatItFeelsLike}</p>
+                    </div>
+                </details>
+            `).join('');
+        }
+
+
+        // --- INITIALIZATION ---
+        function init() {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            document.getElementById('logDate').value = new Date().toISOString().slice(0,16);
+
+            populateDashboard();
+            populateHealthRecord();
+            populateCarePlan();
+            populateCharts();
+            populateLabTables();
+            setupTools();
+            populateTimeline();
+            populateSuspicions();
+
+            const viewToggle = document.getElementById('viewToggle');
+            viewToggle.addEventListener('change', () => {
+                const chartView = document.getElementById('chart-view');
+                const tableView = document.getElementById('table-view');
+                if (viewToggle.checked) { // Chart view
+                    chartView.style.display = 'grid';
+                    tableView.style.display = 'none';
+                } else { // Table view
+                    chartView.style.display = 'none';
+                    document.querySelector('#table-view .lab-table').style.display = 'table';
+                }
+            });
+        }
+
+        init();
+    });
+    </script>
+</body>
+</html>
