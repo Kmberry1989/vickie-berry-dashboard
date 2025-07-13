@@ -10,10 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- Chosen Palette: Serene Sage -->
-    <!-- Application Structure Plan: The application is structured as a user-centric health dashboard. The information architecture prioritizes immediate understanding and task-oriented exploration over a linear report format. The user lands on a "Dashboard" tab, which provides an at-a-glance summary of the most critical information. From there, the user can navigate to dedicated sections via a top navigation bar for deeper dives. A new "Timeline" tab provides a vertical, chronological overview. A "Clinical Suspicions" tab outlines the differential diagnosis for a potential major health event, explaining the clinical reasoning. The "Health Record" tab provides detailed data. "Lab Trends", "Care Plan", and "Log & Tools" sections provide focused, interactive functionality. This structure guides the user from summary to specifics, promoting understanding. -->
-    <!-- Visualization & Content Choices: - Key Diagnoses & Alerts (Goal: Inform/Alert) -> Method: Styled list/cards on Dashboard. Justification: Prioritizes critical information. - Clinical Suspicions (Goal: Organize/Explain) -> Method: Styled accordion cards for each potential diagnosis. Interaction: Click to expand. Justification: Organizes complex clinical reasoning into digestible, self-contained topics. No SVG/Mermaid. - Health Timeline (Goal: Show Change) -> Method: Vertical timeline using structured HTML/CSS with Tailwind. Interaction: Clickable events opening a modal. Justification: Vertical layout is more readable and scannable than horizontal, especially on mobile devices. No SVG/Mermaid. - Lab & Vitals Data (Goal: Analyze Change) -> Method: Interactive Line Charts (Chart.js/Canvas) with a toggle to a data table. Justification: Best method for visualizing time-series data while offering a tabular view for precise data lookup. Library: Chart.js/Canvas. - Lifestyle/Diet Info (Goal: Instruct) -> Method: Visual grocery list. Justification: Easy-to-understand visual dietary guidance. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -290,7 +286,6 @@
         </nav>
 
         <main>
-            <!-- Dashboard Tab -->
             <div id="dashboard" class="tab-content active">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-2 card">
@@ -319,31 +314,34 @@
                 </div>
             </div>
             
-            <!-- Timeline Tab -->
             <div id="timeline" class="tab-content">
                 <div class="card">
                      <h2 class="text-2xl font-semibold mb-4 text-center">Patient Health Timeline</h2>
                      <p class="text-gray-500 text-center mb-8">A chronological overview of key medical events. Click on any event for more details.</p>
                     <div id="timeline-vertical-container" class="timeline-vertical-container">
-                        <!-- Vertical timeline events will be injected here by JS -->
-                    </div>
+                        </div>
                 </div>
             </div>
             
-             <!-- Clinical Suspicions Tab -->
-            <div id="suspicions" class="tab-content">
-                <div class="card">
-                    <h2 class="text-3xl font-bold text-center mb-4 text-[#0a9396]">Clinical Insight: Potential Causes of a Bleeding Event</h2>
+             <div id="suspicions" class="tab-content">
+                 <div class="card">
+                    <h2 class="text-3xl font-bold text-center mb-4 text-red-700">Clinical Insight: New Onset Headache & Facial Pain (July 2025)</h2>
                     <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg shadow-md mb-8">
+                        <p><strong class="font-bold">Medical Emergency:</strong> The sudden onset of a new, severe headache, especially when triggered by a spike in blood pressure (like a yelling argument), requires an **immediate emergency room visit.** The top priorities are to rule out life-threatening vascular events.</p>
+                    </div>
+                    <div class="space-y-4" id="headache-suspicions-content">
+                         </div>
+                </div>
+                <div class="card">
+                    <h2 class="text-3xl font-bold text-center mb-4 text-[#0a9396]">Clinical Insight: Potential Causes of a Bleeding Event (June 2025)</h2>
+                    <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg shadow-md mb-8">
                         <p><strong class="font-bold">Medical Disclaimer:</strong> The information presented here is a clinical synthesis based on the patient's record for informational purposes only. The sudden onset of bloody bowel movements is a **medical emergency** that requires immediate evaluation by a healthcare professional.</p>
                     </div>
                     <div class="space-y-4" id="suspicions-content">
-                         <!-- Content injected by JS -->
-                    </div>
+                         </div>
                 </div>
             </div>
 
-            <!-- Health Record Tab -->
             <div id="healthRecord" class="tab-content">
                 <div class="card">
                     <div id="recordSubNav" class="flex flex-wrap border-b border-gray-200 mb-4">
@@ -378,7 +376,6 @@
                 </div>
             </div>
 
-            <!-- Lab Trends Tab -->
             <div id="labTrends" class="tab-content">
                  <div class="card">
                     <div class="flex justify-between items-center mb-4">
@@ -402,18 +399,15 @@
                         <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">Platelet Count Trend</h5><canvas id="plateletTrendChart"></canvas></div>
                     </div>
                     <div id="table-view" style="display:none;">
-                        <!-- Lab tables will be injected here -->
-                    </div>
+                        </div>
                     <details class="mt-6">
                         <summary class="font-semibold cursor-pointer text-gray-700">Understanding These Lab Results</summary>
                         <div id="lab-explanations" class="mt-2 p-4 bg-gray-100 rounded-lg text-sm text-gray-600 space-y-3">
-                           <!-- Explanations injected by JS -->
-                        </div>
+                           </div>
                     </details>
                  </div>
             </div>
 
-            <!-- Care Plan & Lifestyle Tab -->
             <div id="carePlan" class="tab-content">
                 <div class="card">
                      <h2 class="text-2xl font-semibold mb-4">Care Plan & Lifestyle</h2>
@@ -473,7 +467,6 @@
                 </div>
             </div>
             
-            <!-- Tools Tab -->
             <div id="tools" class="tab-content">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="card">
@@ -597,11 +590,13 @@ The goal is to adopt a more proactive and comprehensive approach to managing Vic
 
 4. Medication Management and Recommended Adjustments (from Care Plan)
  * olmesartan 40 MG tablet (BENICAR): **STOP taking** as of June 2, 2025, per Dr. Melissa Anderson. (Note: was previously trialed in April 2024 for a cough suspected to be from Lisinopril, but patient switched herself back).
- * Ibuprofen 800mg: **IMMEDIATE DISCONTINUATION** is crucial due to its contraindication with CKD and potential to worsen gout.
+ * Ibuprofen 800mg: **IMMEDIATE DISCONTINUATION** is crucial due to its contraindication with CKD and potential to worsen gout. Tylenol is the safest over-the-counter option for pain management.
  * Gout Medications: Initiate appropriate medication for gout management, with careful consideration for dosage adjustments due to Stage 3b CKD. Options like allopurinol or febuxostat (for long-term management) or colchicine (for acute attacks) require renal dosing.
  * Trazodone 200mg (if taking 4x50mg tabs): High dosage requires reevaluation, considering potential interactions with declining kidney function and lack of N3 sleep observed in 2011 sleep study at an even higher dose.
  * Venlafaxine 150mg ER (twice daily): Dosage should be reduced by 25-50% due to GFR <45 mL/min.
  * Amlodipine: Dosage increased from 5mg to 10mg on March 24, 2025, due to elevated blood pressure readings.
+ * Ciprofloxacin: Note high risk of tendinitis/tendon rupture in older adults. Monitor for joint/tendon pain. Consider safer alternatives like Augmentin for future abdominal infections if appropriate.
+ * Metronidazole (Flagyl): Be aware of potential for metallic taste, nausea, and severe reaction with alcohol.
  * Comprehensive medication review by a pharmacist is essential.
 
 5. Dietary and Lifestyle Recommendations (from Care Plan)
@@ -679,7 +674,7 @@ Lifestyle Recommendations:
    * Grief Reaction (noted Apr 2023)
    * Iron Deficiency Anemia (Sept 2020)
    * History of CVA (Stroke) without residual deficits (2016)
-   * Cerebral Aneurysm(s) (Identified Mar 2016)
+   * Cerebral Aneurysm(s) (Identified Mar 2016, referral noted)
    * Asymptomatic Stenosis of Intracranial Artery (Aug 2022)
    * Carotid Artery Stenosis (Left ICA 50-69% as of Sept 2023)
    * GERD without esophagitis (Mar 2021)
@@ -695,6 +690,7 @@ Lifestyle Recommendations:
    * Colitis / Diverticulitis (June 2025)
    * Urinary Tract Infection (Mar 2022, Jun 2025)
    * Chronic Cough (noted Apr 2024)
+   * New onset headache/facial pain (July 2025) - requires urgent evaluation
 
 ### Medication Regimen
 *(Focus on current user-provided list, cross-referenced with care plan advice. Full historical list is extensive and available in "Full Report" tab)*
@@ -717,6 +713,7 @@ Lifestyle Recommendations:
    * Norco 5-325mg (hydrocodone-acetaminophen): Prescribed for 3 days post-ankle fracture (Apr 11, 2022).
    * Bactrim DS (sulfamethoxazole-trimethoprim): Prescribed for UTI (Mar 8, 2022).
    * Pyridium (phenazopyridine): Prescribed for UTI symptoms (Mar 8, 2022).
+   * Prednisone (5-day course): Prescribed for Gout flare in knee (July 2, 2025).
 
 ### Immunizations (Selected)
 * COVID-19 (Moderna): 3 doses (Last: Nov 27, 2021)
@@ -758,6 +755,7 @@ Lifestyle Recommendations:
 * **Urinalysis (Jun 17, 2025):** Glucose 100 mg/dL (Abnormal), Ketones Trace (Abnormal), Blood TRACE, Protein TRACE, Leuk Est Small (Abnormal), Culture Indicated YES.
 
 ### Key Medical Encounters (Summarized - recent first)
+* **July 2025 (Urgent Event):** Experienced new-onset headache with left-sided facial pain (temple to throat) and right eye watering, immediately following a yelling argument. **Recommendation: Immediate ER visit to rule out a vascular event or Giant Cell Arteritis.**
 * **Jul 02, 2025 - PCP Follow-up:** Seen for right knee pain. Diagnosed as a gout flare and prescribed a 5-day course of prednisone.
 * **Jun 25, 2025 - Surgical Consult:** Met with Dr. Lalla for a pre-colonoscopy consultation to evaluate the colitis/bleeding.
 * **Jun 17, 2025 - ED Visit:** Presented with rectal bleeding and cramping. CT scan showed colitis of the sigmoid colon. Diagnosed with colitis/diverticulitis and discharged with Ciprofloxacin and Flagyl.
@@ -928,14 +926,16 @@ Lifestyle Recommendations:
 
             // Primary Concerns & Alerts
             const concerns = [
+                 { text: '<strong>MEDICAL EMERGENCY:</strong> Immediate ER evaluation needed for new-onset headache and facial pain (July 2025) to rule out a vascular event (aneurysm) or Giant Cell Arteritis.', priority: 0, critical: true, status: 'active' },
                  { text: 'Comprehensive medication review needed for CKD, including dose adjustments for Venlafaxine and re-evaluation of high-dose Trazodone.', priority: 1, critical: false, status: 'active' },
-                 { text: 'Develop a management plan for new Gout diagnosis, considering CKD.', priority: 2, critical: false, status: 'active' },
-                 { text: 'Follow-up needed for Osteopenia (low bone density), due around Jan-July 2024.', priority: 3, critical: false, status: 'active' },
-                 { text: 'Cardiovascular monitoring: Home blood pressure monitoring and consider a comprehensive cardiac evaluation.', priority: 4, critical: false, status: 'active' },
-                 { text: 'Assess for Long COVID symptoms, given history of multiple infections.', priority: 5, critical: false, status: 'active' },
-                 { text: 'Evaluate need for a new sleep study, as the last one was in 2011.', priority: 6, critical: false, status: 'active' },
-                 { text: 'Contraindicated Medication: Ibuprofen use was noted as recently as May 2025. This has been discontinued.', priority: 7, critical: true, status: 'resolved' },
-                 { text: 'Initial Nephrology Referral', priority: 8, critical: false, status: 'resolved' }
+                 { text: 'Manage side effects of Ciprofloxacin (knee pain) and consider safer antibiotics in the future.', priority: 2, critical: false, status: 'active' },
+                 { text: 'Develop a management plan for new Gout diagnosis, considering CKD.', priority: 3, critical: false, status: 'active' },
+                 { text: 'Follow-up needed for Osteopenia (low bone density), due around Jan-July 2024.', priority: 4, critical: false, status: 'active' },
+                 { text: 'Cardiovascular monitoring: Home blood pressure monitoring and consider a comprehensive cardiac evaluation.', priority: 5, critical: false, status: 'active' },
+                 { text: 'Assess for Long COVID symptoms, given history of multiple infections.', priority: 6, critical: false, status: 'active' },
+                 { text: 'Evaluate need for a new sleep study, as the last one was in 2011.', priority: 7, critical: false, status: 'active' },
+                 { text: 'Contraindicated Medication: Ibuprofen use was noted as recently as May 2025. This has been discontinued.', priority: 8, critical: true, status: 'resolved' },
+                 { text: 'Initial Nephrology Referral', priority: 9, critical: false, status: 'resolved' }
             ];
 
             const activeConcerns = concerns.filter(c => c.status === 'active').sort((a,b) => a.priority - b.priority);
@@ -961,6 +961,7 @@ Lifestyle Recommendations:
              if (boneDensityMatch) {
                 appointments.push({ date: `Due ${boneDensityMatch[2]}`, desc: 'Bone Density Screening' });
             }
+             appointments.push({ date: `Overdue`, desc: 'Colorectal Cancer Screening (Colonoscopy)' });
             const dashboardAppointments = document.getElementById('dashboardAppointments');
              if (appointments.length > 0) {
                 dashboardAppointments.innerHTML = appointments.map(appt => `
@@ -1275,8 +1276,10 @@ Lifestyle Recommendations:
                 { date: '2025-04-22', type: 'visit', desc: 'Worsening Anxiety', details: 'PHQ-9 score of 12 indicates moderate depression. Referred to Integrity Family Counseling.' },
                 { date: '2025-05-09', type: 'emergency', desc: 'Knee Pain', details: 'ER visit for right knee pain. Diagnosed with moderate degenerative joint disease (arthritis).' },
                 { date: '2025-06-17', type: 'emergency', desc: 'Acute Colitis/Diverticulitis', details: 'ER visit for rectal bleeding. CT scan confirmed sigmoid colitis. Discharged on Ciprofloxacin and Flagyl.'},
+                { date: '2025-06-18', type: 'diagnosis', desc: 'Knee Pain Side Effect', details: 'Developed sharp knee pain, identified as a side effect (tendinitis) of the Ciprofloxacin antibiotic.'},
                 { date: '2025-06-25', type: 'visit', desc: 'Colonoscopy Consult', details: 'Met with Dr. Lalla to plan for EGD and colonoscopy to investigate colitis.'},
-                { date: '2025-07-02', type: 'visit', desc: 'Gout Flare in Knee', details: 'Diagnosed with acute gout flare in right knee and prescribed a 5-day course of prednisone.'}
+                { date: '2025-07-02', type: 'visit', desc: 'Gout Flare in Knee', details: 'Diagnosed with acute gout flare in right knee and prescribed a 5-day course of prednisone.'},
+                { date: '2025-07-10', type: 'emergency', desc: 'New Severe Headache', details: 'Sudden onset of headache with left facial pain and right eye watering after an argument. Urgent ER evaluation required.'}
             ];
             events.sort((a, b) => new Date(a.date) - new Date(b.date));
 
@@ -1312,13 +1315,14 @@ Lifestyle Recommendations:
         }
         
         function populateSuspicions() {
-             const suspicions = [
+             const bleedingSuspicions = [
                 { 
-                    title: 'Severe Hemorrhoid Exacerbation', 
-                    concern: 'Concerning / Urgent', 
-                    color: 'orange-600',
-                    howItStarts: "With her known Grade III hemorrhoids and constipation, a period of straining could cause them to become severely swollen, inflamed, and bleed.",
-                    whatItFeelsLike: "Intense pressure and fullness, feeling like a constant need to have a bowel movement. The bleeding would be bright red, and the loss of control would feel more like leakage because swollen hemorrhoids prevent the sphincter from closing completely."
+                    title: 'Diverticulitis or Diverticular Bleeding', 
+                    concern: 'High Concern / Diagnosed', 
+                    color: 'green-600',
+                    howItStarts: "Small pouches in the colon (diverticulosis) are common at her age. An infection in a pouch (diverticulitis) or a rupture of a blood vessel within one (diverticular bleeding) can cause these symptoms.",
+                    whatItFeelsLike: "If diverticulitis, there would be steady pain (usually lower left abdomen) and fever. If diverticular bleeding, it can be painless, with a sudden, large amount of maroon or red blood per rectum.",
+                    outcome: 'This was confirmed by CT scan on June 17, 2025.'
                 },
                 { 
                     title: 'Ischemic Colitis', 
@@ -1327,12 +1331,12 @@ Lifestyle Recommendations:
                     howItStarts: "Her extensive vascular disease (stroke history, carotid stenosis, hypertension) puts her at high risk. A temporary clot or drop in blood pressure could cut off blood flow to a section of the colon.",
                     whatItFeelsLike: "Sudden, severe, cramping abdominal pain, often on the left side, followed by a desperate urge to go to the bathroom, producing bloody diarrhea. She would likely feel very sick and weak."
                 },
-                { 
-                    title: 'Diverticulitis or Diverticular Bleeding', 
-                    concern: 'High Concern',
-                    color: 'red-600',
-                    howItStarts: "Small pouches in the colon (diverticulosis) are common at her age. An infection in a pouch (diverticulitis) or a rupture of a blood vessel within one (diverticular bleeding) can cause these symptoms.",
-                    whatItFeelsLike: "If diverticulitis, there would be steady pain (usually lower left abdomen) and fever. If diverticular bleeding, it can be painless, with a sudden, large amount of maroon or red blood per rectum."
+                 { 
+                    title: 'Severe Hemorrhoid Exacerbation', 
+                    concern: 'Concerning / Urgent', 
+                    color: 'orange-600',
+                    howItStarts: "With her known Grade III hemorrhoids and constipation, a period of straining could cause them to become severely swollen, inflamed, and bleed.",
+                    whatItFeelsLike: "Intense pressure and fullness, feeling like a constant need to have a bowel movement. The bleeding would be bright red, and the loss of control would feel more like leakage because swollen hemorrhoids prevent the sphincter from closing completely."
                 },
                 { 
                     title: 'Infectious Colitis', 
@@ -1350,9 +1354,30 @@ Lifestyle Recommendations:
                 }
             ];
 
-            const container = document.getElementById('suspicions-content');
-            container.innerHTML = suspicions.map(item => `
-                <details class="bg-white rounded-lg shadow">
+            const headacheSuspicions = [
+                 { 
+                    title: 'Vascular Event (Aneurysm Rupture / Arterial Dissection)', 
+                    concern: 'Most Critical / Life-Threatening', 
+                    color: 'red-600',
+                    reasoning: "Given her history of a past aneurysm referral and multiple vascular risk factors, a sudden spike in blood pressure (from a yelling argument) is a classic trigger for a bleed or tear in a blood vessel in the brain. This is the top concern and must be ruled out immediately.",
+                },
+                { 
+                    title: 'Giant Cell Arteritis (GCA)', 
+                    concern: 'Very High Concern / Urgent', 
+                    color: 'red-600',
+                    reasoning: "This is an inflammatory condition of the arteries, common in her age group, that often presents with a new-onset, one-sided headache in the temple area. It is a medical emergency because it can lead to blindness if not treated promptly with high-dose steroids.",
+                },
+                { 
+                    title: 'Acute TMJ Disorder', 
+                    concern: 'Possible / Less Dangerous',
+                    color: 'orange-600',
+                    reasoning: "The jaw clenching and stress from an argument could cause a severe, acute flare of temporomandibular joint (TMJ) disorder, causing pain that radiates from the jaw to the temple and neck.",
+                },
+            ]
+
+            const bleedingContainer = document.getElementById('suspicions-content');
+            bleedingContainer.innerHTML = bleedingSuspicions.map(item => `
+                <details class="bg-white rounded-lg shadow" ${item.outcome ? 'open' : ''}>
                     <summary class="flex justify-between items-center p-4 cursor-pointer">
                         <span class="text-xl font-semibold text-gray-800">${item.title}</span>
                         <span class="text-sm font-bold text-${item.color}">${item.concern}</span>
@@ -1362,6 +1387,21 @@ Lifestyle Recommendations:
                         <p class="text-gray-600 mb-4">${item.howItStarts}</p>
                         <h4 class="font-semibold text-gray-700 mb-2">What It Might Feel Like:</h4>
                         <p class="text-gray-600">${item.whatItFeelsLike}</p>
+                        ${item.outcome ? `<div class="mt-4 p-3 bg-green-50 border-l-4 border-green-500 rounded-r-lg"><p class="font-semibold text-green-800">Outcome:</p><p class="text-green-700">${item.outcome}</p></div>` : ''}
+                    </div>
+                </details>
+            `).join('');
+
+            const headacheContainer = document.getElementById('headache-suspicions-content');
+            headacheContainer.innerHTML = headacheSuspicions.map(item => `
+                 <details class="bg-white rounded-lg shadow" open>
+                    <summary class="flex justify-between items-center p-4 cursor-pointer">
+                        <span class="text-xl font-semibold text-gray-800">${item.title}</span>
+                        <span class="text-sm font-bold text-${item.color}">${item.concern}</span>
+                    </summary>
+                    <div class="p-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-700 mb-2">Clinical Reasoning:</h4>
+                        <p class="text-gray-600">${item.reasoning}</p>
                     </div>
                 </details>
             `).join('');
