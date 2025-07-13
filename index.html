@@ -406,12 +406,8 @@
                     </div>
                     <details class="mt-6">
                         <summary class="font-semibold cursor-pointer text-gray-700">Understanding These Lab Results</summary>
-                        <div class="mt-2 p-4 bg-gray-100 rounded-lg text-sm text-gray-600 space-y-3">
-                            <p><strong>GFR (Glomerular Filtration Rate):</strong> This is the best test to measure kidney function. A GFR below 60 mL/min indicates Chronic Kidney Disease (CKD). Vickie's GFR has been consistently below this level, confirming her Stage 3 CKD.</p>
-                            <p><strong>Creatinine & BUN (Blood Urea Nitrogen):</strong> These are waste products kidneys remove. Higher levels can be a sign that the kidneys aren't working well. Vickie's levels have been trending high, which is consistent with her CKD diagnosis.</p>
-                            <p><strong>WBC (White Blood Cell Count):</strong> These are the body's "fighter" cells. A high WBC count, like hers on June 17, 2025, is a strong sign of an active infection or significant inflammation.</p>
-                            <p><strong>Hemoglobin (Hgb) & Hematocrit (Hct):</strong> These measure the oxygen-carrying capacity of red blood cells. Consistently low or borderline-low levels can indicate anemia. Her chronic iron-deficiency anemia suggests a slow, ongoing blood loss somewhere in the body, most likely the GI tract.</p>
-                             <p><strong>Platelets:</strong> These are tiny cells that help form blood clots to stop bleeding. Her platelet count itself is normal, but the medications she takes (aspirin and clopidogrel) prevent them from working properly, which is why even a small bleed can become significant.</p>
+                        <div id="lab-explanations" class="mt-2 p-4 bg-gray-100 rounded-lg text-sm text-gray-600 space-y-3">
+                           <!-- Explanations injected by JS -->
                         </div>
                     </details>
                  </div>
@@ -573,10 +569,10 @@ A notable decline in kidney function has been observed:
  * May 17, 2024 (Logansport Memorial Hospital Results): Creatinine 1.28 mg/dL (High), eGFR Non-AA 41 mL/min (Low), BUN 25.0 mg/dL (High).
  * Oct 11, 2024 (Health Summary/Logansport Family): Encounter diagnosis of Chronic kidney disease.
  * October 09, 2024: Creatinine 1.25 mg/dL (High), eGFR Non-AA 42 mL/min (Low), eGFR AA 51 mL/min (Low). BUN 24.0 mg/dL (High).
- * Jan 15, 2025 (Logansport Memorial Hospital Results / Health Summary): Creatinine 1.03 mg/dL (High), eGFR Non-AA 53 mL/min (L), EGFR AA 64 mL/min, BUN 22.0 mg/dL (High).
+ * Jan 15, 2025 (Logansport Memorial Hospital Results / Health Summary): Creatinine 1.03 mg/dL (High), eGFR Non-AA 53 mL/min (L), EGFR AA 64 mL/min, BUN 22.0 mg/dL (High). WBC 8.1, Hemoglobin 14.2, Hematocrit 42.0, Platelets 294.
  * May 27, 2025 (Logansport Memorial Hospital Results): Creatinine 1.07 mg/dL (High), BUN 19.0 mg/dL, eGFR Non-AA 50 mL/min (Low), eGFR AA 61 mL/min.
  * Jun 02, 2025 (Nephrology): Addressed Chronic kidney disease stage 2. Labs ordered for 1 week before next visit.
- * Jun 17, 2025 (Logansport Memorial Hospital Results): WBC 13.6 (High), Neutro Absolute 9.60 (High). Urinalysis positive for leukocytes, trace blood, trace protein, 100 mg/dL glucose. BP 162/104. Temp 99.3F. eGFR Non-AA 54.
+ * Jun 17, 2025 (Logansport Memorial Hospital Results): WBC 13.6 (High), Neutro Absolute 9.60 (High). Urinalysis positive for leukocytes, trace blood, trace protein, 100 mg/dL glucose. BP 162/104. Temp 99.3F. eGFR Non-AA 54. Creatinine 1.01. BUN 14.0. Hemoglobin 14.6, Hematocrit 43.8, Platelets 355.
 This progression signifies a worsening of CKD to Stage 3b (based on Oct 2024 GFR of 42 mL/min, with recent fluctuations), characterized by moderate to severe kidney damage. The consistent decline raises concerns about the efficacy of current treatment strategies and emphasizes the need for more aggressive management to slow further deterioration.
 
 3. Critical Oversights and Immediate Action Plan (from Care Plan)
@@ -762,6 +758,8 @@ Lifestyle Recommendations:
 * **Urinalysis (Jun 17, 2025):** Glucose 100 mg/dL (Abnormal), Ketones Trace (Abnormal), Blood TRACE, Protein TRACE, Leuk Est Small (Abnormal), Culture Indicated YES.
 
 ### Key Medical Encounters (Summarized - recent first)
+* **Jul 02, 2025 - PCP Follow-up:** Seen for right knee pain. Diagnosed as a gout flare and prescribed a 5-day course of prednisone.
+* **Jun 25, 2025 - Surgical Consult:** Met with Dr. Lalla for a pre-colonoscopy consultation to evaluate the colitis/bleeding.
 * **Jun 17, 2025 - ED Visit:** Presented with rectal bleeding and cramping. CT scan showed colitis of the sigmoid colon. Diagnosed with colitis/diverticulitis and discharged with Ciprofloxacin and Flagyl.
 * **Jun 02, 2025 - Nephrology (Dr. Melissa Anderson):** BP 128/68, P 91, SpO2 96%, Wt 180lb, BMI 30.90. Olmesartan stopped. Labs ordered for 1 week before next visit. Next scheduled f/u Dec 8, 2025.
 * **May 09, 2025 - ED (Dr. Tai N Duong, Logansport Memorial):** R knee pain. Dx: R knee pain, Arthritis of knee (Moderate degenerative joint disease). X-ray performed. Advised Tylenol and ibuprofen for pain.
@@ -884,7 +882,8 @@ Lifestyle Recommendations:
             button.disabled = true;
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
             
-                        
+            const apiKey = ""; // This will be handled by the serverless function
+            
             try {
                 const response = await fetch('/api/call_gemini', {
                     method: 'POST',
@@ -1275,7 +1274,9 @@ Lifestyle Recommendations:
                 { date: '2025-01-13', type: 'visit', desc: 'First Nephrology Visit', details: 'Initial evaluation for Chronic Kidney Disease with Dr. Anderson.' },
                 { date: '2025-04-22', type: 'visit', desc: 'Worsening Anxiety', details: 'PHQ-9 score of 12 indicates moderate depression. Referred to Integrity Family Counseling.' },
                 { date: '2025-05-09', type: 'emergency', desc: 'Knee Pain', details: 'ER visit for right knee pain. Diagnosed with moderate degenerative joint disease (arthritis).' },
-                { date: '2025-06-17', type: 'emergency', desc: 'Acute Colitis/Diverticulitis', details: 'ER visit for rectal bleeding. CT scan confirmed sigmoid colitis. Discharged on Ciprofloxacin and Flagyl.'}
+                { date: '2025-06-17', type: 'emergency', desc: 'Acute Colitis/Diverticulitis', details: 'ER visit for rectal bleeding. CT scan confirmed sigmoid colitis. Discharged on Ciprofloxacin and Flagyl.'},
+                { date: '2025-06-25', type: 'visit', desc: 'Colonoscopy Consult', details: 'Met with Dr. Lalla to plan for EGD and colonoscopy to investigate colitis.'},
+                { date: '2025-07-02', type: 'visit', desc: 'Gout Flare in Knee', details: 'Diagnosed with acute gout flare in right knee and prescribed a 5-day course of prednisone.'}
             ];
             events.sort((a, b) => new Date(a.date) - new Date(b.date));
 
