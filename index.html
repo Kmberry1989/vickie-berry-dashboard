@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Motherly Medical Model - Memory Recollection - Vickie Berry</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -23,6 +25,10 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             padding: 24px;
             margin-bottom: 24px;
+        }
+        .header-logo {
+            height: 80px; /* You can adjust this value */
+            width: auto;
         }
         .nav-button {
             padding: 10px 20px;
@@ -209,6 +215,7 @@
         .dot-emergency { background-color: #ef4444; }
         .dot-procedure { background-color: #f97316; }
         .dot-imaging { background-color: #8b5cf6; }
+        .dot-symptom { background-color: #f59e0b; }
 
         .timeline-vertical-content {
             background: #fff;
@@ -270,9 +277,14 @@
     </div>
 
     <div class="main-container">
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-[#343a40]">Vickie Berry</h1>
-            <p class="text-lg text-gray-600 mt-2">Comprehensive Health Dashboard</p>
+        <header class="mb-8">
+            <div class="flex justify-center items-center gap-4">
+                <img src="path/to/your/mascot.png" alt="Mascot Logo" class="header-logo">
+                <div class="text-left">
+                    <h1 class="text-4xl font-bold text-[#343a40]">Vickie Berry</h1>
+                    <p class="text-lg text-gray-600 mt-1">Comprehensive Health Dashboard</p>
+                </div>
+            </div>
         </header>
 
         <nav class="card flex justify-center flex-wrap gap-2 mb-8">
@@ -324,6 +336,14 @@
             </div>
             
              <div id="suspicions" class="tab-content">
+                <div id="foot-sensation-suspicions" class="card">
+                    <h2 class="text-3xl font-bold text-center mb-4 text-amber-700">Clinical Insight: New Onset Foot "Pins & Needles" (Paresthesia)</h2>
+                    <div class="bg-amber-100 border-l-4 border-amber-500 text-amber-700 p-4 rounded-lg shadow-md mb-8">
+                        <p><strong class="font-bold">Action Required:</strong> This new neurological symptom should be reported to her primary care physician or nephrologist. It could be related to several of her existing conditions or recent medications.</p>
+                    </div>
+                    <div class="space-y-4" id="foot-suspicions-content">
+                         </div>
+                </div>
                  <div class="card">
                     <h2 class="text-3xl font-bold text-center mb-4 text-red-700">Clinical Insight: New Onset Headache & Facial Pain (July 2025)</h2>
                     <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg shadow-md mb-8">
@@ -595,8 +615,8 @@ The goal is to adopt a more proactive and comprehensive approach to managing Vic
  * Trazodone 200mg (if taking 4x50mg tabs): High dosage requires reevaluation, considering potential interactions with declining kidney function and lack of N3 sleep observed in 2011 sleep study at an even higher dose.
  * Venlafaxine 150mg ER (twice daily): Dosage should be reduced by 25-50% due to GFR <45 mL/min.
  * Amlodipine: Dosage increased from 5mg to 10mg on March 24, 2025, due to elevated blood pressure readings.
- * Ciprofloxacin: Note high risk of tendinitis/tendon rupture in older adults. Monitor for joint/tendon pain. Consider safer alternatives like Augmentin for future abdominal infections if appropriate.
- * Metronidazole (Flagyl): Be aware of potential for metallic taste, nausea, and severe reaction with alcohol.
+ * Ciprofloxacin: Note high risk of tendinitis/tendon rupture in older adults. Monitor for joint/tendon pain.
+ * Metronidazole (Flagyl): Be aware of potential for metallic taste, nausea, severe reaction with alcohol, and **peripheral neuropathy (numbness/tingling)**.
  * Comprehensive medication review by a pharmacist is essential.
 
 5. Dietary and Lifestyle Recommendations (from Care Plan)
@@ -691,6 +711,7 @@ Lifestyle Recommendations:
    * Urinary Tract Infection (Mar 2022, Jun 2025)
    * Chronic Cough (noted Apr 2024)
    * New onset headache/facial pain (July 2025) - requires urgent evaluation
+   * Paresthesia in right foot (pins and needles) (July 2025) - requires evaluation
 
 ### Medication Regimen
 *(Focus on current user-provided list, cross-referenced with care plan advice. Full historical list is extensive and available in "Full Report" tab)*
@@ -740,22 +761,9 @@ Lifestyle Recommendations:
 * XR Knee 3 Views Right: May 09, 2025 (Moderate degenerative joint disease without traumatic findings)
 * XR Ankle/Foot Right: April 11, 2022 (Nondisplaced fracture of lateral malleolus and comminuted fracture of 5th metatarsal base). Follow-up X-rays showed satisfactory healing, with fractures considered well-healed by Aug 11, 2022.
 
-### Key Laboratory Findings (Selected Historical and Recent for Trends)
-* **GFR (Non-AA, mL/min):** 53.3 (Mar 2016), ~70-75 (Mar 2021), 71 (Oct 2021), 54 (Jan 2023), 55 (Apr 2023), 49 (Nov 2023), 46 (Mar 2024), 41 (May 2024), 42 (Oct 2024), 53 (Jan 15, 2025), 54 (Jun 17, 2025), 50 (May 27, 2025).
-* **Creatinine (mg/dL):** 1.1 (Mar 2016), 0.87 (Mar 2021), 0.98 (Feb 2022), 0.95 (Mar 2022), 1.00 (Jul 2022), 1.11 (Jan 2023), 1.10 (Apr 2023), 1.18 (Nov 2023), 1.21 (Mar 2024), 1.28 (May 2024), 1.25 (Oct 2024), 1.03 (Jan 15, 2025), 1.01 (Jun 17, 2025), 1.07 (May 27, 2025 - High).
-* **BUN (mg/dL):** 15 (Mar 2016), 15 (Mar 2021), 19 (Feb 2022), 18 (Mar 2022), 20 (Jan 2023), 22 (Mar 2024), 25 (May 2024), 24 (Oct 2024), 22 (Jan 15, 2025), 14.0 (Jun 17, 2025), 19.0 (May 27, 2025).
-* **Alkaline Phosphatase (ALP U/L or IntUnit/L):** 96 (Mar 2016), 114 (Jan 2023), 128 (Mar 2024), 132 (May 17, 2024), 132 (Jun 17, 2025 - High), 121 (May 27, 2025 - High).
-* **WBC (x10^3/mcL):** 8.1 (Jan 15, 2025), 13.6 (Jun 17, 2025 - High)
-* **Hemoglobin (g/dL):** 14.2 (Jan 15, 2025), 14.6 (Jun 17, 2025)
-* **Hematocrit (%):** 42.0 (Jan 15, 2025), 43.8 (Jun 17, 2025)
-* **Platelets (x10^3/mcL):** 294 (Jan 15, 2025), 355 (Jun 17, 2025)
-* **Sodium (mEq/L):** 140 (Mar 2016), 140 (Mar 2021), 139 (Feb 2022), 141 (Mar 2022), 140 (Jan 2023), 138 (Mar 2024), 140.0 (Jan 15, 2025), 139.0 (Jun 17, 2025), 140.0 (May 27, 2025).
-* **Potassium (mEq/L):** 3.7 (Mar 2016), 4.3 (Mar 2021), 4.1 (Feb 2022), 4.0 (Mar 2022), 4.2 (Jan 2023), 4.0 (Mar 2024), 3.8 (Jan 15, 2025), 4.0 (Jun 17, 2025), 3.8 (May 27, 2025).
-* **Urine Microalbumin/Creatinine Ratio (mg/g Cr):** 1 (Mar 2021), 7 (May 2024), 6 (Jan 15, 2025).
-* **Urinalysis (Jun 17, 2025):** Glucose 100 mg/dL (Abnormal), Ketones Trace (Abnormal), Blood TRACE, Protein TRACE, Leuk Est Small (Abnormal), Culture Indicated YES.
-
 ### Key Medical Encounters (Summarized - recent first)
-* **July 2025 (Urgent Event):** Experienced new-onset headache with left-sided facial pain (temple to throat) and right eye watering, immediately following a yelling argument. **Recommendation: Immediate ER visit to rule out a vascular event or Giant Cell Arteritis.**
+* **July 13, 2025 (New Symptom):** Reports new onset of "pins and needles" sensation (paresthesia) in her right foot upon waking in the mornings. **Recommendation: Report this new neurological symptom to PCP/Nephrologist for evaluation.**
+* **July 10, 2025 (Urgent Event):** Experienced new-onset headache with left-sided facial pain (temple to throat) and right eye watering, immediately following a yelling argument. **Recommendation: Immediate ER visit to rule out a vascular event or Giant Cell Arteritis.**
 * **Jul 02, 2025 - PCP Follow-up:** Seen for right knee pain. Diagnosed as a gout flare and prescribed a 5-day course of prednisone.
 * **Jun 25, 2025 - Surgical Consult:** Met with Dr. Lalla for a pre-colonoscopy consultation to evaluate the colitis/bleeding.
 * **Jun 17, 2025 - ED Visit:** Presented with rectal bleeding and cramping. CT scan showed colitis of the sigmoid colon. Diagnosed with colitis/diverticulitis and discharged with Ciprofloxacin and Flagyl.
@@ -880,7 +888,12 @@ Lifestyle Recommendations:
             button.disabled = true;
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
             
-            const apiKey = ""; // This will be handled by the serverless function
+            // NOTE: The API key is intentionally left blank here.
+            // The call is made to a serverless function '/api/call_gemini'
+            // which securely handles the API key on the backend.
+            // The 500 error means the SERVERLESS FUNCTION is failing.
+            // This is almost certainly because the `GEMINI_API_KEY` environment
+            // variable is not set in your hosting environment (e.g., Vercel, Netlify).
             
             try {
                 const response = await fetch('/api/call_gemini', {
@@ -890,7 +903,14 @@ Lifestyle Recommendations:
                 });
 
                 if (!response.ok) {
-                     const errorData = await response.json();
+                    // FIX: Improved error handling for non-JSON responses
+                    // The 'SyntaxError' you see in the console is because this part of the
+                    // code expects a JSON error response, but a 500 error from Vercel
+                    // sends back a generic HTML error page, which cannot be parsed as JSON.
+                     const errorData = await response.json().catch(() => {
+                        // Create a more helpful error message if the response isn't JSON
+                        throw new Error(`Server returned a ${response.status} error. Check the serverless function logs in Vercel. Is the GEMINI_API_KEY environment variable set correctly and has the project been redeployed?`);
+                     });
                     throw new Error(`API Error: ${response.status} ${response.statusText} - ${errorData.error}`);
                 }
                 
@@ -927,15 +947,16 @@ Lifestyle Recommendations:
             // Primary Concerns & Alerts
             const concerns = [
                  { text: '<strong>MEDICAL EMERGENCY:</strong> Immediate ER evaluation needed for new-onset headache and facial pain (July 2025) to rule out a vascular event (aneurysm) or Giant Cell Arteritis.', priority: 0, critical: true, status: 'active' },
-                 { text: 'Comprehensive medication review needed for CKD, including dose adjustments for Venlafaxine and re-evaluation of high-dose Trazodone.', priority: 1, critical: false, status: 'active' },
-                 { text: 'Manage side effects of Ciprofloxacin (knee pain) and consider safer antibiotics in the future.', priority: 2, critical: false, status: 'active' },
-                 { text: 'Develop a management plan for new Gout diagnosis, considering CKD.', priority: 3, critical: false, status: 'active' },
-                 { text: 'Follow-up needed for Osteopenia (low bone density), due around Jan-July 2024.', priority: 4, critical: false, status: 'active' },
-                 { text: 'Cardiovascular monitoring: Home blood pressure monitoring and consider a comprehensive cardiac evaluation.', priority: 5, critical: false, status: 'active' },
-                 { text: 'Assess for Long COVID symptoms, given history of multiple infections.', priority: 6, critical: false, status: 'active' },
-                 { text: 'Evaluate need for a new sleep study, as the last one was in 2011.', priority: 7, critical: false, status: 'active' },
-                 { text: 'Contraindicated Medication: Ibuprofen use was noted as recently as May 2025. This has been discontinued.', priority: 8, critical: true, status: 'resolved' },
-                 { text: 'Initial Nephrology Referral', priority: 9, critical: false, status: 'resolved' }
+                 { text: '<strong>New Neurological Symptom:</strong> Report new "pins and needles" sensation in right foot to doctor for evaluation.', priority: 1, critical: false, status: 'active' },
+                 { text: 'Comprehensive medication review needed for CKD, including dose adjustments for Venlafaxine and re-evaluation of high-dose Trazodone.', priority: 2, critical: false, status: 'active' },
+                 { text: 'Manage side effects of Ciprofloxacin (knee pain) and consider safer antibiotics in the future.', priority: 3, critical: false, status: 'active' },
+                 { text: 'Develop a management plan for new Gout diagnosis, considering CKD.', priority: 4, critical: false, status: 'active' },
+                 { text: 'Follow-up needed for Osteopenia (low bone density), due around Jan-July 2024.', priority: 5, critical: false, status: 'active' },
+                 { text: 'Cardiovascular monitoring: Home blood pressure monitoring and consider a comprehensive cardiac evaluation.', priority: 6, critical: false, status: 'active' },
+                 { text: 'Assess for Long COVID symptoms, given history of multiple infections.', priority: 7, critical: false, status: 'active' },
+                 { text: 'Evaluate need for a new sleep study, as the last one was in 2011.', priority: 8, critical: false, status: 'active' },
+                 { text: 'Contraindicated Medication: Ibuprofen use was noted as recently as May 2025. This has been discontinued.', priority: 9, critical: true, status: 'resolved' },
+                 { text: 'Initial Nephrology Referral', priority: 10, critical: false, status: 'resolved' }
             ];
 
             const activeConcerns = concerns.filter(c => c.status === 'active').sort((a,b) => a.priority - b.priority);
@@ -1279,9 +1300,10 @@ Lifestyle Recommendations:
                 { date: '2025-06-18', type: 'diagnosis', desc: 'Knee Pain Side Effect', details: 'Developed sharp knee pain, identified as a side effect (tendinitis) of the Ciprofloxacin antibiotic.'},
                 { date: '2025-06-25', type: 'visit', desc: 'Colonoscopy Consult', details: 'Met with Dr. Lalla to plan for EGD and colonoscopy to investigate colitis.'},
                 { date: '2025-07-02', type: 'visit', desc: 'Gout Flare in Knee', details: 'Diagnosed with acute gout flare in right knee and prescribed a 5-day course of prednisone.'},
-                { date: '2025-07-10', type: 'emergency', desc: 'New Severe Headache', details: 'Sudden onset of headache with left facial pain and right eye watering after an argument. Urgent ER evaluation required.'}
+                { date: '2025-07-10', type: 'emergency', desc: 'New Severe Headache', details: 'Sudden onset of headache with left facial pain and right eye watering after an argument. Urgent ER evaluation required.'},
+                { date: '2025-07-13', type: 'symptom', desc: 'New Foot Paresthesia', details: 'Reports new onset of "pins and needles" sensation in her right foot upon waking in the mornings. Requires medical evaluation.'},
             ];
-            events.sort((a, b) => new Date(a.date) - new Date(b.date));
+            events.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort descending
 
             const timeline = document.getElementById('timeline-vertical-container');
             const modal = document.getElementById('timeline-modal');
@@ -1315,6 +1337,39 @@ Lifestyle Recommendations:
         }
         
         function populateSuspicions() {
+             const footSuspicions = [
+                {
+                    title: "Medication Side Effect (Peripheral Neuropathy)",
+                    concern: "High Suspicion",
+                    color: "red-600",
+                    reasoning: "She recently finished a course of Metronidazole (Flagyl) in late June 2025. This antibiotic is known to cause peripheral neuropathy ('pins and needles'). The timing makes this a primary suspect."
+                },
+                {
+                    title: "Diabetic or Pre-Diabetic Neuropathy",
+                    concern: "High Suspicion",
+                    color: "red-600",
+                    reasoning: "Her urinalysis on June 17, 2025, showed glucose in her urine, which is abnormal and a significant red flag for undiagnosed diabetes or pre-diabetes. This is one of the most common causes of this type of symptom."
+                },
+                {
+                    title: "Nerve Entrapment / Post-Surgical Complication",
+                    concern: "Moderate Suspicion",
+                    color: "orange-600",
+                    reasoning: "Her right ankle was fractured and repaired with surgery (ORIF) in 2022. It's possible for scar tissue or the surgical hardware itself to compress a nerve (like the tarsal tunnel), causing these sensations."
+                },
+                {
+                    title: "Uremic Neuropathy (from CKD)",
+                    concern: "Moderate Suspicion",
+                    color: "orange-600",
+                    reasoning: "Her Stage 3b Chronic Kidney Disease can lead to a buildup of toxins that damage nerves over time. Worsening kidney function could manifest with new or worsening neurological symptoms."
+                },
+                {
+                    title: "Worsening RLS / PLMD",
+                    concern: "Lower Suspicion",
+                    color: "yellow-600",
+                    reasoning: "While she has a history of Periodic Limb Movements from a 2011 sleep study, RLS symptoms are typically an irresistible urge to move the legs, often occurring at night *before* sleep, rather than a 'pins and needles' sensation *after* sleep."
+                }
+             ];
+
              const bleedingSuspicions = [
                 { 
                     title: 'Diverticulitis or Diverticular Bleeding', 
@@ -1337,22 +1392,8 @@ Lifestyle Recommendations:
                     color: 'orange-600',
                     howItStarts: "With her known Grade III hemorrhoids and constipation, a period of straining could cause them to become severely swollen, inflamed, and bleed.",
                     whatItFeelsLike: "Intense pressure and fullness, feeling like a constant need to have a bowel movement. The bleeding would be bright red, and the loss of control would feel more like leakage because swollen hemorrhoids prevent the sphincter from closing completely."
-                },
-                { 
-                    title: 'Infectious Colitis', 
-                    concern: 'Concerning / Urgent',
-                    color: 'orange-600',
-                    howItStarts: "She could have acquired a bacterial infection (like C. diff) from food or due to a disruption in her normal gut bacteria, potentially from past antibiotic use.",
-                    whatItFeelsLike: "Feeling generally unwell, perhaps with cramping and fever. The diarrhea would be frequent, watery, urgent, and bloody, with loss of control due to severe inflammation."
-                },
-                 { 
-                    title: 'Inflammatory Bowel Disease (IBD) Flare', 
-                    concern: 'Serious / Requires Specialist',
-                    color: 'orange-600',
-                    howItStarts: "Less common to start at her age, but a dormant autoimmune condition like Ulcerative Colitis could be triggered by stress or an infection.",
-                    whatItFeelsLike: "Similar to an infection, with cramping pain and frequent, urgent, bloody diarrhea. A key feature is *tenesmus*—a feeling of constantly needing to pass stools, even when the bowels are empty."
                 }
-            ];
+             ];
 
             const headacheSuspicions = [
                  { 
@@ -1374,37 +1415,27 @@ Lifestyle Recommendations:
                     reasoning: "The jaw clenching and stress from an argument could cause a severe, acute flare of temporomandibular joint (TMJ) disorder, causing pain that radiates from the jaw to the temple and neck.",
                 },
             ]
+            
+            const createSuspicionsHtml = (items) => {
+                return items.map(item => `
+                    <details class="bg-white rounded-lg shadow" ${item.outcome || items.indexOf(item) < 2 ? 'open' : ''}>
+                        <summary class="flex justify-between items-center p-4 cursor-pointer">
+                            <span class="text-xl font-semibold text-gray-800">${item.title}</span>
+                            <span class="text-sm font-bold text-${item.color}">${item.concern}</span>
+                        </summary>
+                        <div class="p-4 border-t border-gray-200">
+                            <h4 class="font-semibold text-gray-700 mb-2">${item.howItStarts ? 'How It Might Start:' : 'Clinical Reasoning:'}</h4>
+                            <p class="text-gray-600 mb-4">${item.howItStarts || item.reasoning}</p>
+                            ${item.whatItFeelsLike ? `<h4 class="font-semibold text-gray-700 mb-2">What It Might Feel Like:</h4><p class="text-gray-600">${item.whatItFeelsLike}</p>`: ''}
+                            ${item.outcome ? `<div class="mt-4 p-3 bg-green-50 border-l-4 border-green-500 rounded-r-lg"><p class="font-semibold text-green-800">Outcome:</p><p class="text-green-700">${item.outcome}</p></div>` : ''}
+                        </div>
+                    </details>
+                `).join('');
+            };
 
-            const bleedingContainer = document.getElementById('suspicions-content');
-            bleedingContainer.innerHTML = bleedingSuspicions.map(item => `
-                <details class="bg-white rounded-lg shadow" ${item.outcome ? 'open' : ''}>
-                    <summary class="flex justify-between items-center p-4 cursor-pointer">
-                        <span class="text-xl font-semibold text-gray-800">${item.title}</span>
-                        <span class="text-sm font-bold text-${item.color}">${item.concern}</span>
-                    </summary>
-                    <div class="p-4 border-t border-gray-200">
-                        <h4 class="font-semibold text-gray-700 mb-2">How It Might Start in Her Case:</h4>
-                        <p class="text-gray-600 mb-4">${item.howItStarts}</p>
-                        <h4 class="font-semibold text-gray-700 mb-2">What It Might Feel Like:</h4>
-                        <p class="text-gray-600">${item.whatItFeelsLike}</p>
-                        ${item.outcome ? `<div class="mt-4 p-3 bg-green-50 border-l-4 border-green-500 rounded-r-lg"><p class="font-semibold text-green-800">Outcome:</p><p class="text-green-700">${item.outcome}</p></div>` : ''}
-                    </div>
-                </details>
-            `).join('');
-
-            const headacheContainer = document.getElementById('headache-suspicions-content');
-            headacheContainer.innerHTML = headacheSuspicions.map(item => `
-                 <details class="bg-white rounded-lg shadow" open>
-                    <summary class="flex justify-between items-center p-4 cursor-pointer">
-                        <span class="text-xl font-semibold text-gray-800">${item.title}</span>
-                        <span class="text-sm font-bold text-${item.color}">${item.concern}</span>
-                    </summary>
-                    <div class="p-4 border-t border-gray-200">
-                        <h4 class="font-semibold text-gray-700 mb-2">Clinical Reasoning:</h4>
-                        <p class="text-gray-600">${item.reasoning}</p>
-                    </div>
-                </details>
-            `).join('');
+            document.getElementById('foot-suspicions-content').innerHTML = createSuspicionsHtml(footSuspicions);
+            document.getElementById('headache-suspicions-content').innerHTML = createSuspicionsHtml(headacheSuspicions);
+            document.getElementById('suspicions-content').innerHTML = createSuspicionsHtml(bleedingSuspicions);
         }
 
 
