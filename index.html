@@ -8,7 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -31,17 +34,37 @@
             width: auto;
         }
         .nav-button {
-            padding: 10px 20px;
+            padding: 10px 12px;
             border-radius: 8px;
             font-weight: 500;
             color: #495057;
             background-color: transparent;
             transition: background-color 0.2s, color 0.2s;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; /* 8px */
         }
         .nav-button.active, .nav-button:hover {
             background-color: #6c757d; 
             color: #ffffff;
+        }
+        /* Style for the icon itself */
+        .nav-icon {
+            font-size: 1.5rem; /* 24px */
+        }
+        /* Hide text label on mobile */
+        .nav-label {
+            display: none;
+        }
+        /* On screens larger than 768px, display the text label */
+        @media (min-width: 768px) {
+            .nav-label {
+                display: inline;
+            }
+            .nav-button {
+                padding: 10px 20px;
+            }
         }
         .sub-nav-button {
              padding: 8px 16px;
@@ -279,7 +302,7 @@
     <div class="main-container">
         <header class="mb-8">
             <div class="flex justify-center items-center gap-4">
-                <img src="734E7D60-B1B5-4037-B7CF-760E0730ADA6.png"alt="Mascot Logo" class="header-logo">
+                <img src="path/to/your/mascot.png" alt="Mascot Logo" class="header-logo">
                 <div class="text-left">
                     <h1 class="text-4xl font-bold text-[#343a40]">Vickie Berry</h1>
                     <p class="text-lg text-gray-600 mt-1">Comprehensive Health Dashboard</p>
@@ -288,13 +311,34 @@
         </header>
 
         <nav class="card flex justify-center flex-wrap gap-2 mb-8">
-            <button class="nav-button active" data-tab="dashboard">Dashboard</button>
-            <button class="nav-button" data-tab="timeline">Timeline</button>
-            <button class="nav-button" data-tab="suspicions">Clinical Suspicions</button>
-            <button class="nav-button" data-tab="healthRecord">Health Record</button>
-            <button class="nav-button" data-tab="labTrends">Lab & Metric Trends</button>
-            <button class="nav-button" data-tab="carePlan">Care Plan & Lifestyle</button>
-            <button class="nav-button" data-tab="tools">Log & Tools</button>
+            <button class="nav-button active" data-tab="dashboard">
+                <span class="material-symbols-outlined nav-icon">dashboard</span>
+                <span class="nav-label">Dashboard</span>
+            </button>
+            <button class="nav-button" data-tab="timeline">
+                <span class="material-symbols-outlined nav-icon">timeline</span>
+                <span class="nav-label">Timeline</span>
+            </button>
+            <button class="nav-button" data-tab="suspicions">
+                <span class="material-symbols-outlined nav-icon">clinical_notes</span>
+                <span class="nav-label">Clinical Suspicions</span>
+            </button>
+            <button class="nav-button" data-tab="healthRecord">
+                <span class="material-symbols-outlined nav-icon">medical_information</span>
+                <span class="nav-label">Health Record</span>
+            </button>
+            <button class="nav-button" data-tab="labTrends">
+                <span class="material-symbols-outlined nav-icon">ssid_chart</span>
+                <span class="nav-label">Lab & Metric Trends</span>
+            </button>
+            <button class="nav-button" data-tab="carePlan">
+                <span class="material-symbols-outlined nav-icon">list_alt</span>
+                <span class="nav-label">Care Plan & Lifestyle</span>
+            </button>
+            <button class="nav-button" data-tab="tools">
+                <span class="material-symbols-outlined nav-icon">construction</span>
+                <span class="nav-label">Log & Tools</span>
+            </button>
         </nav>
 
         <main>
@@ -888,13 +932,6 @@ Lifestyle Recommendations:
             button.disabled = true;
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
             
-            // NOTE: The API key is intentionally left blank here.
-            // The call is made to a serverless function '/api/call_gemini'
-            // which securely handles the API key on the backend.
-            // The 500 error means the SERVERLESS FUNCTION is failing.
-            // This is almost certainly because the `GEMINI_API_KEY` environment
-            // variable is not set in your hosting environment (e.g., Vercel, Netlify).
-            
             try {
                 const response = await fetch('/api/call_gemini', {
                     method: 'POST',
@@ -903,12 +940,7 @@ Lifestyle Recommendations:
                 });
 
                 if (!response.ok) {
-                    // FIX: Improved error handling for non-JSON responses
-                    // The 'SyntaxError' you see in the console is because this part of the
-                    // code expects a JSON error response, but a 500 error from Vercel
-                    // sends back a generic HTML error page, which cannot be parsed as JSON.
                      const errorData = await response.json().catch(() => {
-                        // Create a more helpful error message if the response isn't JSON
                         throw new Error(`Server returned a ${response.status} error. Check the serverless function logs in Vercel. Is the GEMINI_API_KEY environment variable set correctly and has the project been redeployed?`);
                      });
                     throw new Error(`API Error: ${response.status} ${response.statusText} - ${errorData.error}`);
@@ -1191,8 +1223,8 @@ Lifestyle Recommendations:
                 const bpSystolic = document.getElementById('logBPSystolic').value;
                 const bpDiastolic = document.getElementById('logBPDiastolic').value;
 
+                // FIX: Removed the alert. Now it just returns silently if fields are empty.
                 if (!dateTime || (!desc && !bpSystolic)) {
-                    alert('Please provide at least a date and either a symptom or a BP reading.');
                     return;
                 }
                 
