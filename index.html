@@ -915,13 +915,15 @@ Lifestyle Recommendations:
             const nav = document.getElementById(navContainer) || document.querySelector(navContainer);
             if (!nav) return;
             
-            nav.addEventListener('click', (e) => {
-                if (!e.target.matches(`.${buttonClass}`)) return;
+            nav.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Prevents ghost clicks
+                if (!e.target.closest(`.${buttonClass}`)) return;
 
-                const tabId = e.target.dataset.tab || e.target.dataset.subtab;
+                const button = e.target.closest(`.${buttonClass}`);
+                const tabId = button.dataset.tab || button.dataset.subtab;
                 
                 nav.querySelectorAll(`.${buttonClass}`).forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
+                button.classList.add('active');
 
                 document.querySelectorAll(`.${contentClass}`).forEach(content => {
                     content.classList.remove('active');
@@ -1224,7 +1226,8 @@ Lifestyle Recommendations:
         function setupTools() {
             // Unified Log
             const logButton = document.getElementById('logEntryButton');
-            logButton.addEventListener('click', () => {
+            logButton.addEventListener('touchstart', (e) => {
+                e.preventDefault();
                 const dateTime = document.getElementById('logDate').value;
                 const pain = document.getElementById('logPainScale').value;
                 const desc = document.getElementById('logDescription').value;
@@ -1232,7 +1235,6 @@ Lifestyle Recommendations:
                 const bpSystolic = document.getElementById('logBPSystolic').value;
                 const bpDiastolic = document.getElementById('logBPDiastolic').value;
 
-                // FIX: Removed the alert. Now it just returns silently if fields are empty.
                 if (!dateTime || (!desc && !bpSystolic)) {
                     return;
                 }
@@ -1256,7 +1258,8 @@ Lifestyle Recommendations:
 
             // AI Query Tool
             const askButton = document.getElementById('askButton');
-            askButton.addEventListener('click', async () => {
+            askButton.addEventListener('touchstart', async (e) => {
+                e.preventDefault();
                 const query = document.getElementById('queryInput').value;
                 if (!query) return;
 
@@ -1273,7 +1276,8 @@ Lifestyle Recommendations:
             
             // Suggest Questions
             const suggestButton = document.getElementById('suggestConcernQuestionsBtn');
-            suggestButton.addEventListener('click', async () => {
+            suggestButton.addEventListener('touchstart', async (e) => {
+                e.preventDefault();
                 const concernsText = extractSection('3. Critical Oversights and Immediate Action Plan', '4. Medication Management');
                 const prompt = `Based on these primary health concerns for a 71-year-old female patient, generate 3-5 clear, simple, and actionable questions she could ask her doctor at her next appointment. Format the response as a simple list. Concerns:\n${concernsText}`;
                 
@@ -1363,7 +1367,8 @@ Lifestyle Recommendations:
                 `;
             }).join('');
             
-            timeline.addEventListener('click', e => {
+            timeline.addEventListener('touchstart', e => {
+                e.preventDefault();
                 const eventElement = e.target.closest('.timeline-vertical-content');
                 if (eventElement) {
                     const event = events[eventElement.dataset.index];
@@ -1373,8 +1378,17 @@ Lifestyle Recommendations:
                     modal.style.display = 'block';
                 }
             });
-            modalClose.onclick = () => { modal.style.display = 'none'; };
-            window.onclick = (e) => { if (e.target == modal) { modal.style.display = 'none'; } };
+
+            modalClose.addEventListener('touchstart', e => {
+                e.preventDefault();
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('touchstart', e => {
+                if (e.target == modal) {
+                    modal.style.display = 'none';
+                }
+            });
         }
         
         function populateSuspicions() {
@@ -1526,7 +1540,8 @@ Lifestyle Recommendations:
         });
 
         // This function is a placeholder for a more complex "go to result" functionality
-        searchResultsContainer.addEventListener('click', (e) => {
+        searchResultsContainer.addEventListener('touchstart', (e) => {
+            e.preventDefault();
             const item = e.target.closest('.search-result-item');
             if (item) {
                 alert("Navigating to search results is a planned feature. For now, you can see the context of your search here.");
@@ -1536,7 +1551,7 @@ Lifestyle Recommendations:
         });
 
         // Hide results when clicking outside
-        document.addEventListener('click', (e) => {
+        document.addEventListener('touchstart', (e) => {
             if (!searchInput.contains(e.target) && !searchResultsContainer.contains(e.target)) {
                 searchResultsContainer.classList.add('hidden');
             }
