@@ -308,6 +308,15 @@
                     <p class="text-lg text-gray-600 mt-1">Comprehensive Health Dashboard</p>
                 </div>
             </div>
+            <div class="mt-4 max-w-2xl mx-auto">
+                <div class="relative">
+                    <input type="search" id="appSearchInput" placeholder="Search patient record..." class="w-full p-3 pl-10 border border-gray-300 rounded-full">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                </div>
+                <div id="searchResultsContainer" class="hidden absolute bg-white border border-gray-200 rounded-lg mt-1 w-full max-h-80 overflow-y-auto z-50"></div>
+            </div>
         </header>
 
         <nav class="card flex justify-center flex-wrap gap-2 mb-8">
@@ -1444,7 +1453,7 @@ Lifestyle Recommendations:
                     title: 'Acute TMJ Disorder', 
                     concern: 'Possible / Less Dangerous',
                     color: 'orange-600',
-                    reasoning: "The jaw clenching and stress from an argument could cause a severe, acute flare of temporomandibular joint (TMJ) disorder, causing pain that radiates from the jaw to the temple and neck.",
+                    reasoning: "The jaw clenching and stress from an argument could cause a severe, acute flare of temporomandibular joint (TMJ) disorder, causing pain that radiates from the jaw to the neck.",
                 },
             ]
             
@@ -1468,6 +1477,78 @@ Lifestyle Recommendations:
             document.getElementById('foot-suspicions-content').innerHTML = createSuspicionsHtml(footSuspicions);
             document.getElementById('headache-suspicions-content').innerHTML = createSuspicionsHtml(headacheSuspicions);
             document.getElementById('suspicions-content').innerHTML = createSuspicionsHtml(bleedingSuspicions);
+        }
+        
+        // --- APPLICATION-WIDE SEARCH ---
+        const searchInput = document.getElementById('appSearchInput');
+        const searchResultsContainer = document.getElementById('searchResultsContainer');
+        const mainContentElement = document.querySelector('main');
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.trim();
+            if (query.length < 3) {
+                searchResultsContainer.innerHTML = '';
+                searchResultsContainer.classList.add('hidden');
+                removeHighlights();
+                return;
+            }
+
+            const reportData = document.getElementById('healthReportDataContainer').textContent;
+            const regex = new RegExp(query, 'gi');
+            const results = [];
+            
+            let match;
+            while ((match = regex.exec(reportData)) !== null) {
+                const startIndex = Math.max(0, match.index - 50);
+                const endIndex = Math.min(reportData.length, match.index + query.length + 50);
+                let snippet = reportData.substring(startIndex, endIndex);
+
+                // Highlight the match in the snippet
+                snippet = snippet.replace(regex, `<mark>${match[0]}</mark>`);
+
+                results.push({
+                    text: `...${snippet}...`,
+                    index: match.index
+                });
+            }
+
+            if (results.length > 0) {
+                searchResultsContainer.innerHTML = results.map(res => 
+                    `<div class="p-3 border-b hover:bg-gray-100 cursor-pointer search-result-item" data-index="${res.index}">
+                        ${res.text}
+                    </div>`
+                ).join('');
+                searchResultsContainer.classList.remove('hidden');
+            } else {
+                searchResultsContainer.innerHTML = '<div class="p-3 text-gray-500">No results found.</div>';
+                searchResultsContainer.classList.remove('hidden');
+            }
+        });
+
+        // This function is a placeholder for a more complex "go to result" functionality
+        searchResultsContainer.addEventListener('click', (e) => {
+            const item = e.target.closest('.search-result-item');
+            if (item) {
+                alert("Navigating to search results is a planned feature. For now, you can see the context of your search here.");
+                // In a future version, you could implement logic to find the tab/section 
+                // containing this text and navigate to it.
+            }
+        });
+
+        // Hide results when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !searchResultsContainer.contains(e.target)) {
+                searchResultsContainer.classList.add('hidden');
+            }
+        });
+
+        function removeHighlights() {
+            const marks = document.querySelectorAll('mark');
+            marks.forEach(mark => {
+                const parent = mark.parentNode;
+                parent.replaceChild(document.createTextNode(mark.textContent), mark);
+                parent.normalize(); // Merges adjacent text nodes
+            });
         }
 
 
