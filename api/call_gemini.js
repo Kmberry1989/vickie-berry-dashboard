@@ -1,5 +1,10 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
+// Check for the API key and throw a clear error if it's missing.
+if (!process.env.GEMINI_API_KEY) {
+  throw new Error('The GEMINI_API_KEY environment variable is not set. Please set it in your hosting environment.');
+}
+
 // Assumes the API key is set as an environment variable
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -24,6 +29,10 @@ module.exports = async (req, res) => {
 
   } catch (error) {
     console.error('Error calling Generative AI API:', error);
-    res.status(500).json({ error: 'Failed to call Generative AI API', details: error.message });
+    // Send a more specific error message back to the client.
+    res.status(500).json({
+        error: 'Failed to call Generative AI API',
+        details: error.message
+    });
   }
 };
