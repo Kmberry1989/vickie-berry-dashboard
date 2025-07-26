@@ -901,6 +901,7 @@ Lifestyle Recommendations:
 * **Sleep Study:** Done Nov 08, 2011. Care plan noted missing; this finding is old but available. Current symptoms may warrant new study.
 
 ### Key Laboratory Findings
+* **Immunofixation, Serum (Jul 23, 2025):** Normal levels of IgG (951), IgA (217), and IgM (69).
 * **ESR (Jul 23, 2025):** 35 mm/hr (High, Normal 0-15). Indicates inflammation.
 * **Vitamin B12 (Jul 23, 2025):** 746 pg/mL (Normal).
 * **Stool Culture (Jul 01, 2025):** Negative for Salmonella, Shigella, Campylobacter.
@@ -1120,7 +1121,7 @@ Lifestyle Recommendations:
                 gfr: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:e?GFR Non-AA|GFR)\s(?:was\s)?(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), creatinine: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Creatinine)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})),
                 bun: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:BUN)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), wbc: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:WBC)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})),
                 hemoglobin: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Hgb|Hemoglobin)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), platelets: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Platelets)\s(\d+)/g, m => ({y: parseInt(m[2])})),
-                esr: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4})(?:.*?)(?:ESR)\D+(\d+)/g, m => ({y: parseInt(m[2])}))
+                esr: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4})(?:.*?)(?:ESR|ERYTHR. SED RATE)\D+(\d+)/g, m => ({y: parseInt(m[2])}))
             };
             const allDates = [...new Set(Object.values(allData).flat().map(d => d.x.getTime()))].sort((a,b) => b-a);
             const tableView = document.getElementById('table-view');
@@ -1140,7 +1141,7 @@ Lifestyle Recommendations:
             createTrendChart('wbcTrendChart', 'WBC', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:WBC)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), '#10b981', '#a7f3d0', 'x10³/mcL');
             createTrendChart('hemoglobinTrendChart', 'Hemoglobin', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Hgb|Hemoglobin)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), '#d946ef', '#f5d0fe', 'g/dL');
             createTrendChart('plateletTrendChart', 'Platelets', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Platelets)\s(\d+)/g, m => ({y: parseInt(m[2])})), '#6366f1', '#c7d2fe', 'x10³/mcL');
-            createTrendChart('esrTrendChart', 'ESR', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4})(?:.*?)(?:ESR)\D+(\d+)/g, m => ({y: parseInt(m[2])})), '#78716c', '#d6d3d1', 'mm/hr');
+            createTrendChart('esrTrendChart', 'ESR', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4})(?:.*?)(?:ESR|ERYTHR. SED RATE)\D+(\d+)/g, m => ({y: parseInt(m[2])})), '#78716c', '#d6d3d1', 'mm/hr');
         }
 
         // --- INTERACTIVE TOOLS ---
@@ -1206,7 +1207,7 @@ Lifestyle Recommendations:
                 { date: '2025-05-09', type: 'emergency', desc: 'Knee Pain', details: 'ER visit for right knee pain. Diagnosed with moderate degenerative joint disease (arthritis).' }, { date: '2025-06-17', type: 'emergency', desc: 'Acute Colitis/Diverticulitis & UTI', details: 'ER visit for rectal bleeding. CT confirmed colitis. Urine culture confirmed UTI. Discharged on Ciprofloxacin and Flagyl.'},
                 { date: '2025-07-02', type: 'visit', desc: 'Gout Flare in Knee', details: 'Diagnosed with acute gout flare in right knee and prescribed a 5-day course of prednisone.'},
                 { date: '2025-07-23', type: 'visit', desc: 'New Severe Headache - Urgent Consult', details: 'Visit with Dr. Cheng Du for new onset severe headache and facial pain. Urgent neuroimaging (CTAs and MRI) ordered.'},
-                { date: '2025-07-24', type: 'diagnosis', desc: 'Lab Results Received', details: 'Stool culture from July 1 was negative for common infections. ESR from July 23 was high, indicating inflammation.'},
+                { date: '2025-07-25', type: 'diagnosis', desc: 'Lab Results Received', details: 'Stool culture from July 1 was negative. Immunofixation test was normal. ESR from July 23 was high, indicating inflammation.'},
             ];
             events.sort((a, b) => new Date(b.date) - new Date(a.date));
             const timeline = document.getElementById('timeline-vertical-container'), modal = document.getElementById('timeline-modal'), modalClose = document.querySelector('.timeline-modal-close');
@@ -1282,3 +1283,4 @@ Lifestyle Recommendations:
     </script>
 </body>
 </html>
+
