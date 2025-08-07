@@ -1,0 +1,20 @@
+<html class="no-js" lang="en"><head><meta charset="utf-8"><title>Quick Pay</title><link rel="stylesheet" type="text/css" href="../styles/standard-vx8yL6Fs3-ffa6e2a7042b.css" media="screen, projection, print"><!--[if lt IE 9]><script type="text/javascript" src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--><script type="text/javascript" src="../scripts/djangojs.d346a9ff2a0b.js"></script><script type="text/javascript">var gStaticUrl="https://dpfzcqrxx682t.cloudfront.net/s/billpay/";</script><script type="text/javascript" src="../scripts/modernizr.js"></script><script type="text/javascript" src="../scripts/xdomain_modernizr.js"></script></head><body><div class="alert-message content warning-msg cors-alert"><!-- noscript tag is not used since it does not work for Opera 11--><span class="noscript"><strong>Warning! </strong>JavaScript must be enabled for this website to function correctly. Enable JavaScript in your browser settings.
+      
+    </span></div><header><div class="container"><h1><a href="../html/quickpay.html">
+      
+        Parkview Logansport Hospital Bill Pay
+      
+    </a></h1></div></header><section><div class="container page-content"><div class="grid"><div class="col11"><h1>Quick Pay</h1><p class="instruction">Quick Pay provides convenient viewing and payment for all of your accounts at Parkview Logansport Hospital Bill Pay. To get started, enter the last name and date of birth of the person to whom the bill was sent, along with the access code provided on the bill, in the spaces below.</p><script src="../scripts/api.js"></script><form action="/quickpay" method="POST"><input type="hidden" value="G0jsGcIBAV9LB2IW4r9nAIHxJpuq6fAM" name="csrfmiddlewaretoken"><fieldset><div class="field" id="field_last_name"><label for="last_name">Last name of bill recipient</label><div class="input"><input autocomplete="off" id="last_name" type="text" name="last_name" maxlength="40"></div></div><div class="field" id="field_date_of_birth"><label for="date_of_birth">Date of birth of bill recipient</label><div class="input"><input autocomplete="off" id="date_of_birth" type="text" class="axiom-datepicker" name="date_of_birth"><span class="help-text">ex. mm/dd/yyyy</span></div></div><div class="field" id="field_access_code"><label for="access_code">Access code</label><div class="input"><input autocomplete="off" id="access_code" type="text" name="access_code" maxlength="40"></div></div></fieldset><fieldset class="cage"><button type="submit" class="action double"><span>See Accounts</span><span>Next Step</span></button></fieldset></form></div></div></div></section><footer><ul class="container"><li><a href="../html/www.cerner.com.html">© 2013 Cerner Corporation</a></li><li>Contact support at <span class="tel"><a href="../html/tel:.html"></a></span></li><li><a href="../html/quickpay.html">Mobile</a></li></ul></footer><script src="../scripts/jquery.min.js"></script><script src="../scripts/jquery-ui.min.js"></script><script type="text/javascript" src="../scripts/standard.45b72ae05e7f.js" charset="utf-8"></script><script type="text/javascript">
+/*<![CDATA[*/
+
+$(document).ready(function(){
+ $(".axiom-datepicker").axiomDatepicker({maxDate:0});
+ 
+  var elem = $('#err_access_code').length ? $('#err_access_code') : $('#access_code');
+  elem.infoBox({html: '<h1>Where is my Access Code?</h1><p>Your access code is on your billing statement.</p>', position: 'right', icon_text: 'Where is my Access Code?', width: 200, add_icon: true});
+ 
+});
+
+
+/*]]>*/
+</script></body></html>
