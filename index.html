@@ -773,8 +773,10 @@ Lifestyle Recommendations:
 ### Social and Personal Factors
 * Married (Spouse: Don Berry, Contact: (574) 721-6943) 
 * Children: Kyle Berry (Son, (574) 721-1666), Kristen Berry/Calisto (Daughter, (317) 601-1501)
+* Parents: Mother (Deceased), Phillip Dean Greer (Father, Deceased)
+* Maternal Grandfather: Arthur Bernhardt (Deceased)
 * **Environmental History:** Long-term (4+ years) exposure to a hazardous indoor environment due to a dryer venting directly into the home's crawlspace, leading to massive lint accumulation and significant mold growth. This is a primary suspect for chronic inflammation and immune dysregulation.
-* Family History: Congestive Heart Failure (Mother), Hypertension (Mother, Father).
+* Family History: Congestive Heart Failure (Mother), Hypertension (Mother), Myocardial Infarction (Father - deceased at age 47), Colon Cancer (Maternal Grandfather).
 * Religion: Methodist; Race: White; Ethnic Group: Not Hispanic or Latino; Language: English
 * Tobacco Use: Never Smoker; Alcohol Consumption: None; Caffeine Consumption: Moderate
 * Diet: Vegetarian; Employment: Retired
@@ -792,8 +794,8 @@ Lifestyle Recommendations:
    * Depression with Anxiety (Mar 2016)
    * Grief Reaction (noted Apr 2023)
    * Iron Deficiency Anemia (Sept 2020)
-   * History of CVA (Stroke) without residual deficits (2016)
-   * Cerebral Aneurysm(s) (Identified Mar 2016, referral noted)
+   * History of CVA (Stroke) without residual deficits (March 2016)
+   * Cerebral Aneurysms (Discrepancy in record: 2 saccular aneurysms identified on CTA March 2016; CTA July 2022 reported no obvious aneurysm. Requires clarification.)
    * Asymptomatic Stenosis of Intracranial Artery (Aug 2022)
    * Carotid Artery Stenosis (Left ICA 50-69% as of Sept 2023)
    * GERD without esophagitis (Mar 2021)
@@ -1028,6 +1030,7 @@ Lifestyle Recommendations:
             document.getElementById('dashboardDiagnoses').innerHTML = keyDiagnoses.map(d => `<div class="p-2 bg-gray-100 rounded">${d}</div>`).join('');
 
             const concerns = [
+                 { text: '<strong>URGENT MEDICAL DISCREPANCY:</strong> A 2016 CTA reported two cerebral aneurysms, but a 2022 CTA reported none. This requires immediate clarification. The new severe, shock-like facial pain makes this the top priority.', priority: -2, critical: true, status: 'active' },
                  { text: '<strong>CRITICAL ENVIRONMENTAL HAZARD:</strong> Chronic exposure to mold and lint in crawlspace from improper dryer vent is a likely driver of systemic inflammation (high ESR) and must be professionally remediated immediately. All doctors must be informed.', priority: -1, critical: true, status: 'active' },
                  { text: '<strong>MEDICAL EMERGENCY:</strong> Immediate follow-up on **urgent neuroimaging** (CT Angio Head/Neck, MRI Brain) ordered on 7/23/25 for new-onset severe, shock-like facial pain to rule out a vascular event or nerve condition.', priority: 0, critical: true, status: 'active' },
                  { text: '<strong>New Neurological Symptom:</strong> Report new "pins and needles" sensation in right foot to doctor for evaluation. Could be related to recent medications (Metronidazole), kidney disease, or diabetes.', priority: 1, critical: false, status: 'active' },
@@ -1206,14 +1209,14 @@ Lifestyle Recommendations:
         function populateTimeline() {
              const events = [
                 { date: '2011-11-08', type: 'procedure', desc: 'First Sleep Study (Polysomnography)', details: 'Showed no significant obstructive sleep apnea but did reveal periodic limb movements and a complete absence of deep sleep.'},
-                { date: '2016-03-17', type: 'emergency', desc: 'Hospitalization for Stroke (CVA)', details: 'Admitted to Parkview Health for a stroke/TIA. Treated with TPA.' },
+                { date: '2016-03-17', type: 'emergency', desc: 'Hospitalization for Stroke (CVA)', details: 'Admitted to Parkview Health for a stroke/TIA. Treated with TPA. CTA Head on this date identified two saccular aneurysms (4x3mm and 3x2mm).' },
                 { date: '2020-08-27', type: 'imaging', desc: 'Echocardiogram', details: 'Normal LV systolic function, EF 60-65%, mildly calcified aortic valve.' },
                 { date: '2021-04-06', type: 'procedure', desc: 'Hemorrhoid Banding', details: 'First of two rubber band ligation procedures for hemorrhoids.'},
                 { date: '2021-06-12', type: 'emergency', desc: 'Suspected COVID-19 Infection', details: 'Visit for cough, loss of smell and taste. This likely marks her first COVID infection.' },
                 { date: '2022-03-08', type: 'diagnosis', desc: 'Urinary Tract Infection', details: 'Diagnosed and treated for a UTI with Bactrim and Pyridium.' },
                 { date: '2022-04-11', type: 'emergency', desc: 'Ankle/Foot Fracture', details: 'ER visit after fall. Diagnosed with fractures of right ankle and foot.' },
                 { date: '2022-04-19', type: 'procedure', desc: 'Ankle Surgery (ORIF)', details: 'Open reduction and internal fixation of right ankle and foot fractures.' },
-                { date: '2022-07-20', type: 'diagnosis', desc: 'Osteopenia Diagnosis', details: 'Bone Density (DEXA) scan confirmed low bone mass, a precursor to osteoporosis.'},
+                { date: '2022-07-20', type: 'diagnosis', desc: 'Osteopenia Diagnosis & Aneurysm Discrepancy', details: 'Bone Density (DEXA) scan confirmed low bone mass. A CTA Head on this date reported "No obvious intracranial aneurysm," which contradicts the 2016 report.'},
                 { date: '2023-04-05', type: 'visit', desc: 'Grief Reaction Noted', details: 'Follow-up visit discussing recent death of both parents.'},
                 { date: '2023-09-18', type: 'imaging', desc: 'Carotid Stenosis Worsens', details: 'Ultrasound shows left carotid artery stenosis increased to a moderate 50-69% blockage.' },
                 { date: '2024-04-29', type: 'visit', desc: 'Chronic Cough Evaluation', details: 'Lisinopril suspected as cause of a year-long cough; switched to Olmesartan.'},
