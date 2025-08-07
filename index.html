@@ -510,12 +510,14 @@
                     </div>
                     <div id="table-view" style="display:none;">
                         </div>
-                    <details class="mt-6">
+                    <details class="mt-6" id="lab-explanations-container">
                         <summary class="font-semibold cursor-pointer text-gray-700">Understanding These Lab Results</summary>
-                        <div id="lab-explanations" class="mt-2 p-4 bg-gray-100 rounded-lg text-sm text-gray-600 space-y-3">
-                           </div>
+                        <div class="mt-2 p-4 bg-gray-100 rounded-lg text-sm text-gray-600 space-y-3">
+                            <div id="lab-explanations"></div>
+                            <button id="readLabExplanationsBtn" class="read-aloud-btn mt-2" aria-label="Read lab result explanations">🔊</button>
+                        </div>
                     </details>
-                 </div>
+                </div>
             </div>
 
             <div id="carePlan" class="tab-content">
@@ -960,6 +962,19 @@ Lifestyle Recommendations:
             speechSynthesis.speak(utterance);
         }
 
+        function addTTSAttributes() {
+            document.querySelectorAll('.grocery-item').forEach(item => {
+                const name = item.querySelector('.grocery-item-name');
+                if (name) item.setAttribute('data-tts', name.textContent.trim());
+            });
+            document.querySelectorAll('#table-view td').forEach(td => {
+                td.setAttribute('data-tts', td.textContent.trim());
+            });
+            document.querySelectorAll('#logDisplay div').forEach(entry => {
+                entry.setAttribute('data-tts', entry.textContent.trim());
+            });
+        }
+
         function setupReadAloudListeners() {
             document.getElementById('readConcernsBtn').addEventListener('click', () => readText(document.getElementById('dashboardConcerns').textContent));
             document.getElementById('readDiagnosesBtn').addEventListener('click', () => readText(`Key Diagnoses: ${[...document.getElementById('dashboardDiagnoses').children].map(el => el.textContent).join(', ')}`));
@@ -968,6 +983,11 @@ Lifestyle Recommendations:
             document.getElementById('readSuggestedQuestionsBtn').addEventListener('click', () => readText(`Suggested Questions: ${document.getElementById('suggestedQuestionsContent').textContent}`));
             document.getElementById('readAnswerBtn').addEventListener('click', () => readText(`AI Assistant Answer: ${document.getElementById('answerContent').textContent}`));
             document.getElementById('readModalBtn').addEventListener('click', () => readText(`${document.getElementById('modal-title').textContent}. ${document.getElementById('modal-date').textContent}. ${document.getElementById('modal-details').textContent}`));
+            document.getElementById('readLabExplanationsBtn').addEventListener('click', () => readText(document.getElementById('lab-explanations').textContent));
+            document.addEventListener('click', e => {
+                const target = e.target.closest('[data-tts]');
+                if (target) readText(target.getAttribute('data-tts'));
+            });
         }
 
 
@@ -1126,6 +1146,20 @@ Lifestyle Recommendations:
             createdCharts[canvasId] = new Chart(ctx, { type: 'line', data: { datasets: [{ label: label, data: data, borderColor: borderColor, backgroundColor: backgroundColor, borderWidth: 2, pointBackgroundColor: borderColor, pointRadius: 4, pointHoverRadius: 6, tension: 0.1, fill: false }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { type: 'time', time: { unit: 'year' }, grid: { display: false } }, y: { beginAtZero: yAxisBeginAtZero, ticks: { callback: (value) => value + ` ${unit}` } } }, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (context) => `${context.dataset.label}: ${context.parsed.y} ${unit}` } } } } });
         }
         
+        function populateLabExplanations() {
+            const explanations = [
+                { name: 'GFR', text: 'Estimated glomerular filtration rate. Lower values indicate reduced kidney function.' },
+                { name: 'Creatinine', text: 'Waste product filtered by the kidneys. High levels may signal impaired kidney function.' },
+                { name: 'BUN', text: 'Blood urea nitrogen. Elevated numbers can suggest dehydration or kidney issues.' },
+                { name: 'WBC', text: 'White blood cell count. Higher values may indicate infection or inflammation.' },
+                { name: 'Hemoglobin', text: 'Protein in red blood cells that carries oxygen. Low levels may mean anemia.' },
+                { name: 'Platelets', text: 'Cells that help blood clot. Abnormal levels can affect bleeding or clotting.' },
+                { name: 'ESR', text: 'Erythrocyte sedimentation rate. A nonspecific marker of inflammation.' }
+            ];
+            const container = document.getElementById('lab-explanations');
+            container.innerHTML = explanations.map(e => `<p data-tts="${e.name}: ${e.text}"><strong>${e.name}:</strong> ${e.text}</p>`).join('');
+        }
+
         function populateLabTables() {
              const allData = {
                 gfr: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:e?GFR Non-AA|GFR)\s(?:was\s)?(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), creatinine: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Creatinine)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})),
@@ -1139,9 +1173,19 @@ Lifestyle Recommendations:
             allDates.forEach(time => {
                 const date = new Date(time);
                 const find = (data, d) => data.find(p => p.x.getTime() === d.getTime());
-                tableHTML += `<tr class="bg-white border-b"><td class="py-4 px-6">${date.toLocaleDateString()}</td><td class="py-4 px-6">${find(allData.gfr, date)?.y || 'N/A'}</td><td class="py-4 px-6">${find(allData.creatinine, date)?.y || 'N/A'}</td><td class="py-4 px-6">${find(allData.bun, date)?.y || 'N/A'}</td><td class="py-4 px-6">${find(allData.wbc, date)?.y || 'N/A'}</td><td class="py-4 px-6">${find(allData.hemoglobin, date)?.y || 'N/A'}</td><td class="py-4 px-6">${find(allData.platelets, date)?.y || 'N/A'}</td><td class="py-4 px-6">${find(allData.esr, date)?.y || 'N/A'}</td></tr>`;
+                const rowData = {
+                    gfr: find(allData.gfr, date)?.y || 'N/A',
+                    creatinine: find(allData.creatinine, date)?.y || 'N/A',
+                    bun: find(allData.bun, date)?.y || 'N/A',
+                    wbc: find(allData.wbc, date)?.y || 'N/A',
+                    hemoglobin: find(allData.hemoglobin, date)?.y || 'N/A',
+                    platelets: find(allData.platelets, date)?.y || 'N/A',
+                    esr: find(allData.esr, date)?.y || 'N/A'
+                };
+                tableHTML += `<tr class="bg-white border-b"><td class="py-4 px-6" data-tts="${date.toLocaleDateString()}">${date.toLocaleDateString()}</td><td class="py-4 px-6" data-tts="${rowData.gfr}">${rowData.gfr}</td><td class="py-4 px-6" data-tts="${rowData.creatinine}">${rowData.creatinine}</td><td class="py-4 px-6" data-tts="${rowData.bun}">${rowData.bun}</td><td class="py-4 px-6" data-tts="${rowData.wbc}">${rowData.wbc}</td><td class="py-4 px-6" data-tts="${rowData.hemoglobin}">${rowData.hemoglobin}</td><td class="py-4 px-6" data-tts="${rowData.platelets}">${rowData.platelets}</td><td class="py-4 px-6" data-tts="${rowData.esr}">${rowData.esr}</td></tr>`;
             });
             tableView.innerHTML = tableHTML + `</tbody></table>`;
+            addTTSAttributes();
         }
 
         function populateCharts() {
@@ -1203,6 +1247,7 @@ Lifestyle Recommendations:
                 if (entry.notes) content += `<p class="text-sm text-gray-500 mt-1 pl-2 border-l-2 border-gray-300">${entry.notes}</p>`;
                 return `<div class="p-3 border-b border-gray-200 last:border-b-0"><p class="text-xs text-gray-500 mb-1">${formattedDate} at ${formattedTime}</p>${content}</div>`;
             }).join('');
+            addTTSAttributes();
         }
         
         function populateTimeline() {
@@ -1287,6 +1332,7 @@ Lifestyle Recommendations:
             populateCarePlan();
             populateCharts();
             populateLabTables();
+            populateLabExplanations();
             setupTools();
             populateTimeline();
             populateSuspicions();
