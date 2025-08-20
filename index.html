@@ -505,7 +505,7 @@
                         <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">BUN Trend</h5><canvas id="bunTrendChart"></canvas></div>
                         <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">WBC Trend</h5><canvas id="wbcTrendChart"></canvas></div>
                         <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">Hemoglobin Trend</h5><canvas id="hemoglobinTrendChart"></canvas></div>
-                        <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">Platelet Count Trend</h5><canvas id="plateletTrendChart"></canvas></div>
+                        <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">Platelet Count</h5><canvas id="plateletTrendChart"></canvas></div>
                          <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">ESR Trend</h5><canvas id="esrTrendChart"></canvas></div>
                     </div>
                     <div id="table-view" style="display:none;">
@@ -800,7 +800,7 @@ Lifestyle Recommendations:
    * History of CVA (Stroke) without residual deficits (March 2016)
    * Cerebral Aneurysms (Discrepancy in record: 2 saccular aneurysms identified on CTA March 2016; CTA July 2022 reported no obvious aneurysm. Requires clarification.)
    * Asymptomatic Stenosis of Intracranial Artery (Aug 2022)
-   * Carotid Artery Stenosis (Left ICA 50-69% as of Sept 2023)
+   * Carotid Artery Stenosis (Left ICA 50-69% as of Sept 2023; **NEW: 70% as of Aug 20, 2025**)
    * GERD without esophagitis (Mar 2021)
    * Grade III Hemorrhoids (Apr 2021)
    * History of Basal Cell Carcinoma (on back and lip, treated prior to 2023)
@@ -817,6 +817,7 @@ Lifestyle Recommendations:
    * Chronic Cough (noted Apr 2024)
    * New onset headache/facial pain (July 2025) - Described as an intermittent, shock-like pain from the left temple to the throat. Has occurred 3 times. Requires urgent evaluation.
    * Paresthesia in right foot (pins and needles) (July 2025) - requires evaluation
+   * Acute Sinusitis (suspected, Aug 20, 2025)
 
 ### Medication Regimen
 *(Focus on current user-provided list, cross-referenced with care plan advice. Full historical list is extensive and available in "Full Report" tab)*
@@ -848,6 +849,7 @@ Lifestyle Recommendations:
 * Novel Influenza-H1N1-09: Jan 29, 2010.
 
 ### Procedures & Significant Surgical/Medical History (Selected)
+* **NEW: CT Angiogram Head/Neck: August 20, 2025 (Revealed severe 70% stenosis of the left internal carotid artery).**
 * Cataract Surgery (dates unknown)
 * CT Abdomen/Pelvis w/ Contrast: June 17, 2025 (Revealed colonic wall thickening and inflammation in the sigmoid colon, suggestive of colitis).
 * ORIF R ankle/foot fracture: April 19, 2022. (Open Reduction Internal Fixation of right lateral malleolus and 5th metatarsal. Hardware included a 3.5mm hook plate and multiple screws).
@@ -868,6 +870,7 @@ Lifestyle Recommendations:
 * XR Ankle/Foot Right: April 11, 2022 (Nondisplaced fracture of lateral malleolus and comminuted fracture of 5th metatarsal base). Follow-up X-rays showed satisfactory healing, with fractures considered well-healed by Aug 11, 2022.
 
 ### Key Medical Encounters (Summarized - recent first)
+* **August 20, 2025 - CT Angiogram:** Performed due to new onset headache. Results showed severe 70% stenosis of the left internal carotid artery.
 * **July 25, 2025 - Lab Results Received:** Immunofixation test is normal, ruling out certain blood protein disorders. ESR remains high, confirming inflammation. Vitamin B12 is normal.
 * **July 23, 2025 - Logan Internists (Dr. Cheng Du):** Visit for new onset severe headache and left facial pain. Patient describes the pain as a "shock" that runs from her left temple down to her throat. It has occurred a total of three times on different days. The first was during a stressful argument, the other two times occurred while resting. History of CVA discussed. Assessment: Sudden onset unilateral headache, Severe headache. **Ordered STAT:** CT Angio Brain/Head, CT Angio Neck, MRI Brain w/o contrast.
 * **July 13, 2025 (New Symptom):** Reports new onset of "pins and needles" sensation (paresthesia) in her right foot upon waking in the mornings. **Recommendation: Report this new neurological symptom to PCP/Nephrologist for evaluation.**
@@ -1047,10 +1050,13 @@ Lifestyle Recommendations:
 
         // --- UI POPULATION FUNCTIONS ---
         function populateDashboard() {
-            const keyDiagnoses = ['Chronic Kidney Disease, Stage 3b', 'Hypertension', 'Colitis / Diverticulitis', 'Gout', 'History of Stroke (CVA)', 'Carotid Artery Stenosis', 'Osteopenia', 'Depression with Anxiety', 'New: Severe Headache', 'Chronic Mold/Environmental Exposure'];
+            // UPDATED: Added new diagnosis to the key diagnoses list
+            const keyDiagnoses = ['Severe (70%) Left Carotid Artery Stenosis', 'Chronic Kidney Disease, Stage 3b', 'Hypertension', 'Colitis / Diverticulitis', 'Gout', 'History of Stroke (CVA)', 'Osteopenia', 'Depression with Anxiety', 'New: Severe Headache', 'Chronic Mold/Environmental Exposure'];
             document.getElementById('dashboardDiagnoses').innerHTML = keyDiagnoses.map(d => `<div class="p-2 bg-gray-100 rounded">${d}</div>`).join('');
 
+            // UPDATED: Added a new top-priority concern based on the new lab results
             const concerns = [
+                 { text: '<strong>CRITICAL NEW FINDING:</strong> An August 20, 2025 CT Angiogram shows <strong>severe 70% stenosis of the left internal carotid artery</strong>, a significant progression from prior scans. This indicates a high risk of stroke and requires immediate vascular specialist consultation.', priority: -3, critical: true, status: 'active' },
                  { text: '<strong>URGENT MEDICAL DISCREPANCY:</strong> A 2016 CTA reported two cerebral aneurysms, but a 2022 CTA reported none. This requires immediate clarification. The new severe, shock-like facial pain makes this the top priority.', priority: -2, critical: true, status: 'active' },
                  { text: '<strong>CRITICAL ENVIRONMENTAL HAZARD:</strong> Chronic exposure to mold and lint in crawlspace from improper dryer vent is a likely driver of systemic inflammation (high ESR) and must be professionally remediated immediately. All doctors must be informed.', priority: -1, critical: true, status: 'active' },
                  { text: '<strong>MEDICAL EMERGENCY:</strong> Immediate follow-up on **urgent neuroimaging** (CT Angio Head/Neck, MRI Brain) ordered on 7/23/25 for new-onset severe, shock-like facial pain to rule out a vascular event or nerve condition.', priority: 0, critical: true, status: 'active' },
@@ -1067,9 +1073,10 @@ Lifestyle Recommendations:
             const sortedConcerns = [...concerns.filter(c => c.status === 'active').sort((a,b) => a.priority - b.priority), ...concerns.filter(c => c.status === 'resolved').sort((a,b) => a.priority - b.priority)];
             document.getElementById('dashboardConcerns').innerHTML = sortedConcerns.map(item => `<div class="primary-concern-item ${item.critical ? 'critical' : ''} ${item.status === 'resolved' ? 'resolved' : ''}">${item.status === 'resolved' ? `<del>${item.text}</del>` : item.text}</div>`).join('');
             
+            // UPDATED: Removed pending appointments that are now completed by the new CT scan
             const appointments = [
-                { date: 'Pending', desc: 'CT Angiogram of Brain/Head (Ordered 7/23/25)'},
-                { date: 'Pending', desc: 'CT Angiogram of Neck (Ordered 7/23/25)'},
+                // { date: 'Pending', desc: 'CT Angiogram of Brain/Head (Ordered 7/23/25)'}, // This is now complete
+                // { date: 'Pending', desc: 'CT Angiogram of Neck (Ordered 7/23/25)'}, // This is now complete
                 { date: 'Pending', desc: 'MRI of Brain w/o Contrast (Ordered 7/23/25)'},
             ];
             const nephrologyFupMatch = reportText.match(/Next scheduled f\/u (.*?)\./);
@@ -1251,6 +1258,7 @@ Lifestyle Recommendations:
         }
         
         function populateTimeline() {
+            // UPDATED: Added a new timeline event for the CT Angiogram
              const events = [
                 { date: '2011-11-08', type: 'procedure', desc: 'First Sleep Study (Polysomnography)', details: 'Showed no significant obstructive sleep apnea but did reveal periodic limb movements and a complete absence of deep sleep.'},
                 { date: '2016-03-17', type: 'emergency', desc: 'Hospitalization for Stroke (CVA)', details: 'Admitted to Parkview Health for a stroke/TIA. Treated with TPA. CTA Head on this date identified two saccular aneurysms (4x3mm and 3x2mm).' },
@@ -1272,7 +1280,8 @@ Lifestyle Recommendations:
                 { date: '2025-07-02', type: 'visit', desc: 'Gout Flare in Knee', details: 'Diagnosed with acute gout flare in right knee and prescribed a 5-day course of prednisone.'},
                 { date: '2025-07-23', type: 'visit', desc: 'New Severe Headache - Urgent Consult', details: 'Visit with Dr. Cheng Du for new onset severe headache and facial pain. Urgent neuroimaging (CTAs and MRI) ordered.'},
                 { date: '2025-07-25', type: 'diagnosis', desc: 'Lab Results Received', details: 'Stool culture from July 1 was negative. Immunofixation test was normal. ESR from July 23 was high, indicating inflammation.'},
-                { date: '2025-08-01', type: 'environment', desc: 'Environmental Hazard Identified', details: 'A hazardous condition was identified in the home crawlspace: a dryer venting directly into the space, causing massive lint buildup and likely significant mold growth. This is a potential source of chronic inflammation.'}
+                { date: '2025-08-01', type: 'environment', desc: 'Environmental Hazard Identified', details: 'A hazardous condition was identified in the home crawlspace: a dryer venting directly into the space, causing massive lint buildup and likely significant mold growth. This is a potential source of chronic inflammation.'},
+                { date: '2025-08-20', type: 'imaging', desc: 'CT Angiogram Reveals Severe Stenosis', details: 'A CT Angiogram of the head and neck found a severe 70% stenosis of the left internal carotid artery. This is a significant increase and a major risk factor for stroke.' }
             ];
             events.sort((a, b) => new Date(b.date) - new Date(a.date));
             const timeline = document.getElementById('timeline-vertical-container'), modal = document.getElementById('timeline-modal'), modalClose = document.querySelector('.timeline-modal-close');
