@@ -320,7 +320,7 @@
     <div class="main-container">
         <header class="mb-8">
             <div class="flex justify-center items-center gap-4">
-                <img src="734E7D60-B1B5-4037-B7CF-760E0730ADA6.png" alt="Mascot Logo" class="header-logo">
+                <img src="734E7D60-B1B5-4037-B7CF-760E0730ADA6.png" alt="Mascot Logo" class="header-logo" onerror="this.src='https://via.placeholder.com/80?text=Logo'">
                 <div class="text-left">
                     <h1 class="text-4xl font-bold text-[#343a40]">Vickie Berry</h1>
                     <p class="text-lg text-gray-600 mt-1">Comprehensive Health Dashboard</p>
@@ -454,8 +454,9 @@
                         <button class="sub-nav-button active" data-subtab="problems">Problem List</button>
                         <button class="sub-nav-button" data-subtab="encounters">Encounters</button>
                         <button class="sub-nav-button" data-subtab="medications">Medications</button>
-                        <button class="sub-nav-button" data-subtab="procedures">Procedures & Imaging</button>
-                         <button class="sub-nav-button" data-subtab="fullReport">Full Report Text</button>
+                        <button class="sub-nav-button" data-subtab="procedures">Procedures</button>
+                        <button class="sub-nav-button" data-subtab="imagingGallery">Imaging Gallery <span class="text-xs bg-blue-100 text-blue-800 rounded px-2 py-1 ml-1">New</span></button>
+                        <button class="sub-nav-button" data-subtab="fullReport">Full Report Text</button>
                     </div>
                     <div id="problems" class="sub-tab-content active">
                         <h3 class="text-xl font-semibold mb-4">Problem List</h3>
@@ -470,9 +471,42 @@
                         <div id="medicationHistoryOutput" class="report-content-full"></div>
                     </div>
                     <div id="procedures" class="sub-tab-content">
-                         <h3 class="text-xl font-semibold mb-4">Procedures & Imaging</h3>
+                         <h3 class="text-xl font-semibold mb-4">Procedures History</h3>
                          <div id="proceduresOutput" class="space-y-4"></div>
                     </div>
+                    
+                    <div id="imagingGallery" class="sub-tab-content">
+                         <h3 class="text-xl font-semibold mb-4">Artery Scans & Medical Imaging</h3>
+                         <p class="text-gray-600 mb-6">Visual reference scans for Carotid Duplex and structural observations.</p>
+                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            
+                            <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+                                <img src="65226848-5c65-4088-afca-7e93ce244d16.png" alt="Artery Scan 1" class="w-full h-auto object-cover" onerror="this.src='https://via.placeholder.com/400x300?text=Scan+Image+1+Not+Found'">
+                                <div class="p-4">
+                                    <h4 class="font-semibold text-gray-800">Scan Reference 1</h4>
+                                    <p class="text-xs text-gray-500 mt-1">Carotid Artery evaluation scan cross-section.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+                                <img src="7aa3863a-20db-4954-98f4-9b4fe7fbaba8.png" alt="Artery Scan 2" class="w-full h-auto object-cover" onerror="this.src='https://via.placeholder.com/400x300?text=Scan+Image+2+Not+Found'">
+                                <div class="p-4">
+                                    <h4 class="font-semibold text-gray-800">Scan Reference 2</h4>
+                                    <p class="text-xs text-gray-500 mt-1">Doppler flow or secondary viewing angle.</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+                                <img src="8dc10668-b368-4a5b-82c0-f50eefeed10d.png" alt="Artery Scan 3" class="w-full h-auto object-cover" onerror="this.src='https://via.placeholder.com/400x300?text=Scan+Image+3+Not+Found'">
+                                <div class="p-4">
+                                    <h4 class="font-semibold text-gray-800">Scan Reference 3</h4>
+                                    <p class="text-xs text-gray-500 mt-1">Further diagnostic imaging reference.</p>
+                                </div>
+                            </div>
+
+                         </div>
+                    </div>
+
                      <div id="fullReport" class="sub-tab-content">
                          <h3 class="text-xl font-semibold mb-3">Complete Consolidated Health Record</h3>
                          <div id="reportDisplayFull" class="report-content-full">
@@ -739,36 +773,6 @@ Lifestyle Recommendations:
 * **Contact:** (574) 721-6940 (Home/Mobile), vickielynnberry@gmail.com
 * **PCP:** Dr. Olusina Akande, Logansport Memorial Hospital, 1201 MICHIGAN Ave Ste 270, Logansport, IN, Phone: (574) 722-4921.
 * **Latest Vitals (July 23, 2025 - Clinic):** BP 136/84 mmHg, HR 100, RR 18, SpO2 98%, Wt 81.37 kg, BMI 30.79.
-* **Selected Historical Vitals (Date - Source: BP, Pulse, Temp, SpO2, Wt, BMI):**
-   * Jun 17, 2025 (Labs): BP 162/104 mmHg (High), Temp 99.3F (High)
-   * Jun 02, 2025 (Nephrology): BP 128/68, Pulse 91, Resp 16, SpO2 96%, Wt 180 lb, BMI 30.90.
-   * May 09, 2025 (ED, Logansport Memorial): BP 118/96, Pulse 101, Temp 98.1F (36.7C), SpO2 99%, Wt 181.22 lb (82.20kg), BMI 31.11. Pain Score: 3/10 (R Knee).
-   * Apr 22, 2025 (Logansport Family): BP 102/83, Pulse 70, Temp 35.6C, SpO2 96%, Wt 82.3kg (181.4 lb), BMI 31.14. (PHQ-9 Score: 12)
-   * Mar 24, 2025 (Logansport Family): BP 144/92 (Rpt 150/98), Pulse 117, SpO2 98%, Wt 81.7kg, BMI 30.92.
-   * Jan 13, 2025 (Nephrology): BP 146/80, Pulse 103, Resp 16, SpO2 97%, Wt 179 lb, BMI 30.73.
-   * Dec 13, 2024 (Ascension): BP 143/80, HR 111, SpO2 98%, Wt 79.83kg.
-   * Oct 11, 2024 (Logansport Family): BP 130/76, Pulse 88, SpO2 98%, Wt 178 lb, BMI 30.56.
-   * May 17, 2024 (Logansport Memorial Hospital - Results): Wt 181.22 lbs.
-   * Apr 29, 2024 (Logansport Memorial): BP 125/78, Pulse 96, Wt 182.98 lb (83.0 kg), BMI 31.41, Resp 16.
-   * Mar 06, 2024 (LMPN Surgical): BP 150/83, Temp 36.9C, HR 91, Resp 17, SpO2 99%, Wt 82.69kg (182.3 lb), BMI 31.29.
-   * Nov 06, 2023 (Logansport Family): BP 131/77, Pulse 95, Temp 36.4C, SpO2 98%, Wt 82.2kg (181.2 lb).
-   * Apr 05, 2023 (Logansport Family): BP 110/72, Pulse 106, Temp 36.1C, SpO2 96%, Wt 81.0 kg, BMI 30.65.
-   * Jan 09, 2023 (LMPN Surgical): BP 140/82, Pulse 110, Temp 36.5C, SpO2 99%, Wt 81.47kg (179.6 lb), BMI 30.83.
-   * Oct 05, 2022 (Logansport Family): BP 122/80, Pulse 72, Temp 36.4C, SpO2 96%, Wt 77.9 kg (171.7 lb).
-   * Sep 12, 2022 (Logan Internists): BP 130/82, Pulse 84, Temp 36.6C, SpO2 99%, Wt 78.15kg (172.3 lb).
-   * Aug 10, 2022 (Orthopedics): BP 105/69, Pulse 87, Temp 36.9C, SpO2 100%, Wt 82.05 kg (180.9 lb).
-   * Jun 28, 2022 (Logan Internists): BP 148/86 (Rpt 146/84), Pulse 90, Temp 36.6C, SpO2 97%, Wt 82.05kg (180.9 lb).
-   * May 04, 2022 (Orthopedics): BP 113/74, Pulse 88, Temp 36.8C, SpO2 99%, Wt 77.111 kg, BMI 30.
-   * Apr 13, 2022 (Orthopedics): BP 117/74, Pulse 95, Temp 36.7C, SpO2 99%, Wt 77.11 kg (169.9 lb).
-   * Apr 11, 2022 (ED): BP 108/83, Pulse 98, Temp 36.8C, SpO2 97%, Wt 77.11kg (169.9 lb). Pain 8/10.
-   * Mar 08, 2022 (Logansport Family): BP 132/88, Pulse 90, Temp 36.9C, SpO2 98%, Wt 80.7 kg (177.9 lb).
-   * Apr 06, 2021 (Franciscan Proctology): Temp 98.6F (37.0C).
-   * Apr 14, 2021 (LMPN Surgical): BP 106/72, Pulse 100, SpO2 99%, Wt 75.16 kg, BMI 28.
-   * Mar 24, 2021 (Logansport Family): BP 129/83 (Rpt 140/76), Pulse 100 (Rpt 74), Temp 36.6C (Rpt 36.8C), SpO2 98%, Wt 75.7kg (166.9 lb), BMI 29. Total Cholesterol 179.
-   * Sep 16, 2020 (Logansport Family): BP 131/87, Pulse 101, Temp 36.6C, SpO2 97%, Wt 80kg (176.4 lb), BMI 30.
-   * Jul 29, 2020 (Franciscan Cardiology): BP 128/62, Wt 180.3 lb (81.7 kg), Ht 5'4", BMI 30.93.
-   * Mar 17, 2016 (ER Visit): BP 138/96, Pulse 86, Wt 159.3 lb (72.3 kg), Ht 5'4", BMI 27.35. Total Cholesterol 156.
-   * Nov 08, 2011 (Sleep Study): Wt 173 lb, BMI 29.7.
 
 ### Social and Personal Factors
 * Married (Spouse: Don Berry, Contact: (574) 721-6943) 
@@ -777,156 +781,74 @@ Lifestyle Recommendations:
 * Maternal Grandfather: Arthur Bernhardt (Deceased)
 * **Environmental History:** Long-term (4+ years) exposure to a hazardous indoor environment due to a dryer venting directly into the home's crawlspace, leading to massive lint accumulation and significant mold growth. This is a primary suspect for chronic inflammation and immune dysregulation.
 * Family History: Congestive Heart Failure (Mother), Hypertension (Mother), Myocardial Infarction (Father - deceased at age 47), Colon Cancer (Maternal Grandfather).
-* Religion: Methodist; Race: White; Ethnic Group: Not Hispanic or Latino; Language: English
-* Tobacco Use: Never Smoker; Alcohol Consumption: None; Caffeine Consumption: Moderate
-* Diet: Vegetarian; Employment: Retired
-
-### Allergies
-* No Known Allergies / No Known Medication Allergies (consistently reported)
 
 ### Comprehensive Problem List / Medical History
 * **Current Primary Diagnoses (per Care Plan):** CKD Stage 3b; Gout
-* **Historical/Ongoing Conditions (Selected, with earliest noted dates where available):**
+* **Historical/Ongoing Conditions (Selected):**
    * Chronic Environmental Exposure: Mold and dryer lint in crawlspace.
    * Essential Hypertension (Mar 2016)
    * Mixed Hyperlipidemia (Mar 2016)
    * Hypothyroidism, Acquired, Autoimmune (Dx 03/18/2016)
    * Depression with Anxiety (Mar 2016)
-   * Grief Reaction (noted Apr 2023)
-   * Iron Deficiency Anemia (Sept 2020)
    * History of CVA (Stroke) without residual deficits (March 2016)
-   * Cerebral Aneurysms (Discrepancy in record: 2 saccular aneurysms identified on CTA March 2016; CTA July 2022 reported no obvious aneurysm. Requires clarification.)
+   * Cerebral Aneurysms (Discrepancy in record: 2 saccular aneurysms identified on CTA March 2016; CTA July 2022 reported no obvious aneurysm.)
    * Asymptomatic Stenosis of Intracranial Artery (Aug 2022)
    * Carotid Artery Stenosis (Left ICA 50-69% as of Sept 2023; 70% as of Aug 20, 2025; **NEW: Moderate on left, mild on right as of Apr 07, 2026**)
    * GERD without esophagitis (Mar 2021)
    * Grade III Hemorrhoids (Apr 2021)
-   * History of Basal Cell Carcinoma (on back and lip, treated prior to 2023)
-   * History of Cataract Surgery (dates unknown)
-   * Actinic Keratosis (Oct 2020, Jan 2023, Mar 2024, Apr 2025)
-   * Insomnia (Problem list, Nov 2023)
-   * Restless Leg Syndrome (RLS) / Periodic Limb Movements (PLMs) (2011)
-   * COVID-19 Infections (June 2021 suspected, Feb 2022 resolved, Dec 2023)
-   * Fracture, Right Ankle & Foot (ORIF April 19, 2022)
    * Osteopenia (DEXA July 2022, stable on repeat DEXA July 2025)
-   * Right knee pain / Arthritis of knee (May 09, 2025) - Patient notes that sometimes walking is not painful, but flexibility in the knee and leg is reduced.
+   * Right knee pain / Arthritis of knee (May 09, 2025)
    * Colitis / Diverticulitis (June 2025)
    * Urinary Tract Infection (Mar 2022, Jun 2025)
-   * Chronic Cough (noted Apr 2024)
-   * New onset headache/facial pain (July 2025) - Described as an intermittent, shock-like pain from the left temple to the throat. Has occurred 3 times. Requires urgent evaluation.
-   * Paresthesia in right foot (pins and needles) (July 2025) - requires evaluation
-   * Acute Sinusitis (suspected, Aug 20, 2025)
-   * **New Symptoms (October 2025):**
-        * Sore throat
-        * Swollen glands (lymphadenopathy)
-        * Painless lump, right anterior neck under jaw
-        * Difficulty swallowing (dysphagia)
-        * High-pitched expiratory wheezing
+   * New onset severe headache/facial pain (July 2025)
+   * Paresthesia in right foot (pins and needles) (July 2025)
+   * **New Symptoms (October 2025):** Sore throat, swollen glands, painless lump right anterior neck, dysphagia, high-pitched expiratory wheezing.
 
 ### Medication Regimen
-*(Focus on current user-provided list, cross-referenced with care plan advice. Full historical list is extensive and available in "Full Report" tab)*
-* **Current Recommendations (from Comprehensive Care Plan):** Olmesartan (STOPPED 6/2/2025), Ibuprofen (Discontinue), Gout Medications (Initiate), Trazodone (Reevaluate), Venlafaxine (Reduce dose), Comprehensive medication review.
-* **Active Medications (User Provided List & Report Notes - as of June 2025):**
-   * amLODIPine 10 mg: For Blood Pressure (increased from 5mg on 3/24/2025).
+* **Current Recommendations:** Olmesartan (STOPPED), Ibuprofen (Discontinue), Gout Medications (Initiate), Trazodone (Reevaluate), Venlafaxine (Reduce dose).
+* **Active Medications:**
+   * amLODIPine 10 mg: For Blood Pressure (increased 3/24/2025).
    * Aspirin: Antiplatelet (Noted active 04/07/2026).
    * clopidogrel 75 mg: Antiplatelet/Stroke Prevention.
    * ferrous sulfate 325 mg: Iron Deficiency.
    * hydrochlorothiazide 25 mg: Blood Pressure (Diuretic).
    * levothyroxine 100 mcg: Thyroid.
-   * lisinopril 40 mg: Blood Pressure. (Patient was switched to Olmesartan on 4/29/24 due to cough, but switched herself back prior to 3/24/25).
+   * lisinopril 40 mg: Blood Pressure.
    * omeprazole 40 mg: Acid Reflux.
    * pravastatin 20 mg: Cholesterol.
-   * traZODone 50 mg (x4 at bedtime prn = 200mg): Sleep. (Care Plan Concern: High dosage, reevaluate).
-   * venlafaxine 150 mg (x2 daily = 300mg total): Depression/Anxiety. (Care Plan Action: Reduce dose).
+   * traZODone 50 mg (x4 at bedtime prn = 200mg): Sleep.
+   * venlafaxine 150 mg (x2 daily = 300mg total): Depression/Anxiety.
    * Calcium 500 + D: For bone health.
-* **Short-term Medications (Historical):**
-   * Ciprofloxacin 500mg: Prescribed for Colitis/Diverticulitis (Jun 17, 2025).
-   * Metronidazole 500mg: Prescribed for Colitis/Diverticulitis (Jun 17, 2025).
-   * Norco 5-325mg (hydrocodone-acetaminophen): Prescribed for 3 days post-ankle fracture (Apr 11, 2022).
-   * Bactrim DS (sulfamethoxazole-trimethoprim): Prescribed for UTI (Mar 8, 2022).
-   * Pyridium (phenazopyridine): Prescribed for UTI symptoms (Mar 8, 2022).
-   * Prednisone (5-day course): Prescribed for Gout flare in knee (July 2, 2025).
 
-### Immunizations (Selected)
-* COVID-19 (Moderna): 3 doses (Last: Nov 27, 2021)
-* Influenza: Oct 05, 2022 (Fluarix Quad); Sep 28, 2021 (Fluarix Quad); Oct 23, 2015; Nov 14, 2014; Nov 18, 2013.
-* Tdap: May 13, 2022.
-* Novel Influenza-H1N1-09: Jan 29, 2010.
-
-### Procedures & Significant Surgical/Medical History (Selected)
-* **NEW: Carotid Duplex Ultrasound: April 07, 2026 (Revealed continued mild disease on right and moderate disease on left).**
+### Procedures & Significant Surgical/Medical History
+* **Carotid Duplex Ultrasound (April 07, 2026):** Revealed continued mild disease on right and moderate disease on left. Several artery scans are available for cross-referencing in the Imaging Gallery.
 * CT Angiogram Head/Neck: August 20, 2025 (Revealed severe 70% stenosis of the left internal carotid artery).
-* Cataract Surgery (dates unknown)
 * CT Abdomen/Pelvis w/ Contrast: June 17, 2025 (Revealed colonic wall thickening and inflammation in the sigmoid colon, suggestive of colitis).
-* ORIF R ankle/foot fracture: April 19, 2022. (Open Reduction Internal Fixation of right lateral malleolus and 5th metatarsal. Hardware included a 3.5mm hook plate and multiple screws).
-* Suture Removal from Forehead: May 19, 2022 (following injury from scooter accident on May 13, 2022).
+* ORIF R ankle/foot fracture: April 19, 2022.
 * Hemorrhoid Rubber Band Ligation: April 6, 2021; March 9, 2021
 * Colonoscopy: Dec 21, 2015; April 14, 2008
 * Polysomnography (Sleep Study): Nov 08, 2011
-* Echocardiograms: Aug 27, 2020 (Normal LV systolic function, EF 60-65%, mildly calcified aortic valve); Mar 17, 2016
+* Echocardiograms: Aug 27, 2020 (Normal LV systolic function, EF 60-65%); Mar 17, 2016
 * Kidney Ultrasound: Jan 29, 2025
-* Bone Density DEXA: July 1, 2025 (Result: Stable Osteopenia, T-score -1.1); July 20, 2022 (Result: Osteopenia)
-* CT Head/Brain (various): Mar 17, 2016 (Stroke Protocol & w/o Contrast), May 13, 2022 (post-fall, no acute intracranial pathology), July 20, 2022 (CTA Head, reported no aneurysm)
-* MRI/MRA Brain/Head (w/o contrast): March 17, 2016 (Negative for acute infarct); Sep/Oct 2020 (Normal MRI of brain, normal intracranial vessels).
-* Carotid Duplex Ultrasounds: Nov 2019, Sep 2020, Sep 9, 2022 (less than 50% stenosis), Sep 26, 2023 (Left ICA stenosis increased to 50-69%), Dec 2024
-* Mammograms: Aug 19, 2024 (BI-RADS 1: Negative); July 20, 2022 (BI-RADS 2: Benign); Sep 2020. Annual screening recommended.
-* Chest X-Ray: Mar 17, 2016
-* EKG: Mar 17, 2016; July 05, 2016; Apr 13, 2022 (Sinus rhythm, nonspecific T-wave abnormality, borderline)
-* XR Knee 3 Views Right: May 09, 2025 (Moderate degenerative joint disease without traumatic findings)
-* XR Ankle/Foot Right: April 11, 2022 (Nondisplaced fracture of lateral malleolus and comminuted fracture of 5th metatarsal base). Follow-up X-rays showed satisfactory healing, with fractures considered well-healed by Aug 11, 2022.
+* Bone Density DEXA: July 1, 2025 (Stable Osteopenia); July 20, 2022
+* CT Head/Brain (various): Mar 17, 2016, May 13, 2022, July 20, 2022
+* Historical Carotid Duplex Ultrasounds: Nov 2019, Sep 2020, Sep 9, 2022 (<50% stenosis), Sep 26, 2023 (Left 50-69%), Dec 2024. (Note: These scans are part of the broader collection of artery scans documented for this patient).
 
 ### Key Medical Encounters (Summarized - recent first)
 * **Apr 07, 2026 - Cardiology/Vascular Follow-up (Dr. Murad Aburajab / Heather Bye NP, Ascension):** Routine follow-up for bilateral carotid artery occlusive disease. Repeat Carotid Duplex demonstrated continued mild disease on the right and moderate disease on the left. Denies TIA/stroke symptoms.
 * **August 20, 2025 - CT Angiogram:** Performed due to new onset headache. Results showed severe 70% stenosis of the left internal carotid artery.
-* **July 25, 2025 - Lab Results Received:** Immunofixation test is normal, ruling out certain blood protein disorders. ESR remains high, confirming inflammation. Vitamin B12 is normal.
-* **July 23, 2025 - Logan Internists (Dr. Cheng Du):** Visit for new onset severe headache and left facial pain. Patient describes the pain as a "shock" that runs from her left temple down to her throat. It has occurred a total of three times on different days. The first was during a stressful argument, the other two times occurred while resting. History of CVA discussed. Assessment: Sudden onset unilateral headache, Severe headache. **Ordered STAT:** CT Angio Brain/Head, CT Angio Neck, MRI Brain w/o contrast.
-* **July 13, 2025 (New Symptom):** Reports new onset of "pins and needles" sensation (paresthesia) in her right foot upon waking in the mornings. **Recommendation: Report this new neurological symptom to PCP/Nephrologist for evaluation.**
-* **Jul 02, 2025 - PCP Follow-up:** Seen for right knee pain. Diagnosed as a gout flare and prescribed a 5-day course of prednisone.
-* **Jun 25, 2025 - Surgical Consult:** Met with Dr. Lalla for a pre-colonoscopy consultation to evaluate the colitis/bleeding.
-* **Jun 17, 2025 - ED Visit:** Presented with rectal bleeding and cramping. CT scan showed colitis of the sigmoid colon. Diagnosed with colitis/diverticulitis and discharged with Ciprofloxacin and Flagyl. Urine Culture showed >100k bacteria (UTI).
-* **Jun 02, 2025 - Nephrology (Dr. Melissa Anderson):** BP 128/68, P 91, SpO2 96%, Wt 180lb, BMI 30.90. Olmesartan stopped. Labs ordered for 1 week before next visit. Next scheduled f/u Dec 8, 2025.
-* **May 09, 2025 - ED (Dr. Tai N Duong, Logansport Memorial):** R knee pain. Dx: R knee pain, Arthritis of knee (Moderate degenerative joint disease). X-ray performed. Advised Tylenol and ibuprofen for pain.
-* **Apr 22, 2025 - Logansport Family (Dr. Olusina Akande):** Anxiety f/u. Patient reports feeling "miserable" and "going nuts." PHQ-9 score 12. Referral made to Integrity Family Counseling in Kokomo.
-* **Apr 14, 2025 - LMPN Surgical Services (Jan Hoover, FNP):** 1-year skin check. 8 Actinic Keratosis lesions on face treated with liquid nitrogen.
-* **Mar 24, 2025 - Logansport Family (Kelly Carden, NP):** High BP follow-up. Patient reports switching herself back to Lisinopril from Olmesartan. Amlodipine increased from 5mg to 10mg.
-* **Jan 13, 2025 - Nephrology (Dr. Melissa Anderson, Indiana Kidney Specialists):** Eval for CKD. Plan: Labs, Kidney US, Home BP monitoring.
-* **Oct 11, 2024 - Logansport Family (Dr. Olusina Akande):** Encounter diagnoses CKD, Depression.
-* **Apr 29, 2024 - Logansport Family (Dr. Olusina Akande):** Visit for persistent cough >1 year. Lisinopril suspected as cause, switched to Olmesartan 40mg.
-* **Mar 06, 2024 - LMPN Surgical Services (Dr. Alan J Anthony):** Dx: Actinic Keratosis, Solar Lentigo. History of Basal Cell Carcinoma noted. Cryotherapy to >15 lesions on face, hands, back, and arms.
-* **Nov 06, 2023 - Logansport Family (Dr. Olusina Akande):** Grief, Vertigo, HTN, Insomnia.
-* **Sep 18, 2023 - Logan Internists (Dr. Cheng Du):** F/u carotid stenosis. US showed L ICA 50-69% stenosis (increase). Referral to CV surgery.
-* **Apr 05, 2023 - Logansport Family (Dr. Olusina Akande):** Follow-up for grief reaction after recent death of both parents in the same week.
-* **Jan 09, 2023 - LMPN Surgical Services (Dr. Alan J Anthony):** Skin check. Dx: AK, Solar lentigo, Skin tag. Cryotherapy to >15 lesions.
-* **Oct 05, 2022 - Logansport Family (Dr. Olusina Akande):** F/u ankle fx, anosmia. Flu shot. PT referral.
-* **Aug 24, 2022 - Orthopedics (Dr. Kral Varhan):** Follow-up for ankle fracture. Swelling decreased. Advised to gradually increase activity.
-* **May 19, 2022 - Express Medical Center (Nurse/MA):** Suture removal (x5) from forehead above left eye.
-* **May 04, 2022 - Orthopedics (Jamie L Ross, NP):** 2-week post-op for ankle fracture. Staples removed. Placed in tall walking boot.
-* **Apr 19, 2022 - Logansport Memorial Hospital (Dr. Kral Varhan):** ORIF R ankle/foot fracture. Admitted for surgery.
-* **Apr 13, 2022 - Orthopedics (Dr. Kral Varhan):** New patient exam for ankle/foot fracture. Discussed surgical options. Patient elected for surgery.
-* **Apr 11, 2022 - ED (Dr. Jin Kim, Logansport Memorial):** R ankle injury after missing a step. Dx: Fractures of right ankle and foot. Splint applied, crutches dispensed. Prescribed Norco and Ibuprofen.
-* **Apr 04, 2022 - Logansport Family (Dr. Olusina Akande):** 6-month follow-up. Referral given to Dr. Du for second opinion on cerebral aneurysms.
-* **Mar 08, 2022 - Logansport Family (Brianna Cover, NP):** Visit for UTI symptoms. Urinalysis positive for blood and leukocytes. Prescribed Bactrim DS and Pyridium.
-* **Feb 07, 2022 - LMPN Surgical Services (Nurse/MA):** COVID-19 Testing.
-* **Dec 27, 2021 - LMPN Surgical Services (Dr. Michael Lalla):** Consultation for hemorrhoids. Patient overdue for colonoscopy.
-* **Oct 04, 2021 - Logansport Family (Dr. Olusina Akande):** Medicare Wellness Visit. Depression Screen (PHQ-9 score 13). Referral to general surgery for hemorrhoids.
-* **Jun 12, 2021 - Express Medical Center (Rachel Emery, NP):** Visit for cough, loss of smell and taste. Suspected COVID-19.
-* **Apr 14, 2021 - LMPN Surgical Services (Dr. Alan J Anthony):** Follow-up for Actinic Keratosis. New lesions treated with liquid nitrogen. Noted reaction to adhesive from a recent procedure.
-* **Apr 06, 2021 - Franciscan Physician Network Central Indiana Proctology (Dr. Paul E Broderick):** Hemorrhoids. Procedure: Rubber band ligation.
-* **Mar 24, 2021 - Logansport Family (Dr. Olusina Akande):** 6mo f/u HTN, GERD, Hypothyroidism, etc. Patient reports being found to have 2 aneurysms on recent imaging.
-* **Mar 17-18, 2016 - Parkview Health (Dr. Rakesh Khatri, Dr. Brian P Zehr):** Admission for Stroke/TIA. Given TPA. Discharged with consults for Neurology and Dietician.
-* **Nov 08, 2011 - Howard Regional Health System:** Polysomnography.
+* **July 25, 2025 - Lab Results Received:** Immunofixation test is normal. ESR remains high, confirming inflammation. 
+* **July 23, 2025 - Logan Internists (Dr. Cheng Du):** Visit for new onset severe headache and left facial pain. Ordered STAT: CT Angio Brain/Head, CT Angio Neck, MRI Brain w/o contrast.
+* **July 13, 2025 (New Symptom):** Reports new onset of "pins and needles" sensation (paresthesia) in her right foot upon waking.
+* **Jul 02, 2025 - PCP Follow-up:** Diagnosed with a gout flare and prescribed a 5-day course of prednisone.
+* **Jun 17, 2025 - ED Visit:** Presented with rectal bleeding and cramping. Diagnosed with colitis/diverticulitis and UTI. Discharged with Ciprofloxacin and Flagyl.
+* **Jun 02, 2025 - Nephrology (Dr. Melissa Anderson):** BP 128/68, P 91, SpO2 96%, Wt 180lb. Olmesartan stopped. Labs ordered for 1 week before next visit. Next scheduled f/u Dec 8, 2025.
+* **May 09, 2025 - ED (Dr. Tai N Duong, Logansport Memorial):** R knee pain. Diagnosed with moderate degenerative joint disease (arthritis). 
 
 ### Preventive Care (Status based on various record dates)
-* **Breast Cancer Screening (Mammogram):** Done Aug 19, 2024 (BI-RADS 1: Negative), July 20, 2022 (BI-RADS 2: Benign). Annual screening recommended.
+* **Breast Cancer Screening (Mammogram):** Done Aug 19, 2024 (BI-RADS 1: Negative). Annual screening recommended.
 * **Colorectal Cancer Screening:** Colonoscopies Dec 21, 2015, Apr 2008. Likely due.
-* **Bone Density Screening:** Done July 1, 2025 (Result: Stable Osteopenia); July 20, 2022 (Result: Osteopenia). F/U 18-24 months recommended.
-* **Sleep Study:** Done Nov 08, 2011. Care plan noted missing; this finding is old but available. Current symptoms may warrant new study.
-
-### Key Laboratory Findings
-* **Immunofixation, Serum (Jul 23, 2025):** Normal levels of IgG (951), IgA (217), and IgM (69).
-* **ESR (Jul 23, 2025):** 35 mm/hr (High, Normal 0-15). Indicates inflammation.
-* **Vitamin B12 (Jul 23, 2025):** 746 pg/mL (Normal).
-* **Stool Culture (Jul 01, 2025):** Negative for Salmonella, Shigella, Campylobacter.
-* **Urine Culture (Jun 17, 2025):** Positive for mixed urogenital flora >100,000 CFU/mL.
+* **Bone Density Screening:** Done July 1, 2025 (Result: Stable Osteopenia).
      </script>
 
     <script>
@@ -1031,45 +953,23 @@ Lifestyle Recommendations:
             
             try {
                 // NOTE: This assumes the '/api/call_gemini' endpoint is correctly set up.
-                // For local-only or different environments, this URL would need to change.
-                // We will use a placeholder for the API key, as it should be handled by the environment.
-                const apiKey = ""; // This will be managed by the deployment environment
+                const apiKey = ""; 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
-
-                // This is a simplified fetch call, assuming the environment has a proxy or handles CORS.
-                // In a real deployment (like Vercel), the /api/call_gemini.js serverless function would handle this.
-                // Since we're in a single HTML file, we'll try a direct call, but it may face CORS issues if not run on a server.
-                // For the purpose of this file, we'll simulate the Vercel function's behavior.
                 
-                // Simulating the serverless function logic from 'api/call_gemini.js'
                 const fullPrompt = `You are a medical data summarizer. The user will provide a large text-based medical record and a question. Answer the question based *only* on the provided text. Be concise. \n\nMEDICAL RECORD:\n${reportText}\n\nQUESTION:\n${prompt.replace(/.*\nQUESTION:\n/s, '')}`;
-                
-                const payload = {
-                    contents: [{ parts: [{ text: fullPrompt }] }]
-                };
-
-                // This simulates a call to the Vercel function, which would then call the Gemini API
-                // Let's replace this with the *actual* logic that would be in the serverless function
-                // as if we are the serverless function itself (for demo purposes)
-
-                // This is a mock implementation because we can't securely call the API from the client.
-                // We'll replace the fetch to /api/call_gemini with a direct (and insecure, key-exposed) call for demonstration.
-                // IN A REAL APP: Use the /api/call_gemini fetch.
                 
                 console.warn("Using simulated API call. In production, this must be a serverless function.");
 
-                // Check for the actual serverless function and use it if available
                 const serverlessResponse = await fetch('/api/call_gemini', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: prompt }) // Send the original short prompt
+                    body: JSON.stringify({ prompt: prompt }) 
                 });
 
                 if (serverlessResponse.ok) {
                      const result = await serverlessResponse.json();
                      return result.text;
                 } else {
-                    // If serverless fails (e.g., local dev), throw an error
                     console.error("Serverless function call failed. Are you running this on a compatible host (like Vercel) or is the function deployed?");
                     throw new Error(`API function '/api/call_gemini' failed with status: ${serverlessResponse.status}. Check function logs.`);
                 }
@@ -1086,20 +986,16 @@ Lifestyle Recommendations:
 
         // --- UI POPULATION FUNCTIONS ---
         function populateDashboard() {
-            // UPDATED: Added new diagnosis to the key diagnoses list
             const keyDiagnoses = ['Moderate Left Carotid Artery Stenosis', 'Chronic Kidney Disease, Stage 3b', 'Hypertension', 'Colitis / Diverticulitis', 'Gout', 'History of Stroke (CVA)', 'Osteopenia', 'Depression with Anxiety', 'New: Severe Headache', 'Chronic Mold/Environmental Exposure'];
             document.getElementById('dashboardDiagnoses').innerHTML = keyDiagnoses.map(d => `<div class="p-2 bg-gray-100 rounded">${d}</div>`).join('');
 
-            // UPDATED: Added new top-priority concerns
             const concerns = [
-                 { text: '<strong>CAROTID STENOSIS UPDATE:</strong> An April 7, 2026 Carotid Duplex shows <strong>moderate disease of the left internal carotid artery</strong> and mild on the right, downgrading from the severe 70% stenosis noted in August 2025. Continue current medical management (Plavix, Aspirin, statin).', priority: -4, critical: false, status: 'active' },
+                 { text: '<strong>CAROTID STENOSIS UPDATE:</strong> An April 7, 2026 Carotid Duplex shows <strong>moderate disease of the left internal carotid artery</strong> and mild on the right, downgrading from the severe 70% stenosis noted in August 2025. Continue current medical management (Plavix, Aspirin, statin). See the <strong>Imaging Gallery</strong> for recent scans.', priority: -4, critical: false, status: 'active' },
                  { text: '<strong>URGENT MEDICAL DISCREPANCY:</strong> A 2016 CTA reported two cerebral aneurysms, but a 2022 CTA reported none. This requires immediate clarification. The new severe, shock-like facial pain makes this the top priority.', priority: -2, critical: true, status: 'active' },
                  { text: '<strong>CRITICAL ENVIRONMENTAL HAZARD:</strong> Chronic exposure to mold and lint in crawlspace from improper dryer vent is a likely driver of systemic inflammation (high ESR) and must be professionally remediated immediately. All doctors must be informed.', priority: -1, critical: true, status: 'active' },
                  { text: '<strong>MEDICAL EMERGENCY:</strong> Immediate follow-up on **urgent neuroimaging** (CT Angio Head/Neck, MRI Brain) ordered on 7/23/25 for new-onset severe, shock-like facial pain to rule out a vascular event or nerve condition.', priority: 0, critical: true, status: 'active' },
                  { text: '<strong>New Neurological Symptom:</strong> Report new "pins and needles" sensation in right foot to doctor for evaluation. Could be related to recent medications (Metronidazole), kidney disease, or diabetes.', priority: 1, critical: false, status: 'active' },
-                 // NEW SYMPTOM ADDITION: Neck/Throat Symptoms cluster
                  { text: '<strong>New Neck/Throat Symptoms:</strong> Evaluate sore throat, swollen glands, painless lump on front right neck under jaw, and difficulty swallowing. Could be infectious or inflammatory (related to environmental exposure?).', priority: 3, critical: false, status: 'active' },
-                 // NEW SYMPTOM ADDITION: Wheezing
                  { text: '<strong>New Respiratory Symptom:</strong> Evaluate high-pitched expiratory wheezing. Potentially related to environmental exposure or Long COVID.', priority: 5, critical: false, status: 'active' },
                  { text: 'Comprehensive medication review needed for CKD, including dose adjustments for Venlafaxine and re-evaluation of high-dose Trazodone.', priority: 2, critical: false, status: 'active' },
                  { text: 'Develop a management plan for new Gout diagnosis, considering CKD.', priority: 4, critical: false, status: 'active' },
@@ -1136,15 +1032,13 @@ Lifestyle Recommendations:
             document.getElementById('reportDisplayFull').textContent = reportText;
             document.getElementById('problemListOutput').innerHTML = formatSimpleMarkdown(extractSection('### Comprehensive Problem List', '### Medication Regimen'));
             document.getElementById('encounterHistoryOutput').innerHTML = formatSimpleMarkdown(extractSection('### Key Medical Encounters', '### Preventive Care'));
-            document.getElementById('medicationHistoryOutput').innerHTML = formatSimpleMarkdown(extractSection('### Medication Regimen', '### Immunizations'));
-            const proceduresText = extractSection('### Procedures & Significant Surgical/Medical History', '### Key Laboratory Findings');
+            document.getElementById('medicationHistoryOutput').innerHTML = formatSimpleMarkdown(extractSection('### Medication Regimen', '### Procedures & Significant Surgical/Medical History'));
+            const proceduresText = extractSection('### Procedures & Significant Surgical/Medical History', '### Key Medical Encounters');
             const formattedProcedures = proceduresText
-                .replace(/^(Carotid Duplex Ultrasound: April 07, 2026 \(Revealed continued mild disease on right and moderate disease on left\)\.)/m, "$1<br><small class='text-gray-500 pl-4'>- This is good news, indicating stabilization or slight improvement from the severe 70% stenosis seen in August 2025.</small>")
-                .replace(/^(CT Abdomen\/Pelvis w\/ Contrast: June 17, 2025 \(Revealed colonic wall thickening and inflammation in the sigmoid colon, suggestive of colitis\))/m, "$1<br><small class='text-gray-500 pl-4'>- This is the key finding that led to the diagnosis of colitis/diverticulitis.</small>")
-                .replace(/^(XR Knee 3 Views Right: May 09, 2025 \(Moderate degenerative joint disease without traumatic findings\))/m, "$1<br><small class='text-gray-500 pl-4'>- This means arthritis was seen, but no new injury like a break.</small>")
-                .replace(/^(Echocardiograms: Aug 27, 2020 \(Normal LV systolic function, EF 60-65%, mildly calcified aortic valve\))/m, "$1<br><small class='text-gray-500 pl-4'>- Her heart's main pumping function is normal. EF (Ejection Fraction) is a measure of how much blood is pumped out with each beat. A normal EF is about 50-70%. 'Mildly calcified' means there's some minor stiffening of a heart valve.</small>")
-                .replace(/^(Bone Density DEXA: July 1, 2025 \(Result: Stable Osteopenia, T-score -1.1\))/m, "$1<br><small class='text-gray-500 pl-4'>- Osteopenia is a condition where bone density is lower than normal. Her bone density has not significantly changed since her last scan in 2022.</small>")
-                .replace(/^(MRI\/MRA Brain\/Head \(w\/o contrast\): March 17, 2016 \(Negative for acute infarct\))/m, "$1<br><small class='text-gray-500 pl-4'>- This scan, done on the day of her stroke, showed no evidence of a new stroke, which is common immediately after the event.</small>");
+                .replace(/^(.*Carotid Duplex Ultrasound \(April 07, 2026\).*)/m, "$1<br><small class='text-gray-500 pl-4'>- This is good news, indicating stabilization or slight improvement from the severe 70% stenosis seen in August 2025. Visual scans have been aggregated in the Imaging Gallery tab.</small>")
+                .replace(/^(CT Abdomen\/Pelvis w\/ Contrast: June 17, 2025.*)/m, "$1<br><small class='text-gray-500 pl-4'>- This is the key finding that led to the diagnosis of colitis/diverticulitis.</small>")
+                .replace(/^(.*Bone Density DEXA: July 1, 2025.*)/m, "$1<br><small class='text-gray-500 pl-4'>- Osteopenia is a condition where bone density is lower than normal. Her bone density has not significantly changed since her last scan in 2022.</small>")
+                .replace(/^(.*MRI\/MRA Brain\/Head \(w\/o contrast\): March 17, 2016.*)/m, "$1<br><small class='text-gray-500 pl-4'>- This scan, done on the day of her stroke, showed no evidence of a new stroke, which is common immediately after the event.</small>");
             document.getElementById('proceduresOutput').innerHTML = formatSimpleMarkdown(formattedProcedures);
         }
 
@@ -1297,12 +1191,9 @@ Lifestyle Recommendations:
         }
         
         function populateTimeline() {
-            // UPDATED: Added new timeline events for new symptoms
              const events = [
                 { date: '2026-04-07', type: 'imaging', desc: 'Repeat Carotid Duplex', details: 'Routine follow-up with Ascension Indiana. Ultrasound showed continued mild disease on the right internal carotid artery and moderate disease on the left. No TIA or stroke symptoms reported.' },
-                // NEW SYMPTOM ADDITION: Neck/Throat cluster onset
                 { date: '2025-10-26', type: 'symptom', desc: 'Onset of Neck/Throat Symptoms', details: 'Reported sore throat, swollen glands, painless lump on front right neck under jaw, and difficulty swallowing.' },
-                // NEW SYMPTOM ADDITION: Wheezing onset
                 { date: '2025-10-26', type: 'symptom', desc: 'Onset of Expiratory Wheezing', details: 'Reported new high-pitched expiratory wheezing.' },
                 { date: '2011-11-08', type: 'procedure', desc: 'First Sleep Study (Polysomnography)', details: 'Showed no significant obstructive sleep apnea but did reveal periodic limb movements and a complete absence of deep sleep.'},
                 { date: '2016-03-17', type: 'emergency', desc: 'Hospitalization for Stroke (CVA)', details: 'Admitted to Parkview Health for a stroke/TIA. Treated with TPA. CTA Head on this date identified two saccular aneurysms (4x3mm and 3x2mm).' },
