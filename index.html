@@ -1,1296 +1,412 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-gray-50">
+<html lang="en" class="bg-slate-50">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motherly Medical Model - Memory Recollection - Vickie Berry</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa; 
-            color: #343a40;
-        }
-        .main-container { max-width: 1400px; margin: 0 auto; padding: 24px; }
-        .card { 
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            padding: 24px;
-            margin-bottom: 24px;
-        }
-        .header-logo {
-            height: 80px;
-            width: auto;
-        }
-        .nav-button {
-            padding: 10px 12px;
-            border-radius: 8px;
-            font-weight: 500;
-            color: #495057;
-            background-color: transparent;
-            transition: background-color 0.2s, color 0.2s;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .nav-button.active, .nav-button:hover {
-            background-color: #6c757d; 
-            color: #ffffff;
-        }
-        .nav-icon {
-            font-size: 1.5rem;
-        }
-        .nav-label {
-            display: none;
-        }
-        @media (min-width: 768px) {
-            .nav-label {
-                display: inline;
-            }
-            .nav-button {
-                padding: 10px 20px;
-            }
-        }
-        .sub-nav-button {
-            padding: 8px 16px;
-            border-bottom: 3px solid transparent;
-            color: #6c757d;
-            font-weight: 500;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        .sub-nav-button.active, .sub-nav-button:hover {
-            color: #343a40;
-            border-bottom-color: #6c757d;
-        }
-        .tab-content, .sub-tab-content { display: none; }
-        .tab-content.active, .sub-tab-content.active { display: block; }
-        
-        .primary-concern-item { background-color: #fff9e6; border-left: 4px solid #f59e0b; padding: 16px; border-radius: 8px; margin-bottom: 12px;}
-        .primary-concern-item.critical { background-color: #fef2f2; border-left-color: #ef4444; }
-        .primary-concern-item.resolved { background-color: #f0fdf4; border-left-color: #22c55e; }
-        .primary-concern-item.resolved del { color: #6b7280; }
-        
-        .chart-grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-        
-        .chart-item-container {
-            background-color: #fdfdff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-            padding: 1rem;
-        }
-
-        .chart-item-container canvas {
-            max-height: 300px;
-            width: 100% !important;
-            height: auto !important;
-        }
-        
-        .lab-table {
-            display: none;
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .lab-table th, .lab-table td {
-            border: 1px solid #e5e7eb;
-            padding: 8px;
-            text-align: left;
-        }
-        .lab-table th { background-color: #f3f4f6; }
-
-
-        .single-data-point-message {
-            text-align: center;
-            font-size: 1rem;
-            color: #495057;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-        .single-data-point-message strong {
-            font-size: 1.5rem;
-            color: #343a40;
-        }
-
-        .gemini-button {
-            background-color: #343a40;
-            color: #f8f9fa;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .gemini-button:hover {
-            background-color: #495057;
-        }
-        .gemini-button:disabled {
-            background-color: #adb5bd;
-            cursor: not-allowed;
-        }
-       .gemini-answer-content p, .gemini-answer-content ul, .gemini-answer-content li, .gemini-answer-content h1, .gemini-answer-content h2, .gemini-answer-content h3 { 
-            font-size: 0.95rem; line-height: 1.6; color: #374151; margin-bottom: 0.75rem;
-        }
-        .gemini-answer-content ul { list-style-type: disc; padding-left: 20px; margin-top: 8px;}
-        .gemini-answer-content li { margin-bottom: 0.25rem; }
-        .gemini-answer-content strong { font-weight: 600; color: #1f2937;}
-
-        .report-content-full {
-            max-height: 600px; 
-            overflow-y: auto;
-            border: 1px solid #e5e7eb; 
-            padding: 16px;
-            border-radius: 8px;
-            background-color: #f9fafb; 
-            font-size: 0.875rem; 
-            white-space: pre-wrap;
-            line-height: 1.6;
-            color: #4b5563;
-        }
-
-        details > summary {
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #343a40;
-            padding: 0.75rem;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            transition: background-color 0.2s;
-        }
-
-        details > summary:hover {
-            background-color: #e9ecef;
-        }
-
-        details[open] > summary {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-
-        .details-content {
-            padding: 1rem;
-            border: 1px solid #e9ecef;
-            border-top: none;
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
-        
-        /* Vertical Timeline Styles */
-        .timeline-vertical-container {
-            position: relative;
-            padding: 2rem 0;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .timeline-vertical-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 1.25rem;
-            height: 100%;
-            width: 4px;
-            background: #e5e7eb;
-            transform: translateX(-50%);
-        }
-        .timeline-vertical-item {
-            position: relative;
-            margin-bottom: 2.5rem;
-            padding-left: 3.5rem;
-        }
-        .timeline-vertical-dot {
-            position: absolute;
-            left: 1.25rem;
-            top: 0.25rem;
-            height: 1.5rem;
-            width: 1.5rem;
-            border-radius: 50%;
-            border: 4px solid #f8f9fa;
-            transform: translateX(-50%);
-        }
-        .dot-diagnosis { background-color: #3b82f6; }
-        .dot-visit { background-color: #22c55e; }
-        .dot-emergency { background-color: #ef4444; }
-        .dot-procedure { background-color: #f97316; }
-        .dot-imaging { background-color: #8b5cf6; }
-        .dot-symptom { background-color: #f59e0b; }
-        .dot-environment { background-color: #16a34a; }
-
-
-        .timeline-vertical-content {
-            background: #fff;
-            padding: 1rem 1.5rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .timeline-vertical-content:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-        }
-
-        .timeline-modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-        }
-        .timeline-modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .timeline-modal-close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* Grocery List Styles */
-        .grocery-category { margin-bottom: 2rem; }
-        .grocery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1.5rem; }
-        .grocery-item { text-align: center; }
-        .grocery-item-icon { font-size: 3rem; margin-bottom: 0.5rem; }
-        .grocery-item-name { font-weight: 500; }
-
-        .read-aloud-btn {
-            background-color: #e9ecef;
-            color: #495057;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-        .read-aloud-btn:hover {
-            background-color: #ced4da;
-        }
-        
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vickie Berry Care Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root { color-scheme: light; --ink:#172033; --muted:#64748b; --card:#ffffff; --line:#e2e8f0; --blue:#2563eb; --amber:#d97706; --red:#dc2626; --green:#16a34a; --violet:#7c3aed; }
+    body { font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: linear-gradient(180deg,#f8fafc 0%,#eef4ff 100%); color: var(--ink); }
+    .shell { max-width: 1480px; margin: 0 auto; padding: 24px; }
+    .card { background: rgba(255,255,255,.94); border: 1px solid rgba(226,232,240,.95); border-radius: 22px; box-shadow: 0 18px 48px rgba(15,23,42,.08); }
+    .soft-card { background:#fff; border:1px solid var(--line); border-radius:18px; box-shadow:0 8px 20px rgba(15,23,42,.05); }
+    .pill { display:inline-flex; align-items:center; gap:.45rem; border-radius:999px; padding:.35rem .7rem; font-size:.78rem; font-weight:700; border:1px solid var(--line); background:#f8fafc; color:#334155; }
+    .pill.ok { background:#ecfdf5; color:#166534; border-color:#bbf7d0; }
+    .pill.watch { background:#fff7ed; color:#9a3412; border-color:#fed7aa; }
+    .pill.alert { background:#fef2f2; color:#991b1b; border-color:#fecaca; }
+    .pill.info { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
+    .tab-btn { border:1px solid transparent; color:#475569; border-radius:14px; padding:.72rem .95rem; font-weight:700; display:flex; align-items:center; gap:.5rem; transition:.18s ease; }
+    .tab-btn:hover { background:#f1f5f9; color:#0f172a; }
+    .tab-btn.active { color:#fff; background:#172033; box-shadow:0 10px 24px rgba(23,32,51,.2); }
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; }
+    .metric { display:grid; gap:.45rem; }
+    .metric-value { font-size:2.1rem; line-height:1; font-weight:800; letter-spacing:-.05em; }
+    .metric-label { color:#64748b; font-size:.86rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }
+    .status-left { border-left:5px solid #94a3b8; }
+    .status-left.ok { border-left-color:var(--green); }
+    .status-left.watch { border-left-color:var(--amber); }
+    .status-left.alert { border-left-color:var(--red); }
+    .timeline::before { content:""; position:absolute; left:18px; top:4px; bottom:4px; width:3px; background:#dbeafe; border-radius:999px; }
+    .timeline-item { position:relative; padding-left:54px; padding-bottom:24px; }
+    .timeline-dot { position:absolute; left:8px; top:2px; width:23px; height:23px; border-radius:999px; border:4px solid #fff; box-shadow:0 0 0 1px #bfdbfe; }
+    .scrollbox { max-height: 540px; overflow:auto; }
+    .table-wrap { overflow:auto; border:1px solid var(--line); border-radius:16px; }
+    table { border-collapse:collapse; width:100%; min-width:760px; }
+    th, td { padding:.75rem .85rem; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { background:#f8fafc; color:#475569; font-size:.78rem; text-transform:uppercase; letter-spacing:.04em; }
+    tr:last-child td { border-bottom:0; }
+    .chart-box { min-height: 330px; }
+    .print-only { display:none; }
+    mark { background:#fef08a; border-radius:4px; padding:0 .1rem; }
+    @media print { .no-print, nav, #searchResults { display:none!important; } body { background:#fff; } .card,.soft-card{box-shadow:none!important;} .tab-panel{display:block!important; page-break-inside:avoid;} .print-only{display:block;} }
+  </style>
 </head>
 <body>
-    <div id="timeline-modal" class="timeline-modal">
-        <div class="timeline-modal-content">
-            <span class="timeline-modal-close">&times;</span>
-            <h3 id="modal-title" class="text-2xl font-bold mb-2"></h3>
-            <p id="modal-date" class="text-sm text-gray-500 mb-4"></p>
-            <div id="modal-details"></div>
-            <button id="readModalBtn" class="read-aloud-btn mt-4">🔊</button>
+  <div class="shell">
+    <header class="card p-5 md:p-7 mb-6">
+      <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+        <div class="flex items-center gap-4">
+          <img src="734E7D60-B1B5-4037-B7CF-760E0730ADA6.png" alt="Dashboard logo" class="w-16 h-16 object-contain" onerror="this.style.display='none'" />
+          <div>
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="pill info">Updated Jun 2, 2026</span>
+              <span class="pill watch">New labs + dyspnea workup</span>
+              <span class="pill">Identifiers minimized</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Vickie Berry Care Dashboard</h1>
+            <p class="text-slate-600 mt-2 max-w-3xl">A patient-facing tracker for lab trends, symptoms, medication reconciliation, follow-up tasks, and visit preparation. This is not a diagnosis tool and does not replace clinician instructions.</p>
+          </div>
         </div>
-    </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-2 gap-3 min-w-[280px]">
+          <button id="printBtn" class="no-print rounded-xl bg-slate-900 text-white font-bold px-4 py-3 hover:bg-slate-700">Print / Save PDF</button>
+          <button id="readSummaryBtn" class="no-print rounded-xl bg-white border border-slate-200 text-slate-700 font-bold px-4 py-3 hover:bg-slate-50">Read Summary</button>
+          <button id="exportLogBtn" class="no-print rounded-xl bg-white border border-slate-200 text-slate-700 font-bold px-4 py-3 hover:bg-slate-50">Export Log</button>
+          <button id="clearLogBtn" class="no-print rounded-xl bg-white border border-slate-200 text-slate-700 font-bold px-4 py-3 hover:bg-slate-50">Clear Log</button>
+        </div>
+      </div>
+      <div class="relative mt-6 no-print">
+        <input id="globalSearch" type="search" placeholder="Search conditions, meds, labs, tasks, questions..." class="w-full rounded-2xl border border-slate-200 bg-white px-5 py-4 text-lg outline-none focus:ring-4 focus:ring-blue-100" />
+        <div id="searchResults" class="hidden absolute z-30 mt-2 w-full rounded-2xl border border-slate-200 bg-white shadow-xl max-h-96 overflow-auto"></div>
+      </div>
+    </header>
 
-    <div class="main-container">
-        <header class="mb-8">
-            <div class="flex justify-center items-center gap-4">
-                <img src="734E7D60-B1B5-4037-B7CF-760E0730ADA6.png" alt="Mascot Logo" class="header-logo" onerror="this.src='https://via.placeholder.com/80?text=Logo'">
-                <div class="text-left">
-                    <h1 class="text-4xl font-bold text-[#343a40]">Vickie Berry</h1>
-                    <p class="text-lg text-gray-600 mt-1">Comprehensive Health Dashboard</p>
+    <nav class="no-print card p-2 mb-6 flex gap-2 overflow-x-auto" aria-label="Dashboard sections">
+      <button class="tab-btn active" data-tab="overview">Overview</button>
+      <button class="tab-btn" data-tab="labs">Labs & Imaging</button>
+      <button class="tab-btn" data-tab="meds">Medications</button>
+      <button class="tab-btn" data-tab="care">Care Plan</button>
+      <button class="tab-btn" data-tab="timeline">Timeline</button>
+      <button class="tab-btn" data-tab="log">Symptom Log</button>
+      <button class="tab-btn" data-tab="questions">Visit Prep</button>
+    </nav>
+
+    <main>
+      <section id="overview" class="tab-panel active">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+          <div class="xl:col-span-8 space-y-6">
+            <div class="card p-6">
+              <div class="flex flex-wrap justify-between gap-3 mb-5">
+                <div>
+                  <h2 class="text-2xl font-extrabold">Current snapshot</h2>
+                  <p class="text-slate-600">Newest findings imported from May 2026 MyChart results and the Jun 2026 health summary.</p>
                 </div>
-            </div>
-            <div class="mt-4 max-w-2xl mx-auto">
-                <div class="relative">
-                    <input type="search" id="appSearchInput" placeholder="Search patient record..." class="w-full p-3 pl-10 border border-gray-300 rounded-full">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <i class="fas fa-search text-gray-400"></i>
-                    </div>
-                </div>
-                <div id="searchResultsContainer" class="hidden absolute bg-white border border-gray-200 rounded-lg mt-1 w-full max-h-80 overflow-y-auto z-50"></div>
-            </div>
-        </header>
-
-        <nav class="card flex justify-center flex-wrap gap-2 mb-8">
-            <button class="nav-button active" data-tab="dashboard">
-                <span class="material-symbols-outlined nav-icon">dashboard</span>
-                <span class="nav-label">Dashboard</span>
-            </button>
-            <button class="nav-button" data-tab="timeline">
-                <span class="material-symbols-outlined nav-icon">timeline</span>
-                <span class="nav-label">Timeline</span>
-            </button>
-            <button class="nav-button" data-tab="suspicions">
-                <span class="material-symbols-outlined nav-icon">clinical_notes</span>
-                <span class="nav-label">Suspicions</span>
-            </button>
-            <button class="nav-button" data-tab="healthRecord">
-                <span class="material-symbols-outlined nav-icon">medical_information</span>
-                <span class="nav-label">Health Record</span>
-            </button>
-            <button class="nav-button" data-tab="labTrends">
-                <span class="material-symbols-outlined nav-icon">ssid_chart</span>
-                <span class="nav-label">Lab Trends</span>
-            </button>
-            <button class="nav-button" data-tab="carePlan">
-                <span class="material-symbols-outlined nav-icon">list_alt</span>
-                <span class="nav-label">Care Plan</span>
-            </button>
-            <button class="nav-button" data-tab="tools">
-                <span class="material-symbols-outlined nav-icon">construction</span>
-                <span class="nav-label">Log & Tools</span>
-            </button>
-        </nav>
-
-        <main>
-            <div id="dashboard" class="tab-content active">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2 card">
-                        <div class="flex justify-between items-center mb-4">
-                            <h2 class="text-2xl font-semibold">Primary Concerns</h2>
-                            <button id="readConcernsBtn" class="read-aloud-btn">🔊</button>
-                        </div>
-                        <div id="dashboardConcerns" class="space-y-3"></div>
-                        <button id="suggestConcernQuestionsBtn" class="gemini-button mt-4"><i class="fas fa-lightbulb"></i>Suggest Questions for My Doctor</button>
-                        <div id="suggestedQuestionsArea" class="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50" style="display:none;">
-                            <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-md font-semibold text-gray-700">Suggested Questions:</h4>
-                                <button id="readSuggestedQuestionsBtn" class="read-aloud-btn">🔊</button>
-                            </div>
-                            <div id="suggestedQuestionsContent" class="gemini-answer-content"></div>
-                        </div>
-                    </div>
-                    <div class="space-y-6">
-                        <div class="card">
-                             <div class="flex justify-between items-center mb-4">
-                                 <h2 class="text-2xl font-semibold">Key Diagnoses</h2>
-                                 <button id="readDiagnosesBtn" class="read-aloud-btn">🔊</button>
-                             </div>
-                            <div id="dashboardDiagnoses" class="space-y-2 text-gray-700"></div>
-                        </div>
-                        <div class="card">
-                            <div class="flex justify-between items-center mb-4">
-                                <h2 class="text-2xl font-semibold">Upcoming / Pending</h2>
-                                <button id="readAppointmentsBtn" class="read-aloud-btn">🔊</button>
-                            </div>
-                            <div id="dashboardAppointments" class="space-y-3"></div>
-                        </div>
-                         <div class="card">
-                             <div class="flex justify-between items-center mb-4">
-                                 <h2 class="text-2xl font-semibold">Contacts</h2>
-                                 <button id="readContactsBtn" class="read-aloud-btn">🔊</button>
-                             </div>
-                            <div id="dashboardContacts" class="space-y-3"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="timeline" class="tab-content">
-                <div class="card">
-                     <h2 class="text-2xl font-semibold mb-4 text-center">Patient Timeline</h2>
-                     <p class="text-gray-500 text-center mb-8">A chronological overview of key medical events. Click on any event for more details.</p>
-                     <div id="timeline-vertical-container" class="timeline-vertical-container">
-                    </div>
-                </div>
-            </div>
-            
-             <div id="suspicions" class="tab-content">
-                 <div class="card">
-                    <h2 class="text-3xl font-bold text-center mb-4 text-red-700">Clinical Insight: New Onset Headache & Facial Pain (July 2025)</h2>
-                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg shadow-md mb-8">
-                        <p><strong class="font-bold">Medical Emergency:</strong> The sudden onset of a new, severe headache, especially with features like a "shock-like" sensation, requires an **immediate emergency room visit or call to the neurologist.** The top priorities are to rule out life-threatening vascular events and nerve conditions.</p>
-                    </div>
-                    <div class="space-y-4" id="headache-suspicions-content">
-                    </div>
-                 </div>
-                 <div id="foot-sensation-suspicions" class="card">
-                     <h2 class="text-3xl font-bold text-center mb-4 text-amber-700">Clinical Insight: New Onset Foot "Pins & Needles" (Paresthesia)</h2>
-                     <div class="bg-amber-100 border-l-4 border-amber-500 text-amber-700 p-4 rounded-lg shadow-md mb-8">
-                         <p><strong class="font-bold">Action Required:</strong> This new neurological symptom should be reported to her primary care physician or nephrologist. It could be related to several of her existing conditions or recent medications.</p>
-                     </div>
-                     <div class="space-y-4" id="foot-suspicions-content">
-                     </div>
-                 </div>
-                 <div class="card">
-                     <h2 class="text-3xl font-bold text-center mb-4 text-[#0a9396]">Clinical Insight: Potential Causes of a Bleeding Event (June 2025)</h2>
-                     <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg shadow-md mb-8">
-                         <p><strong class="font-bold">Medical Disclaimer:</strong> The information presented here is a clinical synthesis based on the patient's record for informational purposes only. The sudden onset of bloody bowel movements is a **medical emergency** that requires immediate evaluation by a healthcare professional.</p>
-                     </div>
-                     <div class="space-y-4" id="suspicions-content">
-                     </div>
-                 </div>
-             </div>
-
-            <div id="healthRecord" class="tab-content">
-                <div class="card">
-                    <div id="recordSubNav" class="flex flex-wrap border-b border-gray-200 mb-4">
-                        <button class="sub-nav-button active" data-subtab="problems">Problem List</button>
-                        <button class="sub-nav-button" data-subtab="encounters">Encounters</button>
-                        <button class="sub-nav-button" data-subtab="medications">Medications</button>
-                        <button class="sub-nav-button" data-subtab="procedures">Procedures</button>
-                        <button class="sub-nav-button" data-subtab="imagingGallery">Imaging Gallery <span class="text-xs bg-blue-100 text-blue-800 rounded px-2 py-1 ml-1">New</span></button>
-                        <button class="sub-nav-button" data-subtab="fullReport">Full Report Text</button>
-                    </div>
-                    <div id="problems" class="sub-tab-content active">
-                        <h3 class="text-xl font-semibold mb-4">Problem List</h3>
-                        <div id="problemListOutput" class="report-content-full"></div>
-                    </div>
-                    <div id="encounters" class="sub-tab-content">
-                        <h3 class="text-xl font-semibold mb-4">Encounter History</h3>
-                        <div id="encounterHistoryOutput" class="report-content-full"></div>
-                    </div>
-                    <div id="medications" class="sub-tab-content">
-                        <h3 class="text-xl font-semibold mb-4">Medication History</h3>
-                        <div id="medicationHistoryOutput" class="report-content-full"></div>
-                    </div>
-                    <div id="procedures" class="sub-tab-content">
-                         <h3 class="text-xl font-semibold mb-4">Procedures History</h3>
-                         <div id="proceduresOutput" class="space-y-4"></div>
-                    </div>
-                    
-                    <div id="imagingGallery" class="sub-tab-content">
-                         <h3 class="text-xl font-semibold mb-4">Artery Scans & Medical Imaging</h3>
-                         <p class="text-gray-600 mb-6">Visual reference scans for Carotid Duplex and structural observations.</p>
-                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            
-                            <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-                                <img src="65226848-5c65-4088-afca-7e93ce244d16.png" alt="Artery Scan 1" class="w-full h-auto object-cover" onerror="this.src='https://via.placeholder.com/400x300?text=Scan+Image+1+Not+Found'">
-                                <div class="p-4">
-                                    <h4 class="font-semibold text-gray-800">Scan Reference 1</h4>
-                                    <p class="text-xs text-gray-500 mt-1">Carotid Artery evaluation scan cross-section.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-                                <img src="7aa3863a-20db-4954-98f4-9b4fe7fbaba8.png" alt="Artery Scan 2" class="w-full h-auto object-cover" onerror="this.src='https://via.placeholder.com/400x300?text=Scan+Image+2+Not+Found'">
-                                <div class="p-4">
-                                    <h4 class="font-semibold text-gray-800">Scan Reference 2</h4>
-                                    <p class="text-xs text-gray-500 mt-1">Doppler flow or secondary viewing angle.</p>
-                                </div>
-                            </div>
-
-                            <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-                                <img src="8dc10668-b368-4a5b-82c0-f50eefeed10d.png" alt="Artery Scan 3" class="w-full h-auto object-cover" onerror="this.src='https://via.placeholder.com/400x300?text=Scan+Image+3+Not+Found'">
-                                <div class="p-4">
-                                    <h4 class="font-semibold text-gray-800">Scan Reference 3</h4>
-                                    <p class="text-xs text-gray-500 mt-1">Further diagnostic imaging reference.</p>
-                                </div>
-                            </div>
-
-                         </div>
-                    </div>
-
-                     <div id="fullReport" class="sub-tab-content">
-                         <h3 class="text-xl font-semibold mb-3">Complete Consolidated Health Record</h3>
-                         <div id="reportDisplayFull" class="report-content-full">
-                             <p class="text-gray-500">Loading full report...</p>
-                        </div>
-                    </div>
-                </div>
+                <span class="pill alert">3 items need clinician review</span>
+              </div>
+              <div id="snapshotGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4"></div>
             </div>
 
-            <div id="labTrends" class="tab-content">
-                 <div class="card">
-                    <div class="flex justify-between items-center mb-4">
-                         <h2 class="text-2xl font-semibold">Lab Result & Metric Trends</h2>
-                         <div class="flex items-center space-x-2">
-                             <span class="text-sm">Table</span>
-                             <label class="relative inline-flex items-center cursor-pointer">
-                                 <input type="checkbox" id="viewToggle" class="sr-only peer" checked>
-                                 <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-2 peer-focus:ring-blue-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                             </label>
-                             <span class="text-sm">Chart</span>
-                        </div>
-                    </div>
-                     <p class="text-center text-gray-500 mb-8">Visualizing key health metrics over time. Hover over points for details.</p>
-                    <div id="chart-view" class="chart-grid-container">
-                        <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">GFR (Non-AA) Trend</h5><canvas id="gfrTrendChart"></canvas></div>
-                        <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">Creatinine Trend</h5><canvas id="creatinineTrendChart"></canvas></div>
-                        <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">BUN Trend</h5><canvas id="bunTrendChart"></canvas></div>
-                        <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">WBC Trend</h5><canvas id="wbcTrendChart"></canvas></div>
-                        <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">Hemoglobin Trend</h5><canvas id="hemoglobinTrendChart"></canvas></div>
-                        <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">Platelet Count</h5><canvas id="plateletTrendChart"></canvas></div>
-                         <div class="chart-item-container"><h5 class="font-semibold text-center mb-2">ESR Trend</h5><canvas id="esrTrendChart"></canvas></div>
-                    </div>
-                    <div id="table-view" style="display:none;">
-                    </div>
-                    <details class="mt-6" id="lab-explanations-container">
-                        <summary class="font-semibold cursor-pointer text-gray-700">Understanding These Lab Results</summary>
-                        <div class="mt-2 p-4 bg-gray-100 rounded-lg text-sm text-gray-600 space-y-3">
-                            <div id="lab-explanations"></div>
-                            <button id="readLabExplanationsBtn" class="read-aloud-btn mt-2" aria-label="Read lab result explanations">🔊</button>
-                        </div>
-                    </details>
-                </div>
+            <div class="card p-6">
+              <h2 class="text-2xl font-extrabold mb-4">Priority watchlist</h2>
+              <div id="priorityList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
-
-            <div id="carePlan" class="tab-content">
-                <div class="card">
-                     <h2 class="text-2xl font-semibold mb-4">Care Plan & Lifestyle</h2>
-                     <div id="lifestyleOutput" class="space-y-4"></div>
-                </div>
-                 <div class="card">
-                    <h2 class="text-2xl font-semibold mb-4">Vegetarian Kidney-Friendly Grocery List</h2>
-                    <p class="text-gray-600 mb-6">Focus on these foods to support kidney health and manage gout. Always check with your doctor or a renal dietitian for personalized advice.</p>
-                    
-                    <div class="grocery-category">
-                        <h3 class="text-xl font-semibold mb-4 border-b pb-2">Vegetables (Low Potassium)</h3>
-                        <div class="grocery-grid">
-                            <div class="grocery-item"><div class="grocery-item-icon">🥬</div><div class="grocery-item-name">Cabbage</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🥦</div><div class="grocery-item-name">Cauliflower</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🥒</div><div class="grocery-item-name">Cucumber</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🫑</div><div class="grocery-item-name">Bell Peppers</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🧅</div><div class="grocery-item-name">Onions</div></div>
-                        </div>
-                    </div>
-                    <div class="grocery-category">
-                        <h3 class="text-xl font-semibold mb-4 border-b pb-2">Fruits (Low Potassium)</h3>
-                        <div class="grocery-grid">
-                            <div class="grocery-item"><div class="grocery-item-icon">🍎</div><div class="grocery-item-name">Apples</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🍓</div><div class="grocery-item-name">Berries</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🍒</div><div class="grocery-item-name">Cherries</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🍇</div><div class="grocery-item-name">Grapes</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🍍</div><div class="grocery-item-name">Pineapple</div></div>
-                        </div>
-                    </div>
-                    <div class="grocery-category">
-                        <h3 class="text-xl font-semibold mb-4 border-b pb-2">Plant-Based Proteins</h3>
-                         <div class="grocery-grid">
-                            <div class="grocery-item"><div class="grocery-item-icon">🥚</div><div class="grocery-item-name">Egg Whites</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🌱</div><div class="grocery-item-name">Tofu</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🥣</div><div class="grocery-item-name">Greek Yogurt</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🫘</div><div class="grocery-item-name">Lentils & Beans</div></div>
-                        </div>
-                         <p class="text-xs text-gray-500 mt-2">*Note: Lentils and beans are excellent sources of protein but can be higher in purines. Discuss with your doctor how to incorporate them while managing gout.</p>
-                    </div>
-                     <div class="grocery-category">
-                        <h3 class="text-xl font-semibold mb-4 border-b pb-2">Grains</h3>
-                         <div class="grocery-grid">
-                            <div class="grocery-item"><div class="grocery-item-icon">🍞</div><div class="grocery-item-name">White Bread</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🍚</div><div class="grocery-item-name">White Rice</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🍝</div><div class="grocery-item-name">Refined Pasta</div></div>
-                        </div>
-                    </div>
-                     <div class="grocery-category">
-                        <h3 class="text-xl font-semibold mb-4 border-b pb-2 text-red-600">Limit or Avoid</h3>
-                         <div class="grocery-grid">
-                            <div class="grocery-item"><div class="grocery-item-icon">🥫</div><div class="grocery-item-name">Processed Foods</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🥤</div><div class="grocery-item-name">Dark Sodas</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🥑</div><div class="grocery-item-name">High-Potassium Foods (Avocado, Banana, Potato)</div></div>
-                            <div class="grocery-item"><div class="grocery-item-icon">🥜</div><div class="grocery-item-name">Nuts & Seeds</div></div>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <aside class="xl:col-span-4 space-y-6">
+            <div class="card p-6">
+              <h2 class="text-2xl font-extrabold mb-4">Open follow-up queue</h2>
+              <div id="taskList" class="space-y-3"></div>
             </div>
-            
-            <div id="tools" class="tab-content">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div class="card">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-2xl font-semibold"><i class="fas fa-robot text-gray-700"></i> AI-Powered Query Tool</h3>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-4">Ask questions about Vickie's health record in plain language.</p>
-                        <div>
-                            <input type="text" id="queryInput" class="w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., 'Summarize kidney function trend'">
-                            <button id="askButton" class="gemini-button w-full mt-2">Ask AI Assistant</button>
-                        </div>
-                        <div id="answerSection" class="mt-4 pt-4 border-t border-gray-200">
-                            <p id="answerPlaceholder" class="text-gray-500">Answers will appear here...</p>
-                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-md font-semibold text-gray-700">AI Answer:</h4>
-                                <button id="readAnswerBtn" class="read-aloud-btn" style="display: none;">🔊</button>
-                            </div>
-                            <div id="answerContent" class="gemini-answer-content"></div>
-                        </div>
-                    </div>
-                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-4">Symptom & Vitals Log</h3>
-                        <div class="symptom-form-grid grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label for="logDate" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
-                                <input type="datetime-local" id="logDate" class="w-full p-2 border border-gray-300 rounded-md">
-                            </div>
-                             <div>
-                                <label for="logPainScale" class="block text-sm font-medium text-gray-700 mb-1">Pain Scale (0-10)</label>
-                                <select id="logPainScale" class="w-full p-2 border border-gray-300 rounded-md">
-                                    <option value="N/A">N/A</option>
-                                    <option value="0">0 - No pain</option>
-                                    <option value="1">1</option> <option value="2">2</option> <option value="3">3</option>
-                                    <option value="4">4</option> <option value="5">5</option> <option value="6">6</option>
-                                    <option value="7">7</option> <option value="8">8</option> <option value="9">9</option>
-                                    <option value="10">10 - Worst pain</option>
-                                </select>
-                            </div>
-                            <div class="col-span-full">
-                                <label for="logDescription" class="block text-sm font-medium text-gray-700 mb-1">Symptom(s)</label>
-                                <input type="text" id="logDescription" class="w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., Joint pain, fatigue">
-                            </div>
-                            <div>
-                                <label for="logBPSystolic" class="block text-sm font-medium text-gray-700 mb-1">BP Systolic</label>
-                                <input type="number" id="logBPSystolic" class="w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., 120">
-                            </div>
-                             <div>
-                                <label for="logBPDiastolic" class="block text-sm font-medium text-gray-700 mb-1">BP Diastolic</label>
-                                <input type="number" id="logBPDiastolic" class="w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., 80">
-                            </div>
-                            <div class="col-span-full">
-                                <label for="logNotes" class="block text-sm font-medium text-gray-700 mb-1">Additional Notes</label>
-                                <textarea id="logNotes" class="w-full p-2 border border-gray-300 rounded-md h-20" placeholder="e.g., Related to activity..."></textarea>
-                            </div>
-                        </div>
-                        <button id="logEntryButton" class="w-full mt-2 gemini-button">Log Entry</button>
-                        
-                        <h4 class="text-lg font-semibold mt-6 mb-3">Logged Entries:</h4>
-                        <div id="logDisplay" class="max-h-60 overflow-y-auto p-3 bg-gray-50 rounded-lg border border-gray-200">
-                            <p class="text-gray-500">No entries logged yet.</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="card p-6">
+              <h2 class="text-2xl font-extrabold mb-4">Active problem list</h2>
+              <div id="problemChips" class="flex flex-wrap gap-2"></div>
             </div>
+          </aside>
+        </div>
+      </section>
 
-        </main>
+      <section id="labs" class="tab-panel">
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
+          <div class="card p-6 chart-box"><h2 class="text-xl font-extrabold mb-2">Kidney function trend</h2><canvas id="kidneyChart"></canvas></div>
+          <div class="card p-6 chart-box"><h2 class="text-xl font-extrabold mb-2">Thyroid trend</h2><canvas id="thyroidChart"></canvas></div>
+          <div class="card p-6 chart-box"><h2 class="text-xl font-extrabold mb-2">Lipid panel</h2><canvas id="lipidChart"></canvas></div>
+          <div class="card p-6 chart-box"><h2 class="text-xl font-extrabold mb-2">CBC highlights</h2><canvas id="cbcChart"></canvas></div>
+        </div>
+        <div class="card p-6 mb-6">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div><h2 class="text-2xl font-extrabold">Result table</h2><p class="text-slate-600">Flags reflect the reference ranges printed on the uploaded reports.</p></div>
+            <select id="labFilter" class="no-print rounded-xl border border-slate-200 px-4 py-3 font-semibold"><option value="all">All categories</option></select>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Date</th><th>Category</th><th>Result</th><th>Value</th><th>Reference</th><th>Status</th><th>Care note</th></tr></thead><tbody id="labTableBody"></tbody></table></div>
+        </div>
+        <div class="card p-6">
+          <h2 class="text-2xl font-extrabold mb-4">Imaging update</h2>
+          <div id="imagingPanel"></div>
+        </div>
+      </section>
 
-        <footer class="text-center mt-12 mb-6">
-            <p class="text-sm text-gray-500">© <span id="currentYear"></span> Motherly Medical Memory. All rights reserved.</p>
-        </footer>
-    </div>
+      <section id="meds" class="tab-panel">
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <div class="xl:col-span-2 card p-6">
+            <h2 class="text-2xl font-extrabold mb-4">Medication list from newest health summary</h2>
+            <div class="table-wrap"><table><thead><tr><th>Medication</th><th>Directions shown</th><th>Purpose / note</th><th>Started</th></tr></thead><tbody id="medTableBody"></tbody></table></div>
+          </div>
+          <div class="space-y-6">
+            <div class="card p-6">
+              <h2 class="text-2xl font-extrabold mb-4">Reconciliation alerts</h2>
+              <div id="medAlerts" class="space-y-3"></div>
+            </div>
+            <div class="card p-6">
+              <h2 class="text-2xl font-extrabold mb-4">Daily timing helper</h2>
+              <div id="timingHelper" class="space-y-3 text-sm text-slate-700"></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <script type="text/plain" id="healthReportDataContainer">
-## Vickie Berry - Comprehensive Care Plan (Most Current Directive)
-Patient: Vickie Berry
-Age: 71
-Diagnoses:
- * Stage 3b Chronic Kidney Disease (CKD)
- * Gout (Recent Diagnosis)
- * Hypertension
- * Hemorrhoids
+      <section id="care" class="tab-panel">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="card p-6"><h2 class="text-2xl font-extrabold mb-4">Dyspnea / wheezing pathway</h2><div id="dyspneaPath" class="space-y-4"></div></div>
+          <div class="card p-6"><h2 class="text-2xl font-extrabold mb-4">Kidney + blood pressure pathway</h2><div id="kidneyPath" class="space-y-4"></div></div>
+          <div class="card p-6"><h2 class="text-2xl font-extrabold mb-4">Heart / stroke prevention pathway</h2><div id="vascularPath" class="space-y-4"></div></div>
+          <div class="card p-6"><h2 class="text-2xl font-extrabold mb-4">Health maintenance</h2><div id="maintenancePath" class="space-y-4"></div></div>
+        </div>
+      </section>
 
-1. Patient Overview
-Vickie Berry is a 71-year-old woman with complex health challenges. She has a standing diagnosis of Stage 3b Chronic Kidney Disease and has recently been diagnosed with gout. Her case involves significant medication management, necessary dietary restrictions, and the potential impact of Long COVID symptoms from three previous infections. Her situation underscores the need for comprehensive care coordination and meticulous consideration of treatment options due to multiple chronic conditions. A significant new finding is the long-term environmental exposure to a hazardous crawlspace environment (improper dryer ventilation leading to lint and mold accumulation), which is a likely contributor to her chronic inflammation and recent acute illnesses.
+      <section id="timeline" class="tab-panel">
+        <div class="card p-6">
+          <h2 class="text-2xl font-extrabold mb-2">Timeline</h2>
+          <p class="text-slate-600 mb-6">Chronological events retained for quick recall during appointments.</p>
+          <div id="timelineList" class="timeline relative"></div>
+        </div>
+      </section>
 
-2. Kidney Function Trend (Incorporating data from all records)
-A notable decline in kidney function has been observed:
- * Mar 17, 2016 (CMPRO): Creatinine 1.1 mg/dL (H), BUN 15 mg/dL, GFR 53.3 mL/min (L).
- * Mar 18, 2016 (Stroke Panel): Creatinine 0.93 mg/dL, BUN 12 mg/dL.
- * Mar 24, 2021 (Health Summary/Logansport Family): Creatinine 0.87 mg/dL, BUN 15 mg/dL, GFR (calculated, approx. 70-75 based on age/Cr).
- * Oct 2021 (Health Summary): Glomerular Filtration Rate (GFR) Non-AA was 71 mL/min.
- * Feb 07, 2022 (Health Summary/LMPN Surgical Services): Creatinine 0.98 mg/dL, BUN 19 mg/dL.
- * Mar 08, 2022 (Health Summary/Logansport Family): Creatinine 0.95 mg/dL, BUN 18 mg/dL.
- * July 19, 2022: Creatinine 1.00 mg/dL (High).
- * Jan 09, 2023 (Health Summary/LMPN Surgical Services): Creatinine 1.11 mg/dL, BUN 20 mg/dL, eGFR Non-AA 54 mL/min.
- * Nov 06, 2023 (Logansport Family): Est Creatinine Clearance 54.00 mL/min.
- * April 24, 2023: Creatinine 1.10 mg/dL (High), eGFR Non-AA 55 mL/min (Low).
- * November 03, 2023: Creatinine 1.18 mg/dL (High), eGFR Non-AA 49 mL/min (Low). Total Cholesterol 176.70.
- * Mar 06, 2024 (Health Summary/LMPN Surgical Services): Creatinine 1.21 mg/dL, BUN 22 mg/dL, eGFR Non-AA 46 mL/min.
- * May 17, 2024 (Logansport Memorial Hospital Results): Creatinine 1.28 mg/dL (High), eGFR Non-AA 41 mL/min (Low), BUN 25.0 mg/dL (High).
- * Oct 11, 2024 (Health Summary/Logansport Family): Encounter diagnosis of Chronic kidney disease.
- * October 09, 2024: Creatinine 1.25 mg/dL (High), eGFR Non-AA 42 mL/min (Low), eGFR AA 51 mL/min (Low). BUN 24.0 mg/dL (High).
- * Jan 15, 2025 (Logansport Memorial Hospital Results / Health Summary): Creatinine 1.03 mg/dL (High), eGFR Non-AA 53 mL/min (L), EGFR AA 64 mL/min, BUN 22.0 mg/dL (High). WBC 8.1, Hemoglobin 14.2, Hematocrit 42.0, Platelets 294.
- * May 27, 2025 (Logansport Memorial Hospital Results): Creatinine 1.07 mg/dL (High), BUN 19.0 mg/dL, eGFR Non-AA 50 mL/min (Low), eGFR AA 61 mL/min.
- * Jun 02, 2025 (Nephrology): Addressed Chronic kidney disease stage 2. Labs ordered for 1 week before next visit.
- * Jun 17, 2025 (Logansport Memorial Hospital Results): WBC 13.6 (High), Neutro Absolute 9.60 (High). Urinalysis positive for leukocytes, trace blood, trace protein, 100 mg/dL glucose. BP 162/104. Temp 99.3F. eGFR Non-AA 54. Creatinine 1.01. BUN 14.0. Hemoglobin 14.6, Hematocrit 43.8, Platelets 355.
-This progression signifies a worsening of CKD to Stage 3b (based on Oct 2024 GFR of 42 mL/min, with recent fluctuations), characterized by moderate to severe kidney damage. The consistent decline raises concerns about the efficacy of current treatment strategies and emphasizes the need for more aggressive management to slow further deterioration.
+      <section id="log" class="tab-panel">
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <form id="symptomForm" class="card p-6 space-y-4">
+            <h2 class="text-2xl font-extrabold">Symptom & vitals log</h2>
+            <label class="block"><span class="font-bold text-sm">Date/time</span><input id="logDate" type="datetime-local" class="mt-1 w-full rounded-xl border border-slate-200 p-3" required /></label>
+            <label class="block"><span class="font-bold text-sm">Shortness of breath</span><select id="logSob" class="mt-1 w-full rounded-xl border border-slate-200 p-3"><option>None</option><option>Mild</option><option>Moderate</option><option>Severe</option></select></label>
+            <label class="block"><span class="font-bold text-sm">Wheezing</span><select id="logWheeze" class="mt-1 w-full rounded-xl border border-slate-200 p-3"><option>No</option><option>Yes</option><option>Unsure</option></select></label>
+            <label class="block"><span class="font-bold text-sm">Blood pressure</span><input id="logBp" placeholder="e.g., 128/76" class="mt-1 w-full rounded-xl border border-slate-200 p-3" /></label>
+            <label class="block"><span class="font-bold text-sm">Notes</span><textarea id="logNotes" rows="4" placeholder="Triggers, inhaler use, dizziness, headache, swelling, stress..." class="mt-1 w-full rounded-xl border border-slate-200 p-3"></textarea></label>
+            <button class="rounded-xl bg-blue-600 text-white font-bold px-4 py-3 w-full hover:bg-blue-700">Save entry</button>
+          </form>
+          <div class="xl:col-span-2 card p-6">
+            <h2 class="text-2xl font-extrabold mb-4">Saved entries</h2>
+            <div id="logEntries" class="space-y-3 scrollbox"></div>
+          </div>
+        </div>
+      </section>
 
-3. Critical Oversights and Immediate Action Plan (from Care Plan)
- * Lack of Nephrology Referral: Despite a significant GFR decline and a new Stage 3b CKD diagnosis, there is no documented referral to a nephrologist.
-   * Action: Schedule an immediate nephrology consultation. *(Note: Nephrology visit occurred Jan 13, 2025, with Dr. Melissa Anderson, Indiana Kidney Specialists, 3508 LaFountain Street, Kokomo, IN 46902, Phone: (317) 924-8425. Follow-up occurred on June 2, 2025. Next follow-up scheduled for December 8, 2025).*
- * Management of New Gout Diagnosis:
-   * Action: Develop a management plan for gout, considering her CKD. This includes appropriate medication and specific dietary advice.
- * Incomplete Cardiac Evaluation: No comprehensive cardiac evaluation has been documented. *(Note: Echocardiograms were performed Aug 2020 and Mar 2016. The August 2020 echo showed normal systolic function (EF 60-65%) but a mild calcification of the aortic valve. A current comprehensive evaluation may still be warranted based on evolving CKD and other risk factors).*
- * Contraindicated Medication: Continued prescription of Ibuprofen 800mg, which is contraindicated for CKD patients (and can exacerbate gout).
-   * Action: See Medication Adjustments (Section 4). *(Note: "1 of 1 - My Health Summary.PDF" p.23 indicates Ibuprofen 800mg was discontinued 01/13/2025. An ED note from 4/11/2022 shows it was prescribed for ankle fracture pain. An ED note from 5/9/2025 advises its use for knee pain. The care plan's emphasis on immediate discontinuation is critical).*
- * Missing Screenings/Assessments:
-   * No recent sleep study. *(DISCREPANCY: Polysomnography was performed Nov 8, 2011 at Howard Regional Health System, 765-454-4589. It showed no significant obstructive sleep apnea (AHI 0.2) but did note PLMs (Index 20.4/hr) and a complete absence of Stage N3 (deep) sleep. This historical finding is important. Current symptoms and the age of this study may warrant a new one).*
-   * No bone density screening. *(Note: Bone Density Exam was done July 20, 2022, showing osteopenia. A repeat on July 1, 2025 showed stable osteopenia).*
-   * No Long COVID assessment, despite three previous infections.
- * General Recommendations:
-   * Implement a home blood pressure monitoring plan. (Reiterated by Dr. Anderson on 6/2/2025)
-   * Conduct a comprehensive medication review, considering the new gout diagnosis and its potential interactions with existing medications and CKD.
-   * Initiate a structured exercise program.
-   * Perform a fall risk assessment.
-   * Arrange detailed dietary counseling with a renal dietitian, incorporating gout management. (Dietician consult for stroke was done on 3/18/2016, recommending low sodium diet).
-The goal is to adopt a more proactive and comprehensive approach to managing Vickie’s complex health conditions.
+      <section id="questions" class="tab-panel">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="card p-6"><h2 class="text-2xl font-extrabold mb-4">Questions to ask at the next visit</h2><div id="doctorQuestions" class="space-y-3"></div></div>
+          <div class="card p-6"><h2 class="text-2xl font-extrabold mb-4">Plain-language record query</h2><p class="text-slate-600 mb-4">Type a topic and the dashboard will pull matching items from this static record.</p><input id="recordQuery" class="w-full rounded-xl border border-slate-200 p-3 mb-3" placeholder="Try: kidney, wheezing, statin, TSH, triglycerides" /><button id="recordQueryBtn" class="rounded-xl bg-slate-900 text-white font-bold px-4 py-3 hover:bg-slate-700">Search record</button><div id="recordQueryAnswer" class="mt-4 space-y-3"></div></div>
+        </div>
+      </section>
+    </main>
 
-4. Medication Management and Recommended Adjustments (from Care Plan)
- * olmesartan 40 MG tablet (BENICAR): **STOP taking** as of June 2, 2025, per Dr. Melissa Anderson. (Note: was previously trialed in April 2024 for a cough suspected to be from Lisinopril, but patient switched herself back).
- * Ibuprofen 800mg: **IMMEDIATE DISCONTINUATION** is crucial due to its contraindication with CKD and potential to worsen gout. Tylenol is the safest over-the-counter option for pain management.
- * Gout Medications: Initiate appropriate medication for gout management, with careful consideration for dosage adjustments due to Stage 3b CKD. Options like allopurinol or febuxostat (for long-term management) or colchicine (for acute attacks) require renal dosing.
- * Trazodone 200mg (if taking 4x50mg tabs): High dosage requires reevaluation, considering potential interactions with declining kidney function and lack of N3 sleep observed in 2011 sleep study at an even higher dose.
- * Venlafaxine 150mg ER (twice daily): Dosage should be reduced by 25-50% due to GFR <45 mL/min.
- * Amlodipine: Dosage increased from 5mg to 10mg on March 24, 2025, due to elevated blood pressure readings.
- * Ciprofloxacin: Note high risk of tendinitis/tendon rupture in older adults. Monitor for joint/tendon pain.
- * Metronidazole (Flagyl): Be aware of potential for metallic taste, nausea, severe reaction with alcohol, and **peripheral neuropathy (numbness/tingling)**.
- * Comprehensive medication review by a pharmacist is essential.
+    <footer class="mt-8 text-center text-sm text-slate-500 pb-10">Built as a caregiver memory aid from patient-supplied records. Always verify medication changes, abnormal results, and symptoms with the treating clinician.</footer>
+  </div>
 
-5. Dietary and Lifestyle Recommendations (from Care Plan)
-A kidney-friendly vegetarian diet and specific lifestyle adjustments are crucial for managing Vickie’s Stage 3b CKD and new gout diagnosis.
-Dietary Recommendations:
- * Sodium Intake: Limit to less than 2,300mg daily. (Low sodium diet recommended by dietician in 2016).
- * Vegetables: Focus on low-potassium options such as cabbage, cauliflower, and zucchini.
-   * Gout consideration: While many vegetables are fine, be mindful of and potentially limit high-purine vegetables (e.g., asparagus, spinach, mushrooms, peas, lentils, beans) based on individual tolerance and dietitian advice.
- * Protein: Estimated needs 79-94 gm/day (1.1-1.3 gm/kg) per 2016 dietician consult. Choose plant-based proteins like plain tofu and tempeh.
- * Fluid Intake: Estimated needs 1800 ml/day per 2016 dietician consult, but must be carefully monitored per current renal and gout guidelines.
- * Foods to Avoid: High-phosphorus foods like dark sodas and large quantities of nuts. High-purine foods. Sugary drinks.
- * Alcohol: Avoid alcohol, especially beer and spirits.
-Lifestyle Recommendations:
- * Exercise: Regular, low-impact exercise such as walking or chair yoga is encouraged.
- * Weight Management: If overweight (BMI 30.73-31.41 noted in records), gradual weight loss can help reduce uric acid levels and stress on joints.
- * Blood Pressure: Check home blood pressure. Call if top number is less than 100 or higher than 150s.
+<script>
+const DATA = {
+  snapshot: [
+    {label:'eGFR', value:'50', unit:'mL/min/1.73m²', status:'watch', note:'May 2026 CMP was flagged low; Dec 2025 eGFR was 56.'},
+    {label:'Creatinine', value:'1.15', unit:'mg/dL', status:'watch', note:'May 2026 CMP flagged high; Dec 2025 was 0.98.'},
+    {label:'Triglycerides', value:'181', unit:'mg/dL', status:'watch', note:'Only lipid item flagged high in the May panel.'},
+    {label:'Chest X-ray', value:'Clear', unit:'', status:'ok', note:'No acute cardiopulmonary disease reported.'}
+  ],
+  priorities: [
+    {title:'Complete dyspnea workup', status:'watch', detail:'Chest X-ray was reassuring, but PFT was ordered after reports of shortness of breath and wheezing. Track inhaler response and triggers.'},
+    {title:'Clarify kidney staging and repeat timing', status:'watch', detail:'eGFR moved from 56 to 50 across available reports. Urine microalbumin/creatinine ratio was normal at 6 mg/g in Dec 2025.'},
+    {title:'Medication reconciliation', status:'alert', detail:'The health summary lists both pravastatin and atorvastatin, and both omeprazole and pantoprazole. Confirm the intended current regimen.'},
+    {title:'Follow mildly abnormal labs', status:'watch', detail:'Triglycerides were high at 181 and absolute lymphocytes were mildly high at 3.77; consider whether repeat testing is planned.'}
+  ],
+  tasks: [
+    {task:'Primary care follow-up', due:'Around Aug 20, 2026', note:'May visit requested follow-up in about 3 months.'},
+    {task:'Pulmonary function test', due:'Pending / future', note:'Ordered for dyspnea/wheezing workup.'},
+    {task:'Mammogram', due:'Order already placed', note:'Health summary/visit note says mammogram was ordered and should be completed.'},
+    {task:'Flu vaccine', due:'2026 season', note:'Health maintenance shows seasonal flu due later in 2026.'},
+    {task:'Bone density monitoring', due:'Jul 1, 2027', note:'Osteoporosis screening interval noted in health summary.'}
+  ],
+  problems: ['Dyspnea','Autoimmune hypothyroidism','Hypothyroidism','Hypertension','Hyperlipidemia','History of CVA','Chronic kidney disease','Anemia in CKD','Iron deficiency anemia','GAD','Prolonged grief disorder','Osteoporosis','Numbness of feet','Brain atrophy','GERD','Severe headache','Sudden unilateral headache','Aphasia','Bilateral cataracts','Keratoconus','Hemorrhoid','Chronic pain'],
+  labs: [
+    {date:'2026-05-20', cat:'Kidney/CMP', test:'BUN', value:'23 mg/dL', range:'7–17', status:'High', note:'Review hydration, medications, and repeat timing with clinician.'},
+    {date:'2026-05-20', cat:'Kidney/CMP', test:'Creatinine', value:'1.15 mg/dL', range:'0.52–1.04', status:'High', note:'Trend with eGFR; compare to Dec 2025 value 0.98.'},
+    {date:'2026-05-20', cat:'Kidney/CMP', test:'eGFR', value:'50 mL/min/1.73m²', range:'>60', status:'Low', note:'Printed report notes chronic 45–59 may correspond to G3a if present for 3+ months.'},
+    {date:'2026-05-20', cat:'Kidney/CMP', test:'Sodium', value:'141 mmol/L', range:'137–145', status:'Normal', note:'Electrolyte in range.'},
+    {date:'2026-05-20', cat:'Kidney/CMP', test:'Potassium', value:'3.9 mmol/L', range:'3.5–5.1', status:'Normal', note:'Electrolyte in range.'},
+    {date:'2026-05-20', cat:'Kidney/CMP', test:'CO₂', value:'22 mmol/L', range:'22–30', status:'Normal', note:'Low end of printed range.'},
+    {date:'2026-05-20', cat:'Kidney/CMP', test:'Glucose', value:'97 mg/dL', range:'70–99', status:'Normal', note:'In range on report.'},
+    {date:'2026-05-20', cat:'Kidney/CMP', test:'AST / ALT', value:'32 / 23 U/L', range:'AST 14–36; ALT <35', status:'Normal', note:'Liver enzymes in range.'},
+    {date:'2026-05-20', cat:'Lipids', test:'Total cholesterol', value:'158 mg/dL', range:'<200', status:'Normal', note:'In range.'},
+    {date:'2026-05-20', cat:'Lipids', test:'HDL', value:'60 mg/dL', range:'≥50', status:'Normal', note:'In range.'},
+    {date:'2026-05-20', cat:'Lipids', test:'Triglycerides', value:'181 mg/dL', range:'<150', status:'High', note:'Discuss fasting status, nutrition, and repeat/management plan.'},
+    {date:'2026-05-20', cat:'Lipids', test:'LDL', value:'72 mg/dL', range:'<100 reference; <70 for some high-risk groups', status:'Normal', note:'Close to the <70 threshold cited for selected high-risk groups on report.'},
+    {date:'2026-05-20', cat:'Lipids', test:'Non-HDL cholesterol', value:'98 mg/dL', range:'<130', status:'Normal', note:'In range.'},
+    {date:'2026-05-20', cat:'Thyroid', test:'TSH', value:'3.98 mIU/L', range:'0.40–4.50', status:'Normal', note:'High-normal; compare to 3.72 in Sep 2025.'},
+    {date:'2026-05-20', cat:'CBC', test:'WBC', value:'9.7 x10E3/uL', range:'3.2–11.0', status:'Normal', note:'In range.'},
+    {date:'2026-05-20', cat:'CBC', test:'Absolute lymphocytes', value:'3.77 x10E3/uL', range:'1.00–3.50', status:'High', note:'Only CBC item flagged high in uploaded trend.'},
+    {date:'2026-05-20', cat:'CBC', test:'Hemoglobin', value:'13.8 g/dL', range:'11.6–15.2', status:'Normal', note:'No anemia by this printed reference range.'},
+    {date:'2026-05-20', cat:'CBC', test:'Platelets', value:'331 x10E3/uL', range:'150–450', status:'Normal', note:'In range.'},
+    {date:'2025-12-22', cat:'Kidney/Renal', test:'eGFR Non-AA', value:'56 mL/min', range:'≥60', status:'Low', note:'Prior renal panel comparator.'},
+    {date:'2025-12-22', cat:'Kidney/Renal', test:'Creatinine', value:'0.98 mg/dL', range:'0.51–0.95', status:'High', note:'Prior renal panel comparator.'},
+    {date:'2025-12-22', cat:'Kidney/Renal', test:'Urine microalbumin/creatinine ratio', value:'6 mg/g Cr', range:'0–29', status:'Normal', note:'No albuminuria by printed category.'},
+    {date:'2025-12-22', cat:'Kidney/Renal', test:'Magnesium', value:'2.10 mg/dL', range:'1.70–2.60', status:'Normal', note:'In range.'},
+    {date:'2025-09-12', cat:'Thyroid', test:'TSH', value:'3.72 mIU/L', range:'0.40–4.50', status:'Normal', note:'Prior thyroid comparator.'},
+    {date:'2025-09-12', cat:'Iron', test:'Iron / TIBC / saturation', value:'65 mcg/dL / 281 mcg/dL / 23%', range:'Iron 45–160; TIBC 250–450; Sat 16–45', status:'Normal', note:'Iron study values in range.'}
+  ],
+  imaging: {date:'2026-05-21', title:'Chest X-ray, 2 views', status:'No acute cardiopulmonary disease', details:'Lungs clear and well expanded; no pleural effusion or pneumothorax; heart normal size; no acute bone/soft tissue abnormality.'},
+  meds: [
+    {name:'clopidogrel (Plavix) 75 mg', directions:'Take 75 mg by mouth daily.', note:'Antiplatelet / stroke prevention context', started:''},
+    {name:'trazodone 50 mg', directions:'Take 50 mg by mouth nightly.', note:'Sleep / mood support', started:''},
+    {name:'venlafaxine ER 150 mg', directions:'Take 1 capsule by mouth daily.', note:'Anxiety/depression support', started:''},
+    {name:'ferrous sulfate 142 mg ER (45 mg iron)', directions:'Take 142 mg by mouth.', note:'Iron supplementation', started:''},
+    {name:'omeprazole OTC 20 mg', directions:'Take 20 mg by mouth every morning.', note:'GERD/PPI; verify with pantoprazole', started:''},
+    {name:'pravastatin 40 mg', directions:'Take one tablet by mouth nightly.', note:'Statin; verify with atorvastatin', started:'09/15/2025'},
+    {name:'multivitamin', directions:'Take 1 tablet by mouth daily.', note:'Supplement', started:''},
+    {name:'calcium oral', directions:'Take 1 tablet by mouth daily.', note:'Bone health; timing matters with levothyroxine/iron', started:''},
+    {name:'clonidine 0.1 mg', directions:'Take 0.1 mg by mouth twice daily.', note:'Blood pressure', started:'12/08/2025'},
+    {name:'buspirone 10 mg', directions:'Take one tablet by mouth twice daily.', note:'Anxiety', started:'02/19/2026'},
+    {name:'atorvastatin 40 mg', directions:'Take one tablet by mouth nightly.', note:'Statin; verify with pravastatin', started:'02/26/2026'},
+    {name:'lisinopril 40 mg', directions:'Take 1 tablet by mouth daily.', note:'Blood pressure / kidney-heart protection context', started:'04/27/2026'},
+    {name:'levothyroxine 100 mcg', directions:'Take 1 tablet by mouth daily.', note:'Hypothyroidism', started:'04/27/2026'},
+    {name:'amlodipine 10 mg', directions:'Take 1 tablet by mouth daily.', note:'Blood pressure', started:'04/27/2026'},
+    {name:'pantoprazole 40 mg delayed release', directions:'Take 40 mg by mouth twice daily.', note:'GERD/PPI; verify with omeprazole', started:''},
+    {name:'polyethylene glycol (Miralax) 17 g', directions:'Take 17 g by mouth daily.', note:'Constipation prevention/management', started:''},
+    {name:'albuterol-budesonide (Airsupra) 90-80 mcg', directions:'Inhale 2 puffs every 6 hours as needed for shortness of breath, wheezing, or other.', note:'Started for suspected asthma/dyspnea trial; rinse mouth after use per note', started:'05/20/2026'}
+  ],
+  medAlerts: [
+    {title:'Two statins listed', detail:'Pravastatin and atorvastatin both appear on the newest medication list. Confirm whether one replaced the other before continuing both.'},
+    {title:'Two PPIs listed', detail:'Omeprazole and pantoprazole both appear. Confirm intended GERD regimen and timing.'},
+    {title:'Levothyroxine timing check', detail:'Calcium, iron, multivitamins, and PPIs can complicate thyroid-med timing. Ask the clinician/pharmacist for a simple daily schedule.'},
+    {title:'Clopidogrel safety note', detail:'Keep a medication card/list available for urgent care, procedures, dental work, and bleeding questions.'}
+  ],
+  timing: ['Morning anchor: levothyroxine first if that is her prescribed routine; confirm separation from calcium/iron/multivitamin with pharmacist.', 'Blood pressure meds: lisinopril, amlodipine, and clonidine are listed; keep a home BP log if available.', 'Evening anchor: statin appears nightly, but the exact statin should be reconciled.', 'As-needed: Airsupra for shortness of breath/wheezing as prescribed; log frequency and response.'],
+  pathways: {
+    dyspnea: ['Chest X-ray result is reassuring, but it does not replace pulmonary function testing.', 'Track shortness-of-breath severity, wheezing, triggers, Airsupra use, and whether symptoms improve.', 'Escalate urgently for severe shortness of breath, chest pain, blue lips, fainting, confusion, or symptoms that rapidly worsen.'],
+    kidney: ['May eGFR was 50 and creatinine was 1.15, compared with Dec eGFR 56 and creatinine 0.98.', 'Urine microalbumin/creatinine ratio was normal at 6 in Dec 2025, which is useful context for kidney risk.', 'Ask whether to repeat CMP/BMP and urine ACR, and whether any BP or reflux medications need kidney-focused review.'],
+    vascular: ['History of CVA, hypertension, hyperlipidemia, clopidogrel, and statin therapy make medication accuracy important.', 'LDL was 72 and non-HDL was 98 in May 2026; triglycerides were the main lipid flag at 181.', 'Bring BP readings and the reconciled statin plan to the next visit.'],
+    maintenance: ['Schedule or confirm completion of the mammogram order.', 'Keep osteoporosis monitoring on the calendar; DXA monitoring was listed for 2027.', 'Update seasonal flu vaccine when available and bring immunization records to visits.']
+  },
+  timeline: [
+    {date:'2026-06-02', type:'info', title:'Health summary generated', detail:'New dashboard update created from Jun 2026 patient-supplied records.'},
+    {date:'2026-05-21', type:'ok', title:'Chest X-ray finalized', detail:'No acute cardiopulmonary disease reported after dyspnea/wheezing complaint.'},
+    {date:'2026-05-20', type:'watch', title:'Annual wellness / chronic condition follow-up', detail:'Dyspnea assessed; suspected asthma; Airsupra trial started; PFT and chest X-ray ordered; labs ordered.'},
+    {date:'2026-05-20', type:'watch', title:'New lab set', detail:'CMP, CBC, lipid panel, and TSH imported. Main flags: eGFR low, creatinine/BUN high, triglycerides high, absolute lymphocytes mildly high.'},
+    {date:'2025-12-22', type:'info', title:'Nephrology renal panel', detail:'Creatinine 0.98 high, eGFR Non-AA 56 low, urine microalbumin/creatinine ratio 6 normal, magnesium normal.'},
+    {date:'2025-09-12', type:'info', title:'Iron and thyroid labs', detail:'Iron study values in range; TSH 3.72 in range.'}
+  ],
+  questions: [
+    'Does the May 2026 eGFR of 50 represent expected CKD variation, dehydration/medication effect, or a change that needs repeat testing?',
+    'When should CMP/BMP, urine microalbumin/creatinine ratio, and blood pressure logs be rechecked?',
+    'Is she supposed to take atorvastatin, pravastatin, or both? If one replaced the other, can the old one be removed from the active list?',
+    'Is she supposed to take pantoprazole, omeprazole, or both? What is the safest timing with levothyroxine, iron, and calcium?',
+    'What should we watch for while using Airsupra, and what PFT result would change the treatment plan?',
+    'Do triglycerides of 181 need a fasting repeat, nutrition plan, or medication adjustment?',
+    'Does the mildly high absolute lymphocyte count need follow-up, or is it acceptable to watch with the next CBC?',
+    'Given history of CVA and clopidogrel use, are there special bleeding/procedure precautions to keep on the care card?'
+  ]
+};
 
-## Detailed Historical Medical Information (Consolidated from all provided records)
+const $ = (id) => document.getElementById(id);
+const statusClass = (status) => /high|low|watch/i.test(status) ? 'watch' : /alert|critical/i.test(status) ? 'alert' : 'ok';
+const pill = (text, cls='') => `<span class="pill ${cls}">${text}</span>`;
+const card = (title, detail, cls='info') => `<div class="soft-card status-left ${cls} p-4"><div class="flex justify-between gap-3 mb-2"><h3 class="font-extrabold">${title}</h3>${pill(cls==='ok'?'In range':cls==='alert'?'Review':'Watch',cls)}</div><p class="text-sm text-slate-600">${detail}</p></div>`;
 
-### Patient Demographics and Vital Information
-* **Name:** Vickie L. Berry
-* **DOB:** 03/01/1953 (Age 72 as of current date)
-* **Residence:** 108 Western Avenue, Logansport, IN 46947
-* **Contact:** (574) 721-6940 (Home/Mobile), vickielynnberry@gmail.com
-* **PCP:** Dr. Olusina Akande, Logansport Memorial Hospital, 1201 MICHIGAN Ave Ste 270, Logansport, IN, Phone: (574) 722-4921.
-* **Latest Vitals (July 23, 2025 - Clinic):** BP 136/84 mmHg, HR 100, RR 18, SpO2 98%, Wt 81.37 kg, BMI 30.79.
+function renderOverview(){
+  $('snapshotGrid').innerHTML = DATA.snapshot.map(m => `<div class="soft-card status-left ${m.status} p-4 metric"><div class="metric-label">${m.label}</div><div class="metric-value">${m.value}</div><div class="font-bold text-slate-500">${m.unit}</div><p class="text-sm text-slate-600">${m.note}</p></div>`).join('');
+  $('priorityList').innerHTML = DATA.priorities.map(p => card(p.title, p.detail, p.status)).join('');
+  $('taskList').innerHTML = DATA.tasks.map(t => `<div class="soft-card p-4"><div class="font-extrabold">${t.task}</div><div class="text-sm font-bold text-blue-700 mt-1">${t.due}</div><p class="text-sm text-slate-600 mt-1">${t.note}</p></div>`).join('');
+  $('problemChips').innerHTML = DATA.problems.map(p => pill(p)).join('');
+}
 
-### Social and Personal Factors
-* Married (Spouse: Don Berry, Contact: (574) 721-6943) 
-* Children: Kyle Berry (Son, (574) 721-1666), Kristen Berry/Calisto (Daughter, (317) 601-1501)
-* Parents: Mother (Deceased), Phillip Dean Greer (Father, Deceased)
-* Maternal Grandfather: Arthur Bernhardt (Deceased)
-* **Environmental History:** Long-term (4+ years) exposure to a hazardous indoor environment due to a dryer venting directly into the home's crawlspace, leading to massive lint accumulation and significant mold growth. This is a primary suspect for chronic inflammation and immune dysregulation.
-* Family History: Congestive Heart Failure (Mother), Hypertension (Mother), Myocardial Infarction (Father - deceased at age 47), Colon Cancer (Maternal Grandfather).
+function renderLabs(){
+  const cats = [...new Set(DATA.labs.map(l => l.cat))];
+  $('labFilter').innerHTML = '<option value="all">All categories</option>' + cats.map(c => `<option>${c}</option>`).join('');
+  function rows(){
+    const selected = $('labFilter').value;
+    const labs = selected === 'all' ? DATA.labs : DATA.labs.filter(l => l.cat === selected);
+    $('labTableBody').innerHTML = labs.map(l => `<tr><td>${l.date}</td><td>${l.cat}</td><td class="font-bold">${l.test}</td><td>${l.value}</td><td>${l.range}</td><td>${pill(l.status, statusClass(l.status))}</td><td>${l.note}</td></tr>`).join('');
+  }
+  $('labFilter').addEventListener('change', rows); rows();
+  $('imagingPanel').innerHTML = card(`${DATA.imaging.title} (${DATA.imaging.date})`, `${DATA.imaging.status}. ${DATA.imaging.details}`, 'ok');
+  makeCharts();
+}
 
-### Comprehensive Problem List / Medical History
-* **Current Primary Diagnoses (per Care Plan):** CKD Stage 3b; Gout
-* **Historical/Ongoing Conditions (Selected):**
-   * Chronic Environmental Exposure: Mold and dryer lint in crawlspace.
-   * Essential Hypertension (Mar 2016)
-   * Mixed Hyperlipidemia (Mar 2016)
-   * Hypothyroidism, Acquired, Autoimmune (Dx 03/18/2016)
-   * Depression with Anxiety (Mar 2016)
-   * History of CVA (Stroke) without residual deficits (March 2016)
-   * Cerebral Aneurysms (Discrepancy in record: 2 saccular aneurysms identified on CTA March 2016; CTA July 2022 reported no obvious aneurysm.)
-   * Asymptomatic Stenosis of Intracranial Artery (Aug 2022)
-   * Carotid Artery Stenosis (Left ICA 50-69% as of Sept 2023; 70% as of Aug 20, 2025; **NEW: Moderate on left, mild on right as of Apr 07, 2026**)
-   * GERD without esophagitis (Mar 2021)
-   * Grade III Hemorrhoids (Apr 2021)
-   * Osteopenia (DEXA July 2022, stable on repeat DEXA July 2025)
-   * Right knee pain / Arthritis of knee (May 09, 2025)
-   * Colitis / Diverticulitis (June 2025)
-   * Urinary Tract Infection (Mar 2022, Jun 2025)
-   * New onset severe headache/facial pain (July 2025)
-   * Paresthesia in right foot (pins and needles) (July 2025)
-   * **New Symptoms (October 2025):** Sore throat, swollen glands, painless lump right anterior neck, dysphagia, high-pitched expiratory wheezing.
+let chartsMade = false;
+function makeCharts(){
+  if(chartsMade || !window.Chart) return; chartsMade = true;
+  new Chart($('kidneyChart'), { type:'line', data:{ labels:['Dec 2025','May 2026'], datasets:[{ label:'eGFR', data:[56,50], tension:.25 }, { label:'Creatinine', data:[0.98,1.15], yAxisID:'y1', tension:.25 }, { label:'BUN', data:[19,23], yAxisID:'y2', tension:.25 }] }, options:{ responsive:true, maintainAspectRatio:false, scales:{ y:{ title:{display:true,text:'eGFR'} }, y1:{ position:'right', grid:{drawOnChartArea:false}, title:{display:true,text:'Creatinine'} }, y2:{ display:false } } } });
+  new Chart($('thyroidChart'), { type:'line', data:{ labels:['Sep 2025','May 2026'], datasets:[{ label:'TSH', data:[3.72,3.98], tension:.25 }] }, options:{ responsive:true, maintainAspectRatio:false, scales:{ y:{ min:0, suggestedMax:4.5, title:{display:true,text:'mIU/L'} } } } });
+  new Chart($('lipidChart'), { type:'bar', data:{ labels:['Total','HDL','Triglycerides','LDL','Non-HDL'], datasets:[{ label:'mg/dL', data:[158,60,181,72,98] }] }, options:{ responsive:true, maintainAspectRatio:false } });
+  new Chart($('cbcChart'), { type:'bar', data:{ labels:['WBC','Abs Lymph','Hemoglobin','Platelets'], datasets:[{ label:'Value', data:[9.7,3.77,13.8,331] }] }, options:{ responsive:true, maintainAspectRatio:false } });
+}
 
-### Medication Regimen
-* **Current Recommendations:** Olmesartan (STOPPED), Ibuprofen (Discontinue), Gout Medications (Initiate), Trazodone (Reevaluate), Venlafaxine (Reduce dose).
-* **Active Medications:**
-   * amLODIPine 10 mg: For Blood Pressure (increased 3/24/2025).
-   * Aspirin: Antiplatelet (Noted active 04/07/2026).
-   * clopidogrel 75 mg: Antiplatelet/Stroke Prevention.
-   * ferrous sulfate 325 mg: Iron Deficiency.
-   * hydrochlorothiazide 25 mg: Blood Pressure (Diuretic).
-   * levothyroxine 100 mcg: Thyroid.
-   * lisinopril 40 mg: Blood Pressure.
-   * omeprazole 40 mg: Acid Reflux.
-   * pravastatin 20 mg: Cholesterol.
-   * traZODone 50 mg (x4 at bedtime prn = 200mg): Sleep.
-   * venlafaxine 150 mg (x2 daily = 300mg total): Depression/Anxiety.
-   * Calcium 500 + D: For bone health.
+function renderMeds(){
+  $('medTableBody').innerHTML = DATA.meds.map(m => `<tr><td class="font-bold">${m.name}</td><td>${m.directions}</td><td>${m.note}</td><td>${m.started || '—'}</td></tr>`).join('');
+  $('medAlerts').innerHTML = DATA.medAlerts.map(a => card(a.title, a.detail, /two|timing/i.test(a.title) ? 'alert' : 'watch')).join('');
+  $('timingHelper').innerHTML = DATA.timing.map(t => `<div class="soft-card p-3">${t}</div>`).join('');
+}
 
-### Procedures & Significant Surgical/Medical History
-* **Carotid Duplex Ultrasound (April 07, 2026):** Revealed continued mild disease on right and moderate disease on left. Several artery scans are available for cross-referencing in the Imaging Gallery.
-* CT Angiogram Head/Neck: August 20, 2025 (Revealed severe 70% stenosis of the left internal carotid artery).
-* CT Abdomen/Pelvis w/ Contrast: June 17, 2025 (Revealed colonic wall thickening and inflammation in the sigmoid colon, suggestive of colitis).
-* ORIF R ankle/foot fracture: April 19, 2022.
-* Hemorrhoid Rubber Band Ligation: April 6, 2021; March 9, 2021
-* Colonoscopy: Dec 21, 2015; April 14, 2008
-* Polysomnography (Sleep Study): Nov 08, 2011
-* Echocardiograms: Aug 27, 2020 (Normal LV systolic function, EF 60-65%); Mar 17, 2016
-* Kidney Ultrasound: Jan 29, 2025
-* Bone Density DEXA: July 1, 2025 (Stable Osteopenia); July 20, 2022
-* CT Head/Brain (various): Mar 17, 2016, May 13, 2022, July 20, 2022
-* Historical Carotid Duplex Ultrasounds: Nov 2019, Sep 2020, Sep 9, 2022 (<50% stenosis), Sep 26, 2023 (Left 50-69%), Dec 2024. (Note: These scans are part of the broader collection of artery scans documented for this patient).
+function renderCare(){
+  $('dyspneaPath').innerHTML = DATA.pathways.dyspnea.map(t => `<div class="soft-card p-4">${t}</div>`).join('');
+  $('kidneyPath').innerHTML = DATA.pathways.kidney.map(t => `<div class="soft-card p-4">${t}</div>`).join('');
+  $('vascularPath').innerHTML = DATA.pathways.vascular.map(t => `<div class="soft-card p-4">${t}</div>`).join('');
+  $('maintenancePath').innerHTML = DATA.pathways.maintenance.map(t => `<div class="soft-card p-4">${t}</div>`).join('');
+}
 
-### Key Medical Encounters (Summarized - recent first)
-* **Apr 07, 2026 - Cardiology/Vascular Follow-up (Dr. Murad Aburajab / Heather Bye NP, Ascension):** Routine follow-up for bilateral carotid artery occlusive disease. Repeat Carotid Duplex demonstrated continued mild disease on the right and moderate disease on the left. Denies TIA/stroke symptoms.
-* **August 20, 2025 - CT Angiogram:** Performed due to new onset headache. Results showed severe 70% stenosis of the left internal carotid artery.
-* **July 25, 2025 - Lab Results Received:** Immunofixation test is normal. ESR remains high, confirming inflammation. 
-* **July 23, 2025 - Logan Internists (Dr. Cheng Du):** Visit for new onset severe headache and left facial pain. Ordered STAT: CT Angio Brain/Head, CT Angio Neck, MRI Brain w/o contrast.
-* **July 13, 2025 (New Symptom):** Reports new onset of "pins and needles" sensation (paresthesia) in her right foot upon waking.
-* **Jul 02, 2025 - PCP Follow-up:** Diagnosed with a gout flare and prescribed a 5-day course of prednisone.
-* **Jun 17, 2025 - ED Visit:** Presented with rectal bleeding and cramping. Diagnosed with colitis/diverticulitis and UTI. Discharged with Ciprofloxacin and Flagyl.
-* **Jun 02, 2025 - Nephrology (Dr. Melissa Anderson):** BP 128/68, P 91, SpO2 96%, Wt 180lb. Olmesartan stopped. Labs ordered for 1 week before next visit. Next scheduled f/u Dec 8, 2025.
-* **May 09, 2025 - ED (Dr. Tai N Duong, Logansport Memorial):** R knee pain. Diagnosed with moderate degenerative joint disease (arthritis). 
+function renderTimeline(){
+  const colors = {ok:'#16a34a', watch:'#d97706', alert:'#dc2626', info:'#2563eb'};
+  $('timelineList').innerHTML = DATA.timeline.map(t => `<article class="timeline-item"><span class="timeline-dot" style="background:${colors[t.type] || colors.info}"></span><div class="soft-card p-4"><div class="flex flex-wrap items-center gap-2 mb-1"><span class="font-extrabold">${t.title}</span>${pill(t.date,'info')}</div><p class="text-slate-600">${t.detail}</p></div></article>`).join('');
+}
 
-### Preventive Care (Status based on various record dates)
-* **Breast Cancer Screening (Mammogram):** Done Aug 19, 2024 (BI-RADS 1: Negative). Annual screening recommended.
-* **Colorectal Cancer Screening:** Colonoscopies Dec 21, 2015, Apr 2008. Likely due.
-* **Bone Density Screening:** Done July 1, 2025 (Result: Stable Osteopenia).
-     </script>
+function renderQuestions(){
+  $('doctorQuestions').innerHTML = DATA.questions.map((q,i) => `<label class="soft-card p-4 flex gap-3 items-start"><input type="checkbox" class="mt-1"><span><b>Q${i+1}.</b> ${q}</span></label>`).join('');
+}
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // --- DATA ---
-        const reportText = document.getElementById('healthReportDataContainer').textContent;
-        let logEntries = [];
+const logKey = 'vickie-care-dashboard-log-v2';
+function getLogs(){ try { return JSON.parse(localStorage.getItem(logKey) || '[]'); } catch { return []; } }
+function saveLogs(items){ localStorage.setItem(logKey, JSON.stringify(items)); }
+function renderLog(){
+  const entries = getLogs();
+  $('logEntries').innerHTML = entries.length ? entries.map((e,i) => `<div class="soft-card p-4"><div class="flex justify-between gap-3"><div class="font-extrabold">${new Date(e.date).toLocaleString()}</div><button class="text-red-600 font-bold" data-del-log="${i}">Delete</button></div><div class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-3 text-sm"><div>${pill('SOB: '+e.sob, e.sob==='Severe'?'alert':e.sob==='None'?'ok':'watch')}</div><div>${pill('Wheezing: '+e.wheeze, e.wheeze==='Yes'?'watch':'ok')}</div><div>${pill('BP: '+(e.bp || 'not entered'))}</div></div><p class="text-slate-600 mt-3 whitespace-pre-wrap">${e.notes || 'No notes entered.'}</p></div>`).join('') : '<p class="text-slate-500">No saved entries yet.</p>';
+  document.querySelectorAll('[data-del-log]').forEach(btn => btn.addEventListener('click', () => { const updated = getLogs(); updated.splice(Number(btn.dataset.delLog),1); saveLogs(updated); renderLog(); }));
+}
 
-        // --- UTILITY & HELPER FUNCTIONS ---
-        function extractSection(startHeading, endHeading) {
-            const startRegex = new RegExp(`^${startHeading.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}`, 'm');
-            const startIndex = reportText.search(startRegex);
-            if (startIndex === -1) return '';
-            let endIndex;
-            if (endHeading) {
-                const endRegex = new RegExp(`^${endHeading.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}`, 'm');
-                endIndex = reportText.substring(startIndex + startHeading.length).search(endRegex);
-                if (endIndex !== -1) {
-                    endIndex += startIndex + startHeading.length;
-                }
-            }
-            return endIndex !== -1 && endIndex !== undefined ? reportText.substring(startIndex, endIndex).trim() : reportText.substring(startIndex).trim();
-        }
+function setupLog(){
+  $('logDate').value = new Date(Date.now() - new Date().getTimezoneOffset()*60000).toISOString().slice(0,16);
+  $('symptomForm').addEventListener('submit', e => { e.preventDefault(); const entry = { date:$('logDate').value, sob:$('logSob').value, wheeze:$('logWheeze').value, bp:$('logBp').value.trim(), notes:$('logNotes').value.trim() }; const entries = getLogs(); entries.unshift(entry); saveLogs(entries); e.target.reset(); $('logDate').value = new Date(Date.now() - new Date().getTimezoneOffset()*60000).toISOString().slice(0,16); renderLog(); });
+  $('exportLogBtn').addEventListener('click', () => { const blob = new Blob([JSON.stringify(getLogs(), null, 2)], {type:'application/json'}); const url = URL.createObjectURL(blob); const a = Object.assign(document.createElement('a'), {href:url, download:'vickie-symptom-log.json'}); document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); });
+  $('clearLogBtn').addEventListener('click', () => { if(confirm('Clear all locally saved symptom log entries?')) { saveLogs([]); renderLog(); } });
+  renderLog();
+}
 
-        function formatSimpleMarkdown(text) {
-             return text.replace(/^\s*\*\s(.*?)$/gm, '<p class="mb-2 ml-4">&bull; $1</p>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
-        }
-        
-        function formatPhoneNumber(phoneStr) {
-            const cleaned = ('' + phoneStr).replace(/\D/g, '');
-            const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-            return match ? `(${match[1]}) ${match[2]}-${match[3]}` : phoneStr;
-        }
+function setupTabs(){
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('.tab-btn,.tab-panel').forEach(el => el.classList.remove('active')); btn.classList.add('active'); $(btn.dataset.tab).classList.add('active'); if(btn.dataset.tab === 'labs') makeCharts(); window.scrollTo({top:0, behavior:'smooth'}); }));
+}
 
-        // --- SCREEN READER ---
-        function readText(text) {
-            if (speechSynthesis.speaking) {
-                speechSynthesis.cancel();
-            }
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 0.9;
-            speechSynthesis.speak(utterance);
-        }
+function searchableItems(){
+  return [
+    ...DATA.priorities.map(x => ({type:'Priority', title:x.title, text:x.detail})),
+    ...DATA.tasks.map(x => ({type:'Task', title:x.task, text:`${x.due} ${x.note}`})),
+    ...DATA.labs.map(x => ({type:'Lab', title:`${x.test} ${x.value}`, text:`${x.date} ${x.cat} ${x.range} ${x.status} ${x.note}`})),
+    ...DATA.meds.map(x => ({type:'Medication', title:x.name, text:`${x.directions} ${x.note} ${x.started}`})),
+    ...DATA.problems.map(x => ({type:'Problem', title:x, text:x})),
+    ...DATA.questions.map((x,i) => ({type:'Question', title:`Question ${i+1}`, text:x})),
+    ...DATA.timeline.map(x => ({type:'Timeline', title:x.title, text:`${x.date} ${x.detail}`}))
+  ];
+}
+function highlight(text, query){ const esc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); return text.replace(new RegExp(`(${esc})`,'ig'), '<mark>$1</mark>'); }
+function findMatches(query){ const q = query.trim().toLowerCase(); if(!q) return []; return searchableItems().filter(item => `${item.type} ${item.title} ${item.text}`.toLowerCase().includes(q)).slice(0, 30); }
+function setupSearch(){
+  $('globalSearch').addEventListener('input', e => { const q = e.target.value.trim(); const matches = findMatches(q); const box = $('searchResults'); if(!q){ box.classList.add('hidden'); return; } box.classList.remove('hidden'); box.innerHTML = matches.length ? matches.map(m => `<div class="p-4 border-b border-slate-100"><div class="text-xs font-extrabold text-blue-700 uppercase">${m.type}</div><div class="font-extrabold">${highlight(m.title,q)}</div><p class="text-sm text-slate-600">${highlight(m.text,q)}</p></div>`).join('') : '<p class="p-4 text-slate-500">No matches found.</p>'; });
+  $('recordQueryBtn').addEventListener('click', () => { const q = $('recordQuery').value.trim(); const matches = findMatches(q); $('recordQueryAnswer').innerHTML = matches.length ? matches.slice(0,8).map(m => card(`${m.type}: ${m.title}`, m.text, m.type==='Lab' ? statusClass(m.text) : 'info')).join('') : '<p class="text-slate-500">No matching record items found.</p>'; });
+}
 
-        function addTTSAttributes() {
-            document.querySelectorAll('.grocery-item').forEach(item => {
-                const name = item.querySelector('.grocery-item-name');
-                if (name) item.setAttribute('data-tts', name.textContent.trim());
-            });
-            document.querySelectorAll('#table-view td').forEach(td => {
-                td.setAttribute('data-tts', td.textContent.trim());
-            });
-            document.querySelectorAll('#logDisplay div').forEach(entry => {
-                entry.setAttribute('data-tts', entry.textContent.trim());
-            });
-        }
+function readText(text){ if(!('speechSynthesis' in window)) return alert('Read-aloud is not supported in this browser.'); window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.rate = .95; window.speechSynthesis.speak(u); }
+function setupActions(){
+  $('printBtn').addEventListener('click', () => window.print());
+  $('readSummaryBtn').addEventListener('click', () => readText(DATA.priorities.map(p => `${p.title}. ${p.detail}`).join(' ')));
+}
 
-        function setupReadAloudListeners() {
-            document.getElementById('readConcernsBtn').addEventListener('click', () => readText(document.getElementById('dashboardConcerns').textContent));
-            document.getElementById('readDiagnosesBtn').addEventListener('click', () => readText(`Key Diagnoses: ${[...document.getElementById('dashboardDiagnoses').children].map(el => el.textContent).join(', ')}`));
-            document.getElementById('readAppointmentsBtn').addEventListener('click', () => readText(`Upcoming Appointments: ${document.getElementById('dashboardAppointments').textContent}`));
-            document.getElementById('readContactsBtn').addEventListener('click', () => readText(`Contacts: ${[...document.getElementById('dashboardContacts').children].map(el => el.textContent).join('. ')}`));
-            document.getElementById('readSuggestedQuestionsBtn').addEventListener('click', () => readText(`Suggested Questions: ${document.getElementById('suggestedQuestionsContent').textContent}`));
-            document.getElementById('readAnswerBtn').addEventListener('click', () => readText(`AI Assistant Answer: ${document.getElementById('answerContent').textContent}`));
-            document.getElementById('readModalBtn').addEventListener('click', () => readText(`${document.getElementById('modal-title').textContent}. ${document.getElementById('modal-date').textContent}. ${document.getElementById('modal-details').textContent}`));
-            document.getElementById('readLabExplanationsBtn').addEventListener('click', () => readText(document.getElementById('lab-explanations').textContent));
-            document.addEventListener('click', e => {
-                const target = e.target.closest('[data-tts]');
-                if (target) readText(target.getAttribute('data-tts'));
-            });
-        }
-
-
-        // --- NAVIGATION ---
-        function setupNavigation(navContainer, contentPrefix, buttonClass, contentClass) {
-            const nav = document.getElementById(navContainer) || document.querySelector(navContainer);
-            if (!nav) return;
-            
-            nav.addEventListener('click', (e) => {
-                if (!e.target.closest(`.${buttonClass}`)) return;
-
-                const button = e.target.closest(`.${buttonClass}`);
-                const tabId = button.dataset.tab || button.dataset.subtab;
-                
-                nav.querySelectorAll(`.${buttonClass}`).forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-
-                document.querySelectorAll(`.${contentClass}`).forEach(content => {
-                    content.classList.remove('active');
-                    if (content.id === tabId) {
-                        content.classList.add('active');
-                    }
-                });
-            });
-        }
-
-        // --- GEMINI API CALLER ---
-        async function callGemini(prompt, button) {
-            const originalButtonText = button.innerHTML;
-            button.disabled = true;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-            
-            try {
-                // NOTE: This assumes the '/api/call_gemini' endpoint is correctly set up.
-                const apiKey = ""; 
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
-                
-                const fullPrompt = `You are a medical data summarizer. The user will provide a large text-based medical record and a question. Answer the question based *only* on the provided text. Be concise. \n\nMEDICAL RECORD:\n${reportText}\n\nQUESTION:\n${prompt.replace(/.*\nQUESTION:\n/s, '')}`;
-                
-                console.warn("Using simulated API call. In production, this must be a serverless function.");
-
-                const serverlessResponse = await fetch('/api/call_gemini', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: prompt }) 
-                });
-
-                if (serverlessResponse.ok) {
-                     const result = await serverlessResponse.json();
-                     return result.text;
-                } else {
-                    console.error("Serverless function call failed. Are you running this on a compatible host (like Vercel) or is the function deployed?");
-                    throw new Error(`API function '/api/call_gemini' failed with status: ${serverlessResponse.status}. Check function logs.`);
-                }
-
-            } catch (error) {
-                console.error('Error calling AI function:', error);
-                return `An error occurred while contacting the AI assistant: ${error.message}. Make sure the API is set up correctly.`;
-            } finally {
-                button.disabled = false;
-                button.innerHTML = originalButtonText;
-            }
-        }
-
-
-        // --- UI POPULATION FUNCTIONS ---
-        function populateDashboard() {
-            const keyDiagnoses = ['Moderate Left Carotid Artery Stenosis', 'Chronic Kidney Disease, Stage 3b', 'Hypertension', 'Colitis / Diverticulitis', 'Gout', 'History of Stroke (CVA)', 'Osteopenia', 'Depression with Anxiety', 'New: Severe Headache', 'Chronic Mold/Environmental Exposure'];
-            document.getElementById('dashboardDiagnoses').innerHTML = keyDiagnoses.map(d => `<div class="p-2 bg-gray-100 rounded">${d}</div>`).join('');
-
-            const concerns = [
-                 { text: '<strong>CAROTID STENOSIS UPDATE:</strong> An April 7, 2026 Carotid Duplex shows <strong>moderate disease of the left internal carotid artery</strong> and mild on the right, downgrading from the severe 70% stenosis noted in August 2025. Continue current medical management (Plavix, Aspirin, statin). See the <strong>Imaging Gallery</strong> for recent scans.', priority: -4, critical: false, status: 'active' },
-                 { text: '<strong>URGENT MEDICAL DISCREPANCY:</strong> A 2016 CTA reported two cerebral aneurysms, but a 2022 CTA reported none. This requires immediate clarification. The new severe, shock-like facial pain makes this the top priority.', priority: -2, critical: true, status: 'active' },
-                 { text: '<strong>CRITICAL ENVIRONMENTAL HAZARD:</strong> Chronic exposure to mold and lint in crawlspace from improper dryer vent is a likely driver of systemic inflammation (high ESR) and must be professionally remediated immediately. All doctors must be informed.', priority: -1, critical: true, status: 'active' },
-                 { text: '<strong>MEDICAL EMERGENCY:</strong> Immediate follow-up on **urgent neuroimaging** (CT Angio Head/Neck, MRI Brain) ordered on 7/23/25 for new-onset severe, shock-like facial pain to rule out a vascular event or nerve condition.', priority: 0, critical: true, status: 'active' },
-                 { text: '<strong>New Neurological Symptom:</strong> Report new "pins and needles" sensation in right foot to doctor for evaluation. Could be related to recent medications (Metronidazole), kidney disease, or diabetes.', priority: 1, critical: false, status: 'active' },
-                 { text: '<strong>New Neck/Throat Symptoms:</strong> Evaluate sore throat, swollen glands, painless lump on front right neck under jaw, and difficulty swallowing. Could be infectious or inflammatory (related to environmental exposure?).', priority: 3, critical: false, status: 'active' },
-                 { text: '<strong>New Respiratory Symptom:</strong> Evaluate high-pitched expiratory wheezing. Potentially related to environmental exposure or Long COVID.', priority: 5, critical: false, status: 'active' },
-                 { text: 'Comprehensive medication review needed for CKD, including dose adjustments for Venlafaxine and re-evaluation of high-dose Trazodone.', priority: 2, critical: false, status: 'active' },
-                 { text: 'Develop a management plan for new Gout diagnosis, considering CKD.', priority: 4, critical: false, status: 'active' },
-                 { text: 'Cardiovascular monitoring: Home blood pressure monitoring and consider a comprehensive cardiac evaluation.', priority: 6, critical: false, status: 'active' },
-                 { text: 'Assess for Long COVID symptoms, given history of multiple infections.', priority: 7, critical: false, status: 'active' },
-                 { text: 'Evaluate need for a new sleep study, as the last one was in 2011.', priority: 8, critical: false, status: 'active' },
-                 { text: 'Contraindicated Medication: Ibuprofen use was noted as recently as May 2025. This has been discontinued.', priority: 9, critical: true, status: 'resolved' },
-                 { text: 'Initial Nephrology Referral', priority: 10, critical: false, status: 'resolved' },
-                 { text: 'Bone Density Screening', priority: 11, critical: false, status: 'resolved' },
-                 { text: '<strong>CRITICAL NEW FINDING:</strong> An August 20, 2025 CT Angiogram shows <strong>severe 70% stenosis of the left internal carotid artery</strong>. <em>(Resolved/Updated by Apr 2026 Duplex)</em>', priority: 12, critical: false, status: 'resolved' }
-            ];
-            const sortedConcerns = [...concerns.filter(c => c.status === 'active').sort((a,b) => a.priority - b.priority), ...concerns.filter(c => c.status === 'resolved').sort((a,b) => a.priority - b.priority)];
-            document.getElementById('dashboardConcerns').innerHTML = sortedConcerns.map(item => `<div class="primary-concern-item ${item.critical ? 'critical' : ''} ${item.status === 'resolved' ? 'resolved' : ''}">${item.status === 'resolved' ? `<del>${item.text}</del>` : item.text}</div>`).join('');
-            
-            const appointments = [
-                { date: 'Pending', desc: 'MRI of Brain w/o Contrast (Ordered 7/23/25)'},
-            ];
-            const nephrologyFupMatch = reportText.match(/Next scheduled f\/u (.*?)\./);
-            if (nephrologyFupMatch) appointments.push({ date: nephrologyFupMatch[1], desc: 'Nephrology Follow-up with Dr. Anderson' });
-            appointments.push({ date: `Overdue`, desc: 'Colorectal Cancer Screening (Colonoscopy)' });
-            const dashboardAppointments = document.getElementById('dashboardAppointments');
-            dashboardAppointments.innerHTML = appointments.length > 0 ? appointments.map(appt => `<div class="p-3 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg"><p class="font-semibold text-blue-800">${appt.desc}</p><p class="text-sm text-blue-700">${appt.date}</p></div>`).join('') : '<p class="text-gray-500">No upcoming appointments noted.</p>';
-
-            const contacts = [
-                { role: 'PCP', name: 'Dr. Olusina Akande', phone: '5747224921' },
-                { role: 'Neurology (Consulting)', name: 'Dr. Cheng Du', phone: '5747224331' },
-                { role: 'Nephrology', name: 'Dr. Melissa Anderson', phone: '3179248425' },
-                { role: 'Spouse', name: 'Don Berry', phone: '5747216943' }, { role: 'Son', name: 'Kyle Berry', phone: '5747211666' }, { role: 'Daughter', name: 'Kristen Berry/Calisto', phone: '3176011501' },
-            ];
-            document.getElementById('dashboardContacts').innerHTML = contacts.map(c => `<div><p class="font-semibold">${c.name} <span class="text-sm font-normal text-gray-500">(${c.role})</span></p><p class="text-sm text-gray-600">${formatPhoneNumber(c.phone)}</p></div>`).join('');
-        }
-
-        function populateHealthRecord() {
-            document.getElementById('reportDisplayFull').textContent = reportText;
-            document.getElementById('problemListOutput').innerHTML = formatSimpleMarkdown(extractSection('### Comprehensive Problem List', '### Medication Regimen'));
-            document.getElementById('encounterHistoryOutput').innerHTML = formatSimpleMarkdown(extractSection('### Key Medical Encounters', '### Preventive Care'));
-            document.getElementById('medicationHistoryOutput').innerHTML = formatSimpleMarkdown(extractSection('### Medication Regimen', '### Procedures & Significant Surgical/Medical History'));
-            const proceduresText = extractSection('### Procedures & Significant Surgical/Medical History', '### Key Medical Encounters');
-            const formattedProcedures = proceduresText
-                .replace(/^(.*Carotid Duplex Ultrasound \(April 07, 2026\).*)/m, "$1<br><small class='text-gray-500 pl-4'>- This is good news, indicating stabilization or slight improvement from the severe 70% stenosis seen in August 2025. Visual scans have been aggregated in the Imaging Gallery tab.</small>")
-                .replace(/^(CT Abdomen\/Pelvis w\/ Contrast: June 17, 2025.*)/m, "$1<br><small class='text-gray-500 pl-4'>- This is the key finding that led to the diagnosis of colitis/diverticulitis.</small>")
-                .replace(/^(.*Bone Density DEXA: July 1, 2025.*)/m, "$1<br><small class='text-gray-500 pl-4'>- Osteopenia is a condition where bone density is lower than normal. Her bone density has not significantly changed since her last scan in 2022.</small>")
-                .replace(/^(.*MRI\/MRA Brain\/Head \(w\/o contrast\): March 17, 2016.*)/m, "$1<br><small class='text-gray-500 pl-4'>- This scan, done on the day of her stroke, showed no evidence of a new stroke, which is common immediately after the event.</small>");
-            document.getElementById('proceduresOutput').innerHTML = formatSimpleMarkdown(formattedProcedures);
-        }
-
-        function populateCarePlan() {
-            const medicationPlan = extractSection('4. Medication Management', '5. Dietary and Lifestyle');
-            const dietPlan = extractSection('5. Dietary and Lifestyle', '## Detailed Historical Medical Information');
-            const outputHtml = `
-                <details open><summary>Medication Management & Adjustments</summary><div class="details-content"><div class="prose max-w-none">${formatSimpleMarkdown(medicationPlan.replace('4. Medication Management and Recommended Adjustments (from Care Plan)', ''))}</div></div></details>
-                <details><summary>Dietary & Lifestyle Recommendations</summary><div class="details-content"><div class="prose max-w-none">${formatSimpleMarkdown(dietPlan.replace('5. Dietary and Lifestyle Recommendations (from Care Plan)', ''))}</div></div></details>`;
-            document.getElementById('lifestyleOutput').innerHTML = outputHtml;
-        }
-
-        // --- CHARTING & LABS ---
-        const createdCharts = {};
-        function parseDataForChart(metricRegex, valueExtractor) {
-            const dataPoints = [];
-            const regex = new RegExp(metricRegex, 'g');
-            let match;
-            while ((match = regex.exec(reportText)) !== null) {
-                try {
-                    const date = new Date(match[1].replace('(','').replace(')','').trim());
-                    const values = valueExtractor(match);
-                    if (date && !isNaN(date) && values) dataPoints.push({ x: date, ...values });
-                } catch(e) { console.warn("Could not parse data point:", match[0]); }
-            }
-            return dataPoints.sort((a, b) => a.x - b.x);
-        }
-
-        function createTrendChart(canvasId, label, data, borderColor, backgroundColor, unit = '', yAxisBeginAtZero = false) {
-            const ctx = document.getElementById(canvasId);
-            if (!ctx) return;
-            const parent = ctx.parentElement;
-            if (createdCharts[canvasId]) createdCharts[canvasId].destroy();
-             if (data.length <= 1) {
-                let message = `<div class="single-data-point-message">No trend data available for ${label}.</div>`;
-                if(data.length === 1) message = `<div class="single-data-point-message">Only one data point available:<br><strong>${data[0].y} ${unit}</strong><span class="text-sm mt-1">on ${data[0].x.toLocaleDateString()}</span></div>`;
-                ctx.style.display = 'none';
-                if (parent.querySelector('.single-data-point-message')) parent.querySelector('.single-data-point-message').remove();
-                parent.insertAdjacentHTML('beforeend', message);
-                return;
-            }
-            ctx.style.display = 'block';
-            if (parent.querySelector('.single-data-point-message')) parent.querySelector('.single-data-point-message').remove();
-
-            createdCharts[canvasId] = new Chart(ctx, { type: 'line', data: { datasets: [{ label: label, data: data, borderColor: borderColor, backgroundColor: backgroundColor, borderWidth: 2, pointBackgroundColor: borderColor, pointRadius: 4, pointHoverRadius: 6, tension: 0.1, fill: false }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { type: 'time', time: { unit: 'year' }, grid: { display: false } }, y: { beginAtZero: yAxisBeginAtZero, ticks: { callback: (value) => value + ` ${unit}` } } }, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (context) => `${context.dataset.label}: ${context.parsed.y} ${unit}` } } } } });
-        }
-        
-        function populateLabExplanations() {
-            const explanations = [
-                { name: 'GFR', text: 'Estimated glomerular filtration rate. Lower values indicate reduced kidney function.' },
-                { name: 'Creatinine', text: 'Waste product filtered by the kidneys. High levels may signal impaired kidney function.' },
-                { name: 'BUN', text: 'Blood urea nitrogen. Elevated numbers can suggest dehydration or kidney issues.' },
-                { name: 'WBC', text: 'White blood cell count. Higher values may indicate infection or inflammation.' },
-                { name: 'Hemoglobin', text: 'Protein in red blood cells that carries oxygen. Low levels may mean anemia.' },
-                { name: 'Platelets', text: 'Cells that help blood clot. Abnormal levels can affect bleeding or clotting.' },
-                { name: 'ESR', text: 'Erythrocyte sedimentation rate. A nonspecific marker of inflammation.' }
-            ];
-            const container = document.getElementById('lab-explanations');
-            container.innerHTML = explanations.map(e => `<p data-tts="${e.name}: ${e.text}"><strong>${e.name}:</strong> ${e.text}</p>`).join('');
-        }
-
-        function populateLabTables() {
-             const allData = {
-                gfr: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:e?GFR Non-AA|GFR)\s(?:was\s)?(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), creatinine: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Creatinine)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})),
-                bun: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:BUN)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), wbc: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:WBC)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})),
-                hemoglobin: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Hgb|Hemoglobin)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), platelets: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Platelets)\s(\d+)/g, m => ({y: parseInt(m[2])})),
-                esr: parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4})(?:.*?)(?:ESR|ERYTHR. SED RATE|Sed Rate)\D+(\d+)/g, m => ({y: parseInt(m[2])}))
-            };
-            const allDates = [...new Set(Object.values(allData).flat().map(d => d.x.getTime()))].sort((a,b) => b-a);
-            const tableView = document.getElementById('table-view');
-            let tableHTML = `<table class="lab-table w-full text-sm text-left text-gray-500"><thead class="text-xs text-gray-700 uppercase bg-gray-100"><tr><th scope="col" class="py-3 px-6">Date</th><th scope="col" class="py-3 px-6">GFR</th><th scope="col" class="py-3 px-6">Creatinine</th><th scope="col" class="py-3 px-6">BUN</th><th scope="col" class="py-3 px-6">WBC</th><th scope="col" class="py-3 px-6">Hemoglobin</th><th scope="col" class="py-3 px-6">Platelets</th><th scope="col" class="py-3 px-6">ESR</th></tr></thead><tbody>`;
-            allDates.forEach(time => {
-                const date = new Date(time);
-                const find = (data, d) => data.find(p => p.x.getTime() === d.getTime());
-                const rowData = {
-                    gfr: find(allData.gfr, date)?.y || 'N/A',
-                    creatinine: find(allData.creatinine, date)?.y || 'N/A',
-                    bun: find(allData.bun, date)?.y || 'N/A',
-                    wbc: find(allData.wbc, date)?.y || 'N/A',
-                    hemoglobin: find(allData.hemoglobin, date)?.y || 'N/A',
-                    platelets: find(allData.platelets, date)?.y || 'N/A',
-                    esr: find(allData.esr, date)?.y || 'N/A'
-                };
-                tableHTML += `<tr class="bg-white border-b"><td class="py-4 px-6" data-tts="${date.toLocaleDateString()}">${date.toLocaleDateString()}</td><td class="py-4 px-6" data-tts="${rowData.gfr}">${rowData.gfr}</td><td class="py-4 px-6" data-tts="${rowData.creatinine}">${rowData.creatinine}</td><td class="py-4 px-6" data-tts="${rowData.bun}">${rowData.bun}</td><td class="py-4 px-6" data-tts="${rowData.wbc}">${rowData.wbc}</td><td class="py-4 px-6" data-tts="${rowData.hemoglobin}">${rowData.hemoglobin}</td><td class="py-4 px-6" data-tts="${rowData.platelets}">${rowData.platelets}</td><td class="py-4 px-6" data-tts="${rowData.esr}">${rowData.esr}</td></tr>`;
-            });
-            tableView.innerHTML = tableHTML + `</tbody></table>`;
-            addTTSAttributes();
-        }
-
-        function populateCharts() {
-            createTrendChart('gfrTrendChart', 'GFR', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:e?GFR Non-AA|GFR)\s(?:was\s)?(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), '#3b82f6', '#bfdbfe', 'mL/min');
-            createTrendChart('creatinineTrendChart', 'Creatinine', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Creatinine)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), '#ef4444', '#fecaca', 'mg/dL');
-            createTrendChart('bunTrendChart', 'BUN', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:BUN)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), '#f97316', '#fed7aa', 'mg/dL');
-            createTrendChart('wbcTrendChart', 'WBC', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:WBC)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), '#10b981', '#a7f3d0', 'x10³/mcL');
-            createTrendChart('hemoglobinTrendChart', 'Hemoglobin', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Hgb|Hemoglobin)\s(\d+\.?\d*)/g, m => ({y: parseFloat(m[2])})), '#d946ef', '#f5d0fe', 'g/dL');
-            createTrendChart('plateletTrendChart', 'Platelets', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4}|\w+\s\d{4})(?:.*?)(?:Platelets)\s(\d+)/g, m => ({y: parseInt(m[2])})), '#6366f1', '#c7d2fe', 'x10³/mcL');
-            createTrendChart('esrTrendChart', 'ESR', parseDataForChart(/([A-Za-z]{3}\s\d{1,2},?\s\d{4})(?:.*?)(?:ESR|ERYTHR. SED RATE|Sed Rate)\D+(\d+)/g, m => ({y: parseInt(m[2])})), '#78716c', '#d6d3d1', 'mm/hr');
-        }
-
-        // --- INTERACTIVE TOOLS ---
-        function setupTools() {
-            document.getElementById('logEntryButton').addEventListener('click', () => {
-                const dateTime = document.getElementById('logDate').value, pain = document.getElementById('logPainScale').value, desc = document.getElementById('logDescription').value, notes = document.getElementById('logNotes').value, bpSystolic = document.getElementById('logBPSystolic').value, bpDiastolic = document.getElementById('logBPDiastolic').value;
-                if (!dateTime || (!desc && !bpSystolic)) return;
-                logEntries.unshift({ dateTime, pain, desc, bpReading: bpSystolic && bpDiastolic ? `${bpSystolic}/${bpDiastolic}` : null, notes });
-                updateLogDisplay();
-                ['logDate', 'logDescription', 'logBPSystolic', 'logBPDiastolic', 'logNotes'].forEach(id => document.getElementById(id).value = '');
-                document.getElementById('logPainScale').value = 'N/A';
-                document.getElementById('logDate').value = new Date().toISOString().slice(0,16);
-            });
-
-            const askButton = document.getElementById('askButton');
-            askButton.addEventListener('click', async () => {
-                const query = document.getElementById('queryInput').value;
-                if (!query) return;
-                const answerContent = document.getElementById('answerContent'), answerPlaceholder = document.getElementById('answerPlaceholder'), readBtn = document.getElementById('readAnswerBtn');
-                answerPlaceholder.style.display = 'none';
-                answerContent.innerHTML = '';
-                readBtn.style.display = 'none';
-                const prompt = `Based on the following health record for Vickie Berry, please answer this question in a clear, concise manner suitable for a patient or caregiver. Use markdown for formatting if needed (lists, bolding). Question: "${query}".\n\nFull Health Record:\n${reportText}`;
-                const responseText = await callGemini(prompt, askButton);
-                answerContent.innerHTML = marked.parse(responseText);
-                if (responseText) readBtn.style.display = 'inline-flex';
-            });
-            
-            const suggestButton = document.getElementById('suggestConcernQuestionsBtn');
-            suggestButton.addEventListener('click', async () => {
-                const concernsText = extractSection('3. Critical Oversights and Immediate Action Plan', '4. Medication Management');
-                const prompt = `Based on these primary health concerns for a 71-year-old female patient, generate 3-5 clear, simple, and actionable questions she could ask her doctor at her next appointment. Format the response as a simple list. Concerns:\n${concernsText}`;
-                const questionsArea = document.getElementById('suggestedQuestionsArea'), questionsContent = document.getElementById('suggestedQuestionsContent');
-                questionsArea.style.display = 'block';
-                questionsContent.innerHTML = 'Generating questions...';
-                const responseText = await callGemini(prompt, suggestButton);
-                questionsContent.innerHTML = marked.parse(responseText);
-            });
-        }
-        
-        function updateLogDisplay() {
-            const display = document.getElementById('logDisplay');
-            if (logEntries.length === 0) { display.innerHTML = '<p class="text-gray-500">No entries logged yet.</p>'; return; }
-            display.innerHTML = logEntries.map(entry => {
-                const date = new Date(entry.dateTime), formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }), formattedTime = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-                let content = '';
-                if (entry.desc) content += `<p class="font-semibold text-gray-800">${entry.desc}</p>${entry.pain !== 'N/A' ? `<p class="text-sm text-gray-600">Pain Scale: ${entry.pain}/10</p>` : ''}`;
-                if (entry.bpReading) content += `<p class="font-semibold text-gray-800">Blood Pressure: ${entry.bpReading} mmHg</p>`;
-                if (entry.notes) content += `<p class="text-sm text-gray-500 mt-1 pl-2 border-l-2 border-gray-300">${entry.notes}</p>`;
-                return `<div class="p-3 border-b border-gray-200 last:border-b-0"><p class="text-xs text-gray-500 mb-1">${formattedDate} at ${formattedTime}</p>${content}</div>`;
-            }).join('');
-            addTTSAttributes();
-        }
-        
-        function populateTimeline() {
-             const events = [
-                { date: '2026-04-07', type: 'imaging', desc: 'Repeat Carotid Duplex', details: 'Routine follow-up with Ascension Indiana. Ultrasound showed continued mild disease on the right internal carotid artery and moderate disease on the left. No TIA or stroke symptoms reported.' },
-                { date: '2025-10-26', type: 'symptom', desc: 'Onset of Neck/Throat Symptoms', details: 'Reported sore throat, swollen glands, painless lump on front right neck under jaw, and difficulty swallowing.' },
-                { date: '2025-10-26', type: 'symptom', desc: 'Onset of Expiratory Wheezing', details: 'Reported new high-pitched expiratory wheezing.' },
-                { date: '2011-11-08', type: 'procedure', desc: 'First Sleep Study (Polysomnography)', details: 'Showed no significant obstructive sleep apnea but did reveal periodic limb movements and a complete absence of deep sleep.'},
-                { date: '2016-03-17', type: 'emergency', desc: 'Hospitalization for Stroke (CVA)', details: 'Admitted to Parkview Health for a stroke/TIA. Treated with TPA. CTA Head on this date identified two saccular aneurysms (4x3mm and 3x2mm).' },
-                { date: '2020-08-27', type: 'imaging', desc: 'Echocardiogram', details: 'Normal LV systolic function, EF 60-65%, mildly calcified aortic valve.' },
-                { date: '2021-04-06', type: 'procedure', desc: 'Hemorrhoid Banding', details: 'First of two rubber band ligation procedures for hemorrhoids.'},
-                { date: '2021-06-12', type: 'emergency', desc: 'Suspected COVID-19 Infection', details: 'Visit for cough, loss of smell and taste. This likely marks her first COVID infection.' },
-                { date: '2022-03-08', type: 'diagnosis', desc: 'Urinary Tract Infection', details: 'Diagnosed and treated for a UTI with Bactrim and Pyridium.' },
-                { date: '2022-04-11', type: 'emergency', desc: 'Ankle/Foot Fracture', details: 'ER visit after fall. Diagnosed with fractures of right ankle and foot.' },
-                { date: '2022-04-19', type: 'procedure', desc: 'Ankle Surgery (ORIF)', details: 'Open reduction and internal fixation of right ankle and foot fractures.' },
-                { date: '2022-07-20', type: 'diagnosis', desc: 'Osteopenia Diagnosis & Aneurysm Discrepancy', details: 'Bone Density (DEXA) scan confirmed low bone mass. A CTA Head on this date reported "No obvious intracranial aneurysm," which contradicts the 2016 report.'},
-                { date: '2023-04-05', type: 'visit', desc: 'Grief Reaction Noted', details: 'Follow-up visit discussing recent death of both parents.'},
-                { date: '2023-09-18', type: 'imaging', desc: 'Carotid Stenosis Worsens', details: 'Ultrasound shows left carotid artery stenosis increased to a moderate 50-69% blockage.' },
-                { date: '2024-04-29', type: 'visit', desc: 'Chronic Cough Evaluation', details: 'Lisinopril suspected as cause of a year-long cough; switched to Olmesartan.'},
-                { date: '2025-01-13', type: 'visit', desc: 'First Nephrology Visit', details: 'Initial evaluation for Chronic Kidney Disease with Dr. Anderson.' },
-                { date: '2025-04-22', type: 'visit', desc: 'Worsening Anxiety', details: 'PHQ-9 score of 12 indicates moderate depression. Referred to Integrity Family Counseling.' },
-                { date: '2025-05-09', type: 'emergency', desc: 'Knee Pain', details: 'ER visit for right knee pain. Diagnosed with moderate degenerative joint disease (arthritis).' },
-                { date: '2025-06-17', type: 'emergency', desc: 'Acute Colitis/Diverticulitis & UTI', details: 'ER visit for rectal bleeding. CT confirmed colitis. Urine culture confirmed UTI. Discharged on Ciprofloxacin and Flagyl.'},
-                { date: '2025-07-01', type: 'procedure', desc: 'Follow-up Bone Density Scan', details: 'Repeat DEXA scan showed stable osteopenia with a T-score of -1.1. No significant change from 2022.'},
-                { date: '2025-07-02', type: 'visit', desc: 'Gout Flare in Knee', details: 'Diagnosed with acute gout flare in right knee and prescribed a 5-day course of prednisone.'},
-                { date: '2025-07-23', type: 'visit', desc: 'New Severe Headache - Urgent Consult', details: 'Visit with Dr. Cheng Du for new onset severe headache and facial pain. Urgent neuroimaging (CTAs and MRI) ordered.'},
-                { date: '2025-07-25', type: 'diagnosis', desc: 'Lab Results Received', details: 'Stool culture from July 1 was negative. Immunofixation test was normal. ESR from July 23 was high, indicating inflammation.'},
-                { date: '2025-08-01', type: 'environment', desc: 'Environmental Hazard Identified', details: 'A hazardous condition was identified in the home crawlspace: a dryer venting directly into the space, causing massive lint buildup and likely significant mold growth. This is a potential source of chronic inflammation.'},
-                { date: '2025-08-20', type: 'imaging', desc: 'CT Angiogram Reveals Severe Stenosis', details: 'A CT Angiogram of the head and neck found a severe 70% stenosis of the left internal carotid artery. This is a significant increase and a major risk factor for stroke.' }
-            ];
-            events.sort((a, b) => new Date(b.date) - new Date(a.date));
-            const timeline = document.getElementById('timeline-vertical-container'), modal = document.getElementById('timeline-modal'), modalClose = document.querySelector('.timeline-modal-close');
-            timeline.innerHTML = events.map((event, index) => `<div class="timeline-vertical-item"><div class="timeline-vertical-dot dot-${event.type}"></div><div class="timeline-vertical-content" data-index="${index}"><time class="mb-1 text-sm font-normal leading-none text-gray-400">${new Date(event.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time><h3 class="text-lg font-semibold text-gray-900">${event.desc}</h3></div></div>`).join('');
-            timeline.addEventListener('click', e => {
-                const eventElement = e.target.closest('.timeline-vertical-content');
-                if (eventElement) {
-                    const event = events[eventElement.dataset.index];
-                    document.getElementById('modal-title').textContent = event.desc;
-                    document.getElementById('modal-date').textContent = new Date(event.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-                    document.getElementById('modal-details').innerHTML = `<p>${event.details}</p>`;
-                    modal.style.display = 'block';
-                }
-            });
-            modalClose.onclick = () => modal.style.display = 'none';
-            window.onclick = e => { if (e.target == modal) modal.style.display = 'none'; };
-        }
-        
-        function populateSuspicions() {
-             const footSuspicions = [ { title: "Medication Side Effect (Peripheral Neuropathy)", concern: "High Suspicion", color: "red-600", reasoning: "She recently finished a course of Metronidazole (Flagyl) in late June 2025. This antibiotic is known to cause peripheral neuropathy ('pins and needles'). The timing makes this a primary suspect." }, { title: "Diabetic or Pre-Diabetic Neuropathy", concern: "High Suspicion", color: "red-600", reasoning: "Her urinalysis on June 17, 2025, showed glucose in her urine, which is abnormal and a significant red flag for undiagnosed diabetes or pre-diabetes. This is one of the most common causes of this type of symptom." }, { title: "Nerve Entrapment / Post-Surgical Complication", concern: "Moderate Suspicion", color: "orange-600", reasoning: "Her right ankle was fractured and repaired with surgery (ORIF) in 2022. It's possible for scar tissue or the surgical hardware itself to compress a nerve (like the tarsal tunnel), causing these sensations." }, { title: "Uremic Neuropathy (from CKD)", concern: "Moderate Suspicion", color: "orange-600", reasoning: "Her Stage 3b Chronic Kidney Disease can lead to a buildup of toxins that damage nerves over time. Worsening kidney function could manifest with new or worsening neurological symptoms." }, { title: "Systemic Inflammation", concern: "Moderate Suspicion", color: "orange-600", reasoning: "Chronic inflammation from Long COVID and/or mold exposure can affect the tiny blood vessels that supply nerves, leading to damage and abnormal sensations." } ];
-             const bleedingSuspicions = [ { title: 'Diverticulitis or Diverticular Bleeding', concern: 'High Concern / Diagnosed', color: 'green-600', howItStarts: "Small pouches in the colon (diverticulosis) are common at her age. An infection in a pouch (diverticulitis) or a rupture of a blood vessel within one (diverticular bleeding) can cause these symptoms.", whatItFeelsLike: "If diverticulitis, there would be steady pain (usually lower left abdomen) and fever. If diverticular bleeding, it can be painless, with a sudden, large amount of maroon or red blood per rectum.", outcome: 'This was confirmed by CT scan on June 17, 2025.' }, { title: 'Ischemic Colitis', concern: 'Very High Concern / Medical Emergency', color: 'red-600', howItStarts: "Her extensive vascular disease (stroke history, carotid stenosis, hypertension) puts her at high risk. A temporary clot or drop in blood pressure could cut off blood flow to a section of the colon.", whatItFeelsLike: "Sudden, severe, cramping abdominal pain, often on the left side, followed by a desperate urge to go to the bathroom, producing bloody diarrhea. She would likely feel very sick and weak." }, { title: 'Severe Hemorrhoid Exacerbation', concern: 'Concerning / Urgent', color: 'orange-600', howItStarts: "With her known Grade III hemorrhoids and constipation, a period of straining could cause them to become severely swollen, inflamed, and bleed.", whatItFeelsLike: "Intense pressure and fullness, feeling like a constant need to have a bowel movement. The bleeding would be bright red, and the loss of control would feel more like leakage because swollen hemorrhoids prevent the sphincter from closing completely." } ];
-            const headacheSuspicions = [ { title: 'Trigeminal Neuralgia', concern: 'Very High Suspicion', color: 'red-600', reasoning: 'The patient\'s description of a "shock-like" pain shooting from the temple to the throat is the hallmark symptom of Trigeminal Neuralgia. It is a nerve disorder that causes sudden, severe, electric-shock-like facial pain. The triggers (stressful event, but also occurring at rest) are classic for this condition.' }, { title: 'Vascular Event (Aneurysm / Dissection)', concern: 'Critical / Must Be Ruled Out', color: 'red-600', reasoning: "Given her history of a past aneurysm referral and vascular risk factors, a sudden spike in blood pressure (from an argument) is a classic trigger for a bleed or tear in a blood vessel. While the 'shock' description is less typical, the severity and sudden onset make this the top life-threatening concern to exclude with imaging.", }, { title: 'Giant Cell Arteritis (GCA)', concern: 'High Concern / Urgent', color: 'orange-600', reasoning: "This is an inflammatory condition of the arteries, common in her age group. The elevated ESR of 35 is a classic finding. While the pain is usually a constant headache, atypical nerve-like pain can occur. It is a medical emergency because it can lead to blindness.", } ];
-            const createSuspicionsHtml = (items) => items.map(item => `<details class="bg-white rounded-lg shadow" ${item.outcome || items.indexOf(item) < 2 ? 'open' : ''}><summary class="flex justify-between items-center p-4 cursor-pointer"><span class="text-xl font-semibold text-gray-800">${item.title}</span><span class="text-sm font-bold text-${item.color}">${item.concern}</span></summary><div class="p-4 border-t border-gray-200"><h4 class="font-semibold text-gray-700 mb-2">${item.howItStarts ? 'How It Might Start:' : 'Clinical Reasoning:'}</h4><p class="text-gray-600 mb-4">${item.howItStarts || item.reasoning}</p>${item.whatItFeelsLike ? `<h4 class="font-semibold text-gray-700 mb-2">What It Might Feel Like:</h4><p class="text-gray-600">${item.whatItFeelsLike}</p>`: ''}${item.outcome ? `<div class="mt-4 p-3 bg-green-50 border-l-4 border-green-500 rounded-r-lg"><p class="font-semibold text-green-800">Outcome:</p><p class="text-green-700">${item.outcome}</p></div>` : ''}</div></details>`).join('');
-            document.getElementById('foot-suspicions-content').innerHTML = createSuspicionsHtml(footSuspicions);
-            document.getElementById('headache-suspicions-content').innerHTML = createSuspicionsHtml(headacheSuspicions);
-            document.getElementById('suspicions-content').innerHTML = createSuspicionsHtml(bleedingSuspicions);
-        }
-        
-        // --- APPLICATION-WIDE SEARCH ---
-        const searchInput = document.getElementById('appSearchInput');
-        const searchResultsContainer = document.getElementById('searchResultsContainer');
-        searchInput.addEventListener('input', () => {
-            const query = searchInput.value.trim();
-            if (query.length < 3) { searchResultsContainer.innerHTML = ''; searchResultsContainer.classList.add('hidden'); return; }
-            const escapedQuery = query.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
-            const regex = new RegExp(escapedQuery, 'gi');
-            const results = []; let match;
-            while ((match = regex.exec(reportText)) !== null) {
-                const startIndex = Math.max(0, match.index - 50);
-                const endIndex = Math.min(reportText.length, match.index + query.length + 50);
-                results.push({ text: `...${reportText.substring(startIndex, endIndex).replace(regex, `<mark>${match[0]}</mark>`)}...`, index: match.index });
-            }
-            searchResultsContainer.innerHTML = results.length > 0 ? results.map(res => `<div class="p-3 border-b hover:bg-gray-100 cursor-pointer search-result-item" data-index="${res.index}">${res.text}</div>`).join('') : '<div class="p-3 text-gray-500">No results found.</div>';
-            searchResultsContainer.classList.remove('hidden');
-        });
-
-        searchResultsContainer.addEventListener('click', e => { if (e.target.closest('.search-result-item')) alert("Navigating to search results is a planned feature."); });
-        document.addEventListener('click', e => { if (!searchInput.contains(e.target) && !searchResultsContainer.contains(e.target)) searchResultsContainer.classList.add('hidden'); });
-
-        // --- INITIALIZATION ---
-        function init() {
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
-            document.getElementById('logDate').value = new Date().toISOString().slice(0,16);
-            setupNavigation('nav', 'tab', 'nav-button', 'tab-content');
-            setupNavigation('recordSubNav', 'sub-tab', 'sub-nav-button', 'sub-tab-content');
-            populateDashboard();
-            populateHealthRecord();
-            populateCarePlan();
-            populateCharts();
-            populateLabTables();
-            populateLabExplanations();
-            setupTools();
-            populateTimeline();
-            populateSuspicions();
-            setupReadAloudListeners();
-            document.getElementById('viewToggle').addEventListener('change', () => {
-                const chartView = document.getElementById('chart-view'), tableView = document.getElementById('table-view');
-                if (viewToggle.checked) { chartView.style.display = 'grid'; tableView.style.display = 'none'; }
-                else { chartView.style.display = 'none'; document.querySelector('#table-view .lab-table').style.display = 'table'; }
-            });
-        }
-
-        init();
-    });
-    </script>
+renderOverview(); renderLabs(); renderMeds(); renderCare(); renderTimeline(); renderQuestions(); setupLog(); setupTabs(); setupSearch(); setupActions();
+</script>
 </body>
 </html>
