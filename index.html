@@ -84,6 +84,7 @@
       <button class="tab-btn" data-tab="labs">Labs & Imaging</button>
       <button class="tab-btn" data-tab="meds">Medications</button>
       <button class="tab-btn" data-tab="care">Care Plan</button>
+      <button class="tab-btn" data-tab="contacts">Contacts</button>
       <button class="tab-btn" data-tab="timeline">Timeline</button>
       <button class="tab-btn" data-tab="log">Symptom Log</button>
       <button class="tab-btn" data-tab="questions">Visit Prep</button>
@@ -170,6 +171,31 @@
         </div>
       </section>
 
+      <section id="contacts" class="tab-panel">
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <div class="xl:col-span-2 card p-6">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <div>
+                <h2 class="text-2xl font-extrabold">Care team contacts</h2>
+                <p class="text-slate-600">Restored quick-call cards from the earlier dashboard and updated the contact array for current specialists.</p>
+              </div>
+              <button id="readContactsBtn" class="no-print rounded-xl bg-white border border-slate-200 text-slate-700 font-bold px-4 py-3 hover:bg-slate-50">Read Contacts</button>
+            </div>
+            <div id="contactGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+          </div>
+          <aside class="space-y-6">
+            <div class="card p-6">
+              <h2 class="text-2xl font-extrabold mb-4">Upcoming / recurring</h2>
+              <div id="appointmentList" class="space-y-3"></div>
+            </div>
+            <div class="card p-6">
+              <h2 class="text-2xl font-extrabold mb-4">Kidney-friendly grocery reminders</h2>
+              <div id="groceryList" class="space-y-3 text-sm text-slate-700"></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
       <section id="timeline" class="tab-panel">
         <div class="card p-6">
           <h2 class="text-2xl font-extrabold mb-2">Timeline</h2>
@@ -207,6 +233,7 @@
     <footer class="mt-8 text-center text-sm text-slate-500 pb-10">Built as a caregiver memory aid from patient-supplied records. Always verify medication changes, abnormal results, and symptoms with the treating clinician.</footer>
   </div>
 
+<script src="contacts.js"></script>
 <script>
 const DATA = {
   snapshot: [
@@ -296,6 +323,18 @@ const DATA = {
     {date:'2025-12-22', type:'info', title:'Nephrology renal panel', detail:'Creatinine 0.98 high, eGFR Non-AA 56 low, urine microalbumin/creatinine ratio 6 normal, magnesium normal.'},
     {date:'2025-09-12', type:'info', title:'Iron and thyroid labs', detail:'Iron study values in range; TSH 3.72 in range.'}
   ],
+  appointments: [
+    {date:'Around Aug 20, 2026', desc:'Primary care follow-up after May 2026 annual wellness/chronic condition visit'},
+    {date:'Pending / future', desc:'Pulmonary function test ordered for dyspnea and wheezing'},
+    {date:'Order placed', desc:'Mammogram screening'},
+    {date:'Jul 1, 2027', desc:'Bone density / osteoporosis monitoring'}
+  ],
+  groceries: [
+    {title:'Vegetables', items:'Cauliflower, cabbage, peppers, cucumber, onions, lettuce, green beans'},
+    {title:'Fruit', items:'Apples, berries, grapes, peaches, pears, pineapple'},
+    {title:'Proteins', items:'Eggs, tofu, unsalted nuts in clinician-approved portions; discuss beans/lentils with kidney/gout plan'},
+    {title:'Low-sodium staples', items:'No-salt seasonings, rice, oats, pasta, olive oil, low-sodium broths'}
+  ],
   questions: [
     'Does the May 2026 eGFR of 50 represent expected CKD variation, dehydration/medication effect, or a change that needs repeat testing?',
     'When should CMP/BMP, urine microalbumin/creatinine ratio, and blood pressure logs be rechecked?',
@@ -373,6 +412,20 @@ function renderTimeline(){
   $('timelineList').innerHTML = DATA.timeline.map(t => `<article class="timeline-item"><span class="timeline-dot" style="background:${colors[t.type] || colors.info}"></span><div class="soft-card p-4"><div class="flex flex-wrap items-center gap-2 mb-1"><span class="font-extrabold">${t.title}</span>${pill(t.date,'info')}</div><p class="text-slate-600">${t.detail}</p></div></article>`).join('');
 }
 
+function formatPhoneNumber(phone){ const d = String(phone || '').replace(/\D/g,''); return d.length === 10 ? `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}` : (phone || ''); }
+function contactInitials(name){ return name.replace(/^(Dr\.|NP|FNP)\s+/,'').split(/\s+/).filter(Boolean).slice(0,2).map(x => x[0]).join('').toUpperCase(); }
+function renderContacts(){
+  const contacts = window.CONTACTS || [];
+  $('contactGrid').innerHTML = contacts.map(c => {
+    const initials = contactInitials(c.name);
+    const phoneDigits = String(c.phone || '').replace(/\D/g,'');
+    const photo = c.photo ? `<img src="${c.photo}" alt="${c.name}" class="w-full h-full object-cover" onerror="this.parentElement.textContent='${initials}'">` : initials;
+    return `<article class="soft-card p-4 flex gap-4"><div class="w-20 h-20 rounded-2xl bg-slate-100 overflow-hidden flex items-center justify-center shrink-0 text-xl font-extrabold text-slate-500">${photo}</div><div class="min-w-0"><div class="text-xs font-extrabold text-blue-700 uppercase">${c.role}</div><h3 class="font-extrabold text-lg">${c.name}</h3><p class="text-sm text-slate-600">${c.organization || ''}</p>${c.phone ? `<a class="font-bold text-slate-900 hover:text-blue-700" href="tel:${phoneDigits}">${formatPhoneNumber(c.phone)}</a>` : '<p class="text-sm text-slate-500">Phone not listed</p>'}${c.notes ? `<p class="text-sm text-slate-600 mt-2">${c.notes}</p>` : ''}</div></article>`;
+  }).join('');
+  $('appointmentList').innerHTML = DATA.appointments.map(a => `<div class="soft-card p-3"><div class="font-extrabold">${a.desc}</div><div class="text-sm font-bold text-blue-700">${a.date}</div></div>`).join('');
+  $('groceryList').innerHTML = DATA.groceries.map(g => `<div class="soft-card p-3"><div class="font-extrabold">${g.title}</div><p>${g.items}</p></div>`).join('');
+}
+
 function renderQuestions(){
   $('doctorQuestions').innerHTML = DATA.questions.map((q,i) => `<label class="soft-card p-4 flex gap-3 items-start"><input type="checkbox" class="mt-1"><span><b>Q${i+1}.</b> ${q}</span></label>`).join('');
 }
@@ -402,6 +455,9 @@ function searchableItems(){
   return [
     ...DATA.priorities.map(x => ({type:'Priority', title:x.title, text:x.detail})),
     ...DATA.tasks.map(x => ({type:'Task', title:x.task, text:`${x.due} ${x.note}`})),
+    ...(window.CONTACTS || []).map(x => ({type:'Contact', title:x.name, text:`${x.role} ${x.organization || ''} ${formatPhoneNumber(x.phone)} ${x.notes || ''}`})),
+    ...DATA.appointments.map(x => ({type:'Appointment', title:x.desc, text:x.date})),
+    ...DATA.groceries.map(x => ({type:'Grocery', title:x.title, text:x.items})),
     ...DATA.labs.map(x => ({type:'Lab', title:`${x.test} ${x.value}`, text:`${x.date} ${x.cat} ${x.range} ${x.status} ${x.note}`})),
     ...DATA.meds.map(x => ({type:'Medication', title:x.name, text:`${x.directions} ${x.note} ${x.started}`})),
     ...DATA.problems.map(x => ({type:'Problem', title:x, text:x})),
@@ -420,9 +476,10 @@ function readText(text){ if(!('speechSynthesis' in window)) return alert('Read-a
 function setupActions(){
   $('printBtn').addEventListener('click', () => window.print());
   $('readSummaryBtn').addEventListener('click', () => readText(DATA.priorities.map(p => `${p.title}. ${p.detail}`).join(' ')));
+  $('readContactsBtn')?.addEventListener('click', () => readText((window.CONTACTS || []).map(c => `${c.role}: ${c.name}, ${formatPhoneNumber(c.phone)}. ${c.notes || ''}`).join(' ')));
 }
 
-renderOverview(); renderLabs(); renderMeds(); renderCare(); renderTimeline(); renderQuestions(); setupLog(); setupTabs(); setupSearch(); setupActions();
+renderOverview(); renderLabs(); renderMeds(); renderCare(); renderContacts(); renderTimeline(); renderQuestions(); setupLog(); setupTabs(); setupSearch(); setupActions();
 </script>
 </body>
 </html>
