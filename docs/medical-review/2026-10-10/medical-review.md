@@ -4,18 +4,18 @@ Comprehensive clinical comparison and appointment preparation
 
 **Patient:** Vickie Berry | **Date of birth:** March 1, 1953 | **Age:** 73
 
-**Review and family updates:** October 10, 2026 | Updated with urine results and reported urgency and frequency
+**Review and family updates:** October 10, 2026 | Updated with head CT, urine results and reported urgency and frequency
 
 **Prepared for:** Vickie Berry, her family, and her treating clinicians
 
 The current priorities are newly reported wheezing and breathlessness with very little activity, a recent reading change in the context of significant carotid disease, and a separate concern about attention and remembering recent information. These issues require clinical assessment. The records support several possible contributors but do not establish one diagnosis explaining all symptoms.
 
-At the last family update, she remained in the emergency department. Wheezing started before that visit and improved with prescribed Airsupra. The supplied export was generated during the encounter; the completed emergency assessment and disposition are not included. This is a synthesis of records and family observations, with interpretations and questions identified for discussion with the treating team.
+At the last family update, she remained in the emergency department. Wheezing started before that visit and improved with prescribed Airsupra. The supplied export was generated during the encounter. Additional urine results and the 2:35 PM head CT are now available; the completed emergency assessment and disposition are not included. This is a synthesis of records and family observations, with interpretations and questions identified for discussion with the treating team.
 
 ## Clinical priorities
 
 - **Reassess the new breathing limitation after treatment.** Airsupra benefit supports a possible reversible airway component. The CT shows small-airway inflammation, but the small reported abnormalities should not automatically be assumed to explain marked exercise intolerance. Current examination, respiratory rate, response duration and functional tolerance matter.
-- **Examine the recent reading change.** The last supplied carotid CTA, performed August 20, 2025, reported 70% left internal carotid stenosis. A new reading or comprehension deficit requires attention to onset, neurological findings and whether current stroke/TIA evaluation is indicated. The older MRI and chest CTA do not answer that question.
+- **Examine the recent reading change.** The last supplied carotid CTA, performed August 20, 2025, reported 70% left internal carotid stenosis. A new reading or comprehension deficit requires attention to onset, neurological findings and whether current stroke/TIA evaluation is indicated. The October 10 noncontrast head CT showed no acute abnormality, but the recent reading change still needs a neurological examination; see the new head CT section.
 - **Arrange structured cognitive and functional assessment.** Family observations concern following television characters, repetition and possibly failure to remember recently watched material. She recognizes familiar people in person. The records do not establish dementia or loss of familiar-face recognition.
 - **Verify actual medication exposure.** The old Parkview list conflicts with the family list. Resolve trazodone, thyroid dose, statin, aspirin, missing prescription refills and unspecified dosing frequencies using bottles and pharmacy history.
 - **Complete important follow-up.** Reassess cardiac function if symptoms warrant, clarify vertebral fracture risk despite mild DXA findings, obtain missing GI and neurovascular follow-up, and characterize CKD using nephrology records and urine albumin testing.
@@ -34,6 +34,7 @@ At the last family update, she remained in the emergency department. Wheezing st
 
 ## Records and evidence
 
+- Additional MyChart results: Test Details 11 and 12 for the October 10 urine specimen; Test Details 13 for the noncontrast head CT at 2:35 PM.
 - Six-page family-maintained emergency packet: `vickie-er-packet (3).pdf`.
 - Complete clinical narrative in the October 10 archive: seven XML documents and the 272-page `1 of 1 - My Health Summary.PDF`. Much of this is repeated historical material, rather than separate new encounters. The 59 result entries in the two principal summaries are identical; the 14 results in the 2016 hospitalization summary repeat those entries.
 - Page references below refer to the 272-page health summary unless labeled **ER packet**.
@@ -64,6 +65,8 @@ At the last family update, she remained in the emergency department. Wheezing st
 
 - **October 10, 2026 at 1:01 PM:** Urine collected during the ER visit. Mild pyuria, trace leukocyte esterase and trace bacteria were reported at 1:31 PM; specimen sent for culture. No culture result is supplied. See the additional urine results section.
 
+- **October 10, 2026 at 2:35 PM:** Noncontrast head CT for confusion/headache showed no acute intracranial abnormality and a small left maxillary sinus air-fluid level. No infarction, hemorrhage or mass was identified on CT. Compared with the July 20, 2022 CT. This is a new supplied result, rather than a repeat of the August 2025 MRI.
+
 ## Clinical progression and interpretation
 
 ### Neurological function and carotid disease
@@ -77,35 +80,46 @@ At the last family update, she remained in the emergency department. Wheezing st
 - If the stenosis is confirmed and judged responsible for recent symptoms, vascular treatment decisions may be time-sensitive. Neurology and vascular surgery should determine whether intervention is appropriate. [3]
 
 
+
+### New head CT from October 10
+
+The newly supplied two-page MyChart report documents a **noncontrast head CT at 2:35 PM on October 10, 2026**, requested for confusion, with additional history of confusion and headache. Parker Suit MD interpreted it for FW Radiology, comparing it with the July 20, 2022 CT.
+
+- **Reported result:** No acute intracranial abnormality. No acute infarction, hemorrhage or mass was identified; gray-white differentiation was maintained, and ventricles were normal in size and morphology. No gross calvarial fracture was reported.
+- **Effect on the assessment:** This is reassuring for an acute abnormality visible on this CT. Current head imaging is now documented, replacing the earlier information gap. It does not explain the recent reading difficulty or repeated stories, and no completed neurological examination or ER disposition is supplied.
+- **Remaining neurological question:** A normal noncontrast CT does not exclude a small or early ischemic stroke or a TIA. If the onset, continuing symptoms or examination raises concern for a focal neurological event, ask the treating team whether MRI with diffusion-weighted imaging and updated vascular assessment are indicated. MRI is more sensitive for small ischemic lesions; the decision depends on clinical findings and timing. [4]
+- **Vascular and cognitive limits:** This was not a head/neck CTA and does not measure the previously reported carotid stenosis or formally reconcile the aneurysm history. Lack of an atrophy or microvascular description does not establish reversal of the August 2025 MRI findings. This report does not settle whether a cognitive disorder is present.
+- **Sinus finding:** A small air-fluid level was reported in the left maxillary sinus. Left maxillary sinus disease was also described in August 2025, but these reports do not establish one persistent infection or a quantitative trend. Ask about nasal blockage/drainage, facial or dental pain, fever and symptom duration. Imaging alone does not distinguish bacterial from viral sinus inflammation or establish a need for antibiotics. This finding does not establish the cause of the cognitive or breathing symptoms. [5]
+
 ### Attention and memory after family clarification
 
 The family examples raise concern about registering and retaining new information, tracking a story, and reading unfamiliar material. Following a film requires attention to faces, names, scenes and plot. Difficulty distinguishing similar-looking characters does not identify one brain disorder. Reading familiar texts more easily may reflect the benefit of context; it does not establish normal language and attention with unfamiliar material.
 
-Two mechanisms can appear as forgetfulness: information may not have been registered because attention was impaired, or it may have been registered but not retained. Medication effects, sleep problems, mood symptoms, thyroid dysfunction and illness can contribute. Formal testing of attention, learning, delayed recall and recognition can help distinguish these mechanisms. [4]
+Two mechanisms can appear as forgetfulness: information may not have been registered because attention was impaired, or it may have been registered but not retained. Medication effects, sleep problems, mood symptoms, thyroid dysfunction and illness can contribute. Formal testing of attention, learning, delayed recall and recognition can help distinguish these mechanisms. [6]
 
 - **Cognitive impairment:** If repetition and loss of recent memories are increasing or represent a clear change from baseline, assess for mild cognitive impairment or dementia. Alzheimer disease, vascular contributions and mixed causes are possibilities to evaluate, rather than established diagnoses.
-- **Daily independence:** Medication errors, bills, appointments, cooking, navigation and phone use are important. Mild cognitive impairment generally preserves everyday independence; dementia interferes with it. Recognizing familiar people can remain intact while other abilities are impaired. No current functional assessment is supplied. [5]
-- **Acute worsening or fluctuation:** Assess delirium if thinking became worse over hours/days during illness or fluctuates, especially with impaired attention or unusual drowsiness. Acute illness and a longer-standing cognitive problem can coexist; the available history does not establish delirium. [6]
-- **Lifelong attention:** ADHD begins in childhood. A longstanding attention pattern could coexist with another condition but would not adequately explain a genuinely new reading change in her seventies. [7]
+- **Daily independence:** Medication errors, bills, appointments, cooking, navigation and phone use are important. Mild cognitive impairment generally preserves everyday independence; dementia interferes with it. Recognizing familiar people can remain intact while other abilities are impaired. No current functional assessment is supplied. [7]
+- **Acute worsening or fluctuation:** Assess delirium if thinking became worse over hours/days during illness or fluctuates, especially with impaired attention or unusual drowsiness. Acute illness and a longer-standing cognitive problem can coexist; the available history does not establish delirium. [8]
+- **Lifelong attention:** ADHD begins in childhood. A longstanding attention pattern could coexist with another condition but would not adequately explain a genuinely new reading change in her seventies. [9]
 - **Vision:** Current corrected vision and hearing still need assessment even when the family perceives a cognitive component. The old contradictory vision descriptions do not establish her current visual status.
 
-After urgent causes and acute illness are addressed, arrange a dedicated cognitive visit with an informant who knows her baseline. Use a validated cognitive screen and functional history. If the brief screen does not explain the family concerns, request neuropsychological testing of attention, learning, delayed recall/recognition, language/reading, and visual processing. A normal screening score alone should not dismiss persistent symptoms. Testing during acute illness may underestimate baseline ability and require reassessment. [4]
+After urgent causes and acute illness are addressed, arrange a dedicated cognitive visit with an informant who knows her baseline. Use a validated cognitive screen and functional history. If the brief screen does not explain the family concerns, request neuropsychological testing of attention, learning, delayed recall/recognition, language/reading, and visual processing. A normal screening score alone should not dismiss persistent symptoms. Testing during acute illness may underestimate baseline ability and require reassessment. [6]
 
-Check current thyroid function, vitamin B12 and relevant metabolic results; review sleep, mood, sensory function and medications. No B12 deficiency or uncontrolled thyroid disease is established in these records. Record dated examples from everyday life, including context, attention, whether reminders help, and impact on independence, rather than repeatedly quizzing her. [8]
+Check current thyroid function, vitamin B12 and relevant metabolic results; review sleep, mood, sensory function and medications. No B12 deficiency or uncontrolled thyroid disease is established in these records. Record dated examples from everyday life, including context, attention, whether reminders help, and impact on independence, rather than repeatedly quizzing her. [10]
 
 ### Breathing and small airway inflammation
 
 - Symptoms reportedly worsened despite months of breathlessness. October 10 CTA shows an objective small-airway abnormality, but no pulmonary embolism, consolidative pneumonia, pleural effusion, or enlarged thoracic lymph nodes.
 - Neutrophilic leukocytosis supports assessing infection or inflammation, but can also reflect stress or recent systemic steroids. It does not identify an organism or establish sepsis.
-- **Infection and aspiration are reasonable leading questions for the tree-in-bud pattern.** GERD plus moderate hiatal hernia makes recurrent reflux/aspiration worth investigating, particularly with cough after eating, nocturnal choking, regurgitation or swallowing difficulty. This connection is a hypothesis, not a confirmed diagnosis. [9]
-- Wegovy was reportedly added after cough/dyspnea were already documented, so it cannot explain their original onset. Its delayed gastric emptying and GI effects could contribute to later symptoms in some patients; review whether nausea, vomiting, reflux, poor intake or dizziness changed with initiation/titration. [10]
-- Lisinopril can contribute to chronic dry cough. That possibility does not explain the lung CT abnormality or new neurological symptoms by itself. [11]
+- **Infection and aspiration are reasonable leading questions for the tree-in-bud pattern.** GERD plus moderate hiatal hernia makes recurrent reflux/aspiration worth investigating, particularly with cough after eating, nocturnal choking, regurgitation or swallowing difficulty. This connection is a hypothesis, not a confirmed diagnosis. [11]
+- Wegovy was reportedly added after cough/dyspnea were already documented, so it cannot explain their original onset. Its delayed gastric emptying and GI effects could contribute to later symptoms in some patients; review whether nausea, vomiting, reflux, poor intake or dizziness changed with initiation/titration. [12]
+- Lisinopril can contribute to chronic dry cough. That possibility does not explain the lung CT abnormality or new neurological symptoms by itself. [13]
 - The reported clear lungs on October 8 cannot prove a new abnormality developed within two days: the original scan is missing and calcium scans and chest CTAs differ in lung coverage and technique. No direct comparison was reported.
 
 
 ### New wheezing and breathlessness with little exertion
 
-Reported benefit from Airsupra makes reversible airway narrowing a stronger possibility. Airsupra contains albuterol, which opens narrowed airways, and budesonide, which treats airway inflammation. This is a useful clinical clue, but an informal response does not prove asthma, measure obstruction severity, or exclude another contributor. [12]
+Reported benefit from Airsupra makes reversible airway narrowing a stronger possibility. Airsupra contains albuterol, which opens narrowed airways, and budesonide, which treats airway inflammation. This is a useful clinical clue, but an informal response does not prove asthma, measure obstruction severity, or exclude another contributor. [14]
 
 **Leading working possibilities:** bronchospasm accompanying infectious or inflammatory bronchiolitis; reflux/aspiration-related airway irritation; underlying asthma or an irritant-triggered airway response. Her CT and blood count support investigating inflammation/infection, while GERD and hiatal hernia support asking about aspiration. None is confirmed by the current records. This is a ranking of issues to investigate, not a numerical probability estimate.
 
@@ -115,9 +129,9 @@ Reported benefit from Airsupra makes reversible airway narrowing a stronger poss
 - A recorded oxygen saturation of 100% does not measure airflow or establish normal exertional tolerance. Whether oxygen was being administered is unspecified.
 - The CT excludes PE at the time of the study and reports no consolidative pneumonia, pneumothorax or pleural effusion. The airway findings mean the scan is not entirely normal; their limited reported extent should not automatically explain severe functional symptoms.
 - Decide clinically whether treatment beyond the existing inhaler is needed and whether infection testing or antibiotics are appropriate. WBC alone does not identify a bacterial infection.
-- After acute symptoms are stabilized, spirometry with bronchodilator testing can assess airflow obstruction and reversibility. Confirm asthma with compatible history and objective testing. [13], [14]
+- After acute symptoms are stabilized, spirometry with bronchodilator testing can assess airflow obstruction and reversibility. Confirm asthma with compatible history and objective testing. [15], [16]
 
-Heart-related breathlessness, arrhythmia or another contributor should remain under consideration if symptoms persist despite airway improvement. Heart failure can cause wheezing, but the CT does not describe pulmonary edema or pleural fluid and NT-proBNP 287 is below the commonly used acute exclusion threshold of 300, making acute decompensated heart failure less likely. The existing ten-year-old echo does not establish present cardiac function. [15], [16]
+Heart-related breathlessness, arrhythmia or another contributor should remain under consideration if symptoms persist despite airway improvement. Heart failure can cause wheezing, but the CT does not describe pulmonary edema or pleural fluid and NT-proBNP 287 is below the commonly used acute exclusion threshold of 300, making acute decompensated heart failure less likely. The existing ten-year-old echo does not establish present cardiac function. [17], [18]
 
 Because the wheezing preceded the ER visit, today's contrast administration is not the initial trigger described by the family. The degree of recovery after treatment should inform the treating team's disposition decision and follow-up plan.
 
@@ -126,8 +140,8 @@ Because the wheezing preceded the ER visit, today's contrast administration is n
 Only one current troponin result is included, and the current ECG/telemetry interpretation is unavailable. A single normal troponin does not constitute a complete assessment of every cardiac cause. New orthopnea, leg swelling, rapid weight gain, chest discomfort or palpitations would change the clinical assessment.
 
 - The 2016 echocardiogram was summarized as normal, but its detailed report recorded grade I diastolic dysfunction, meaning mildly impaired relaxation, despite EF 60%. This alone does not establish heart failure. (p. 66.)
-- NT-proBNP 287 is above this laboratory's reference limit, but below a commonly used acute-heart-failure exclusion threshold of 300. It lowers the likelihood of acute decompensated heart failure while not settling possible chronic heart failure with preserved EF. Age, kidney function and clinical context affect interpretation. A current echo is more informative than the ten-year-old result. [17]
-- A reported coronary calcium score of zero is reassuring about calcified coronary plaque, but does not erase carotid/aortic disease or exclude every cardiac cause of dyspnea. [18]
+- NT-proBNP 287 is above this laboratory's reference limit, but below a commonly used acute-heart-failure exclusion threshold of 300. It lowers the likelihood of acute decompensated heart failure while not settling possible chronic heart failure with preserved EF. Age, kidney function and clinical context affect interpretation. A current echo is more informative than the ten-year-old result. [19]
+- A reported coronary calcium score of zero is reassuring about calcified coronary plaque, but does not erase carotid/aortic disease or exclude every cardiac cause of dyspnea. [20]
 
 ### Kidney function and metabolic status
 
@@ -141,8 +155,8 @@ Only one current troponin result is included, and the current ECG/telemetry inte
 
 - Right ankle/foot fractures healed by August 2022. The 2025 DXA report describes no significant change from 2022, with osteopenia rather than a T-score diagnosis of osteoporosis.
 - **The L1 compression fracture is an important separate finding.** It was present by 2015 and explicitly called osteoporotic in 2017. October 2026 CT again shows chronic vertebral height loss.
-- The 2025 DXA report's discussion of FRAX thresholds lists absence of prior hip/vertebral fracture as a condition for that approach. If L1 is confirmed as a fragility fracture, the report's low FRAX score and "no medication threshold" conclusion should be reconsidered in that context. Guidelines support treatment consideration after vertebral fracture regardless of BMD. [19]
-- The 2022 scan used **GE Lunar** and 2025 used **Hologic**. The "previous" BMD numbers quoted in 2025 differ from the raw 2022 report. They may have been converted or calibrated, but that is not documented. Cross-calibration is needed for valid quantitative comparison; ask the imaging facility to verify it and whether fractured L1/degenerative levels were appropriately handled. [20]
+- The 2025 DXA report's discussion of FRAX thresholds lists absence of prior hip/vertebral fracture as a condition for that approach. If L1 is confirmed as a fragility fracture, the report's low FRAX score and "no medication threshold" conclusion should be reconsidered in that context. Guidelines support treatment consideration after vertebral fracture regardless of BMD. [21]
+- The 2022 scan used **GE Lunar** and 2025 used **Hologic**. The "previous" BMD numbers quoted in 2025 differ from the raw 2022 report. They may have been converted or calibrated, but that is not documented. Cross-calibration is needed for valid quantitative comparison; ask the imaging facility to verify it and whether fractured L1/degenerative levels were appropriately handled. [22]
 - The repeat DXA was completed, so it is not currently missing as the emergency packet suggests. The report's next interval would be approximately January-July 2027, subject to clinical reassessment.
 
 ### Gastrointestinal and other findings
@@ -197,20 +211,20 @@ Two newly supplied MyChart reports describe the same clean-catch midstream urine
 - **Urine white blood cells:** 6-10 per high-power field, mildly above the laboratory range of 0-5.
 - **Leukocyte esterase:** Trace, flagged abnormal. Together with the WBC count, this supports mild urinary inflammation (pyuria).
 - **Bacteria:** "1+ Trace," flagged abnormal. This microscopic finding does not identify an organism or distinguish symptomatic infection from bacteria present without symptoms or contamination during collection.
-- **Nitrite:** Negative. This does not exclude UTI because some bacteria do not produce nitrite. [21]
+- **Nitrite:** Negative. This does not exclude UTI because some bacteria do not produce nitrite. [23]
 - **Red cells and epithelial cells:** RBC 0-2 per high-power field and epithelial cells 0-4 per low-power field, within their stated ranges. A normal epithelial-cell count does not settle the cause of the bacteria finding.
-- **Specific gravity:** At or below 1.005, compared with a stated range of 1.005-1.030. The sample is dilute. Fluid intake, possible IV fluids and collection context should be considered; a single dilute sample does not establish worsening CKD or a separate concentrating disorder. No fluid administration history is supplied. [22]
+- **Specific gravity:** At or below 1.005, compared with a stated range of 1.005-1.030. The sample is dilute. Fluid intake, possible IV fluids and collection context should be considered; a single dilute sample does not establish worsening CKD or a separate concentrating disorder. No fluid administration history is supplied. [24]
 - **Other chemistry:** Protein, blood, glucose, ketones and bilirubin were negative. Urine was yellow and clear; pH 6.0 and urobilinogen 2.0 mg/dL were within the stated ranges.
 
 ### Interpretation and effect on the assessment
 
-**Symptomatic UTI is now a stronger working possibility.** Her son subsequently confirmed urinary urgency and frequency. Their onset and whether they are new or worse than baseline remain unknown; burning, suprapubic/flank pain, fever and rigors have not been clarified. Urgency and frequency are symptoms compatible with a bladder infection. If new or worsened, their combination with the urine inflammation and bacteria increases concern for symptomatic infection. The treating clinician should assess the current history and examination, with culture follow-up; a confirmed diagnosis and organism are not supplied. [23], [24]
+**Symptomatic UTI is now a stronger working possibility.** Her son subsequently confirmed urinary urgency and frequency. Their onset and whether they are new or worse than baseline remain unknown; burning, suprapubic/flank pain, fever and rigors have not been clarified. Urgency and frequency are symptoms compatible with a bladder infection. If new or worsened, their combination with the urine inflammation and bacteria increases concern for symptomatic infection. The treating clinician should assess the current history and examination, with culture follow-up; a confirmed diagnosis and organism are not supplied. [25], [26]
 
 If an infection is confirmed and cognition has acutely worsened or fluctuates, illness-related delirium remains a consideration. These mild urine abnormalities do not establish a urinary cause of the recent reading change, repeated stories, elevated blood WBC count or respiratory symptoms. The neurological and breathing assessments still need to proceed on their own clinical findings.
 
-The earlier caution about confusion with bacteria in the urine but no local urinary symptoms needs to be applied to the clarified history. Urgency and frequency are now reported, so urinary symptoms should not be described as absent or undocumented. The ER team should determine whether these are acute infection-related symptoms and whether treatment while culture is pending is appropriate. Chronic noninfectious urinary symptoms can coexist with incidental bacteriuria, so the timing still matters. The urine findings alone do not establish that infection caused her cognitive or respiratory problems. [25]
+The earlier caution about confusion with bacteria in the urine but no local urinary symptoms needs to be applied to the clarified history. Urgency and frequency are now reported, so urinary symptoms should not be described as absent or undocumented. The ER team should determine whether these are acute infection-related symptoms and whether treatment while culture is pending is appropriate. Chronic noninfectious urinary symptoms can coexist with incidental bacteriuria, so the timing still matters. The urine findings alone do not establish that infection caused her cognitive or respiratory problems. [27]
 
-The negative urine-protein dipstick does not replace a quantitative urine albumin-to-creatinine ratio for CKD assessment, especially in a dilute specimen. The previously identified urine-albumin information gap remains. [26]
+The negative urine-protein dipstick does not replace a quantitative urine albumin-to-creatinine ratio for CKD assessment, especially in a dilute specimen. The previously identified urine-albumin information gap remains. [28]
 
 ### Follow up questions
 
@@ -246,8 +260,8 @@ No new medication order or antibiotic administration is documented in these two 
 
 ### Medication issues requiring review
 
-- **Resolve the 600-versus-50 mg trazodone discrepancy before anyone relies on the exported dose.** The product label generally limits outpatient dosing to 400 mg/day in divided doses; 600 mg/day is an inpatient maximum in divided doses. Sedation, low standing BP and impaired thinking are recognized risks. This record does not prove she is taking 600 mg or has drug toxicity. [27]
-- Request review of venlafaxine dosing for her renal function, the combined trazodone/venlafaxine/buspirone regimen, and any recent missed doses or additions. This combination warrants checking sedation, orthostasis and serotonergic effects; no documented fever, clonus or hyperreflexia establishes serotonin syndrome here. [28]
+- **Resolve the 600-versus-50 mg trazodone discrepancy before anyone relies on the exported dose.** The product label generally limits outpatient dosing to 400 mg/day in divided doses; 600 mg/day is an inpatient maximum in divided doses. Sedation, low standing BP and impaired thinking are recognized risks. This record does not prove she is taking 600 mg or has drug toxicity. [29]
+- Request review of venlafaxine dosing for her renal function, the combined trazodone/venlafaxine/buspirone regimen, and any recent missed doses or additions. This combination warrants checking sedation, orthostasis and serotonergic effects; no documented fever, clonus or hyperreflexia establishes serotonin syndrome here. [30]
 - Check seated/standing BP and actual clonidine schedule. One seated BP does not assess medication-related postural lightheadedness.
 - Verify whether aspirin was intentionally stopped; the 2016 dual-antiplatelet instruction is not a current treatment plan. The GI bleeding history also matters in that decision.
 - Review thyroid dose, TSH/free T4, and how levothyroxine is timed around iron/calcium.
@@ -255,15 +269,16 @@ No new medication order or antibiotic administration is documented in these two 
 
 ### Additional medication clarifications
 
-- Venlafaxine labeling recommends reducing the total daily dose by 25-50% for mild/moderate renal impairment, with individualization. Her eGFR is not identical to the creatinine clearance used in that recommendation, and prior dose adjustments are unknown. Ask the prescriber to assess the existing 150 mg XR regimen; do not assume that dose is definitively inappropriate or stop it abruptly. Missed doses are a relevant question because the family packet reports a refill issue. [28]
-- Long-term dual antiplatelet therapy is generally not recommended after stroke/TIA; short-term combinations are used in selected situations. Clopidogrel alone may be an intentional plan. Absence of aspirin from the family list is not itself proof of inadequate prevention, and aspirin should not be added independently. The prior rectal bleeding history matters. [29]
-- Airsupra itself contains albuterol; not using a separate albuterol HFA inhaler does not mean she has no albuterol exposure. Verify inhaler technique, frequency, response and the written rescue plan with the ER team. Persisting or worsening symptoms despite treatment require reassessment. [12]
+- Venlafaxine labeling recommends reducing the total daily dose by 25-50% for mild/moderate renal impairment, with individualization. Her eGFR is not identical to the creatinine clearance used in that recommendation, and prior dose adjustments are unknown. Ask the prescriber to assess the existing 150 mg XR regimen; do not assume that dose is definitively inappropriate or stop it abruptly. Missed doses are a relevant question because the family packet reports a refill issue. [30]
+- Long-term dual antiplatelet therapy is generally not recommended after stroke/TIA; short-term combinations are used in selected situations. Clopidogrel alone may be an intentional plan. Absence of aspirin from the family list is not itself proof of inadequate prevention, and aspirin should not be added independently. The prior rectal bleeding history matters. [31]
+- Airsupra itself contains albuterol; not using a separate albuterol HFA inhaler does not mean she has no albuterol exposure. Verify inhaler technique, frequency, response and the written rescue plan with the ER team. Persisting or worsening symptoms despite treatment require reassessment. [14]
 - Ask about recent steroids, antibiotics, new prescriptions, OTC sleep/allergy medicines and actual missed doses. Zero refills in a dashboard does not establish that medication has run out.
 - Do not abruptly stop clonidine or venlafaxine based on this document. Reconciliation and any dose changes belong with the treating clinician/pharmacist.
 
 
 ## Discrepancies and corrections
 
+- **New head imaging:** The October 10 noncontrast CT fills the previous current-imaging gap. Its absence of an atrophy/microvascular description does not contradict or reverse the August 2025 MRI findings; the two reports use different modalities and emphasis.
 - **Family symptom clarification:** Familiar people are recognized in person. Television-character confusion should not be documented as confirmed loss of familiar-face recognition. The new reading issue and the less clearly dated memory symptoms need separate timelines.
 - **New respiratory change:** The CT request's "SOB x months" does not capture the son's later description of new wheezing and marked breathlessness with light activity. Document both the older history and this reported new change.
 - **Aneurysm history:** 2016 CTA and neuro-interventional consultation documented small bilateral carotid-siphon aneurysms/dysplastic changes. MRA 2020, CTA 2022 and CTA 2025 reported no aneurysm. The 2022 statement that prior imaging showed none conflicts with the 2016 report. Obtain side-by-side image review; disappearance cannot be established from wording alone. One copied 2016 problem-list note also says "no saccular aneurysm," whereas its full H&P and specialist assessment say an aneurysm was present. (pp. 28-29, 46, 70-74, 237-243.)
@@ -283,7 +298,7 @@ No new medication order or antibiotic administration is documented in these two 
 ### Urgent neurological questions
 
 - "Has her recent reading difficulty been examined, and does its timing and pattern warrant stroke/TIA assessment? What was her last-known-normal time? She recognizes familiar people in person; the television issue concerns similar-looking characters."
-- "What does the neurological examination show, including visual fields, reading, naming, comprehension and recognition? Does she need current head imaging and MRI with diffusion imaging?"
+- "What does the neurological examination show, including visual fields, reading, naming, comprehension and recognition? The 2:35 PM noncontrast CT showed no acute abnormality. Does her history or examination still warrant MRI with diffusion imaging or vascular imaging?"
 - "The August 2025 CTA reported 70% left carotid stenosis. What is the current degree, could these symptoms make it symptomatic, and has vascular surgery reviewed it?"
 - "If current imaging is unrevealing but symptoms persist or are episodic, what is the plan for seizure, cognitive and ophthalmic evaluation?"
 
@@ -301,8 +316,8 @@ No new medication order or antibiotic administration is documented in these two 
 
 ### Environmental uncertainty
 
-- **Dryer fuel type remains unknown.** If combustion exhaust exposure is independently suspected, discuss **carbon monoxide** promptly. CO can cause breathlessness, dizziness and cognitive changes; ordinary pulse oximetry can appear reassuring despite exposure. Blood carboxyhemoglobin testing is time-sensitive and may become less informative after time away from the source or oxygen treatment. If active exposure is suspected, leave the building and call emergency services. This is conditional; there is no documented CO exposure or level in these files. [30]
-- Moisture/mold may contribute to cough or wheeze, but these records do not establish it as the cause of her neurological symptoms. Repairing the moisture/vent problem matters regardless of mold species; commercial urine mycotoxin testing does not establish a clinical diagnosis. [31], [32]
+- **Dryer fuel type remains unknown.** If combustion exhaust exposure is independently suspected, discuss **carbon monoxide** promptly. CO can cause breathlessness, dizziness and cognitive changes; ordinary pulse oximetry can appear reassuring despite exposure. Blood carboxyhemoglobin testing is time-sensitive and may become less informative after time away from the source or oxygen treatment. If active exposure is suspected, leave the building and call emergency services. This is conditional; there is no documented CO exposure or level in these files. [32]
+- Moisture/mold may contribute to cough or wheeze, but these records do not establish it as the cause of her neurological symptoms. Repairing the moisture/vent problem matters regardless of mold species; commercial urine mycotoxin testing does not establish a clinical diagnosis. [33], [34]
 
 ### Medication kidney thyroid and bone questions
 
@@ -322,6 +337,7 @@ No new medication order or antibiotic administration is documented in these two 
 
 ### Records to obtain
 
+- Completed October 10 neurological examination and clinician interpretation of the negative CT; any subsequent MRI or vascular study if ordered, and the final ER assessment/disposition. Current noncontrast head CT is now supplied.
 - Final urine culture from the October 10 1:01 PM specimen, including organism/colony count, susceptibilities if reported, the treating clinician interpretation and any antibiotic orders.
 
 - Completed October 10 ED provider note, neurological findings, ECG/telemetry interpretation, repeat tests, medication administrations, discharge/admission decision and follow-up plan.
@@ -337,6 +353,7 @@ The family identifies Dr. Hannah Cher Samonte and Heather J. Bye NP at Community
 
 ## Source record locations
 
+- **New MyChart head CT report:** Test Details 13, two pages. October 10, 2026 at 2:35 PM; noncontrast CT for confusion/headache; no acute intracranial abnormality and small left maxillary sinus air-fluid level. Interpreted by Parker Suit MD; compared with July 20, 2022. This is the radiology report, with no accompanying raw scan or completed neurological examination.
 - **New MyChart urine reports:** Test Details 12, two pages, for urinalysis with culture if indicated; Test Details 11, one page, for urine microscopy. Both describe the October 10 1:01 PM specimen and 1:31 PM results. They provide new urine findings but no culture result or completed ER assessment.
 - **Family emergency packet:** Six pages, with home medications, family-reported chronology, Kokomo clinicians and initial symptom wording. Later family clarifications in this report supersede the broader wording about face recognition and establish new wheezing, pre-ER onset and reported Airsupra benefit.
 - **Compiled health summary:** 272 pages from the October 10 archive. Current medications/vitals/chest/labs are on pp. 1-9; August 2025 CTA/MRI on pp. 10-16; 2025 DXA on pp. 17-18; colitis CT on pp. 19-20; carotid ultrasound history on pp. 23-26 and 42-53; 2022 DXA on pp. 30-31; 2017 L1 fracture on pp. 54-55; 2016 echo on pp. 62-66; 2016 CTA on pp. 71-74; detailed hospitalization on pp. 225-246.
@@ -347,32 +364,34 @@ The family identifies Dr. Hannah Cher Samonte and Heather J. Bye NP at Community
 1. NHLBI emergency guidance. [Open source](https://www.nhlbi.nih.gov/health/asthma/attacks)
 2. American Stroke Association. [Open source](https://www.stroke.org/en/about-stroke/types-of-stroke/tia-transient-ischemic-attack)
 3. ESVS carotid guidelines. [Open source](https://www.sciencedirect.com/science/article/pii/S1078588422002374)
-4. Specialty cognitive diagnostic guideline. [Open source](https://pmc.ncbi.nlm.nih.gov/articles/PMC11772716/)
-5. National Institute on Aging. [Open source](https://www.nia.nih.gov/health/health-care-professionals-information/assessing-cognitive-impairment-older-patients)
-6. NICE delirium guideline. [Open source](https://www.nice.org.uk/guidance/cg103/chapter/Recommendations)
-7. NIMH adult ADHD guidance. [Open source](https://www.nimh.nih.gov/health/publications/adhd-what-you-need-to-know)
-8. Primary-care cognitive diagnostic guideline. [Open source](https://pmc.ncbi.nlm.nih.gov/articles/PMC12173843/)
-9. Tree-in-bud study. [Open source](https://pubmed.ncbi.nlm.nih.gov/23948769/)
-10. Wegovy prescribing information. [Open source](https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?lang=en&setid=ee06186f-2aa3-4990-a760-757579d8f77b)
-11. Lisinopril prescribing information. [Open source](https://www.dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e6898cf8-34c8-44d5-8a86-fbe3be847b16)
-12. Airsupra prescribing information. [Open source](https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e60aa9f9-5139-44df-b886-ebddc3c7eb13)
-13. NHLBI asthma diagnosis. [Open source](https://www.nhlbi.nih.gov/health/asthma/diagnosis)
-14. NICE asthma guideline. [Open source](https://www.nice.org.uk/guidance/ng245/chapter/recommendations)
-15. Mayo Clinic cardiac wheezing guidance. [Open source](https://www.mayoclinic.org/diseases-conditions/heart-failure/expert-answers/cardiac-asthma/faq-20058447)
-16. ESC heart-failure guideline. [Open source](https://academic.oup.com/eurheartj/article/42/36/3599/6358045)
-17. ACC biomarker interpretation. [Open source](https://www.acc.org/Latest-in-Cardiology/Articles/2014/07/18/14/23/Which-Marker-is-the-Best-for-Assessing-Acute-Heart-Failure-or-Does-it-Matter)
-18. ACC calcium-score review. [Open source](https://www.acc.org/latest-in-cardiology/journal-scans/2022/09/06/12/42/the-prognostic-value-of-cac-zero)
-19. BHOF clinician guide. [Open source](https://pmc.ncbi.nlm.nih.gov/articles/PMC9546973/)
-20. ISCD positions. [Open source](https://iscd.org/official-positions-2023/)
-21. MedlinePlus nitrite interpretation. [Open source](https://medlineplus.gov/lab-tests/nitrites-in-urine/)
-22. MedlinePlus urine specific gravity. [Open source](https://medlineplus.gov/ency/article/003587.htm)
-23. NIDDK bladder infection symptoms. [Open source](https://www.niddk.nih.gov/health-information/urologic-diseases/bladder-infection-uti-in-adults/symptoms-causes)
-24. NIDDK bladder infection diagnosis. [Open source](https://www.niddk.nih.gov/health-information/urologic-diseases/bladder-infection-uti-in-adults/diagnosis)
-25. IDSA asymptomatic bacteriuria guideline. [Open source](https://www.idsociety.org/practice-guideline/asymptomatic-bacteriuria/)
-26. NIDDK UACR and GFR guidance. [Open source](https://www.niddk.nih.gov/health-information/professionals/advanced-search/quick-reference-uacr-gfr)
-27. Trazodone prescribing information. [Open source](https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=78c3188c-d42f-4d3d-aa42-3c146dfe08ee&type=display)
-28. Effexor XR prescribing information. [Open source](https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=c848a5d8-ba94-4c84-80e3-0bf35fb8e32e)
-29. AHA secondary-prevention guideline. [Open source](https://professional.heart.org/en/science-news/2021-guideline-for-the-prevention-of-stroke-in-patients-with-stroke-and-transient-ischemic-attack/top-things-to-know)
-30. CDC CO guidance. [Open source](https://www.cdc.gov/carbon-monoxide/hcp/clinical-guidance/index.html)
-31. CDC mold guidance. [Open source](https://www.cdc.gov/mold-health/about/index.html)
-32. CDC mycotoxin guidance. [Open source](https://www.cdc.gov/mmwr/preview/mmwrhtml/mm6406a7.htm)
+4. Canadian Stroke Best Practices brain and vascular imaging. [Open source](https://www.strokebestpractices.ca/recommendations/acute-stroke-management/triage-and-initial-diagnostic-evaluation-of-transient-ischemic-attack-and-non-disabling-stroke)
+5. AAO HNS adult sinusitis guideline 2025. [Open source](https://aao-hnsfjournals.onlinelibrary.wiley.com/doi/10.1002/ohn.1344)
+6. Specialty cognitive diagnostic guideline. [Open source](https://pmc.ncbi.nlm.nih.gov/articles/PMC11772716/)
+7. National Institute on Aging. [Open source](https://www.nia.nih.gov/health/health-care-professionals-information/assessing-cognitive-impairment-older-patients)
+8. NICE delirium guideline. [Open source](https://www.nice.org.uk/guidance/cg103/chapter/Recommendations)
+9. NIMH adult ADHD guidance. [Open source](https://www.nimh.nih.gov/health/publications/adhd-what-you-need-to-know)
+10. Primary-care cognitive diagnostic guideline. [Open source](https://pmc.ncbi.nlm.nih.gov/articles/PMC12173843/)
+11. Tree-in-bud study. [Open source](https://pubmed.ncbi.nlm.nih.gov/23948769/)
+12. Wegovy prescribing information. [Open source](https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?lang=en&setid=ee06186f-2aa3-4990-a760-757579d8f77b)
+13. Lisinopril prescribing information. [Open source](https://www.dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e6898cf8-34c8-44d5-8a86-fbe3be847b16)
+14. Airsupra prescribing information. [Open source](https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=e60aa9f9-5139-44df-b886-ebddc3c7eb13)
+15. NHLBI asthma diagnosis. [Open source](https://www.nhlbi.nih.gov/health/asthma/diagnosis)
+16. NICE asthma guideline. [Open source](https://www.nice.org.uk/guidance/ng245/chapter/recommendations)
+17. Mayo Clinic cardiac wheezing guidance. [Open source](https://www.mayoclinic.org/diseases-conditions/heart-failure/expert-answers/cardiac-asthma/faq-20058447)
+18. ESC heart-failure guideline. [Open source](https://academic.oup.com/eurheartj/article/42/36/3599/6358045)
+19. ACC biomarker interpretation. [Open source](https://www.acc.org/Latest-in-Cardiology/Articles/2014/07/18/14/23/Which-Marker-is-the-Best-for-Assessing-Acute-Heart-Failure-or-Does-it-Matter)
+20. ACC calcium-score review. [Open source](https://www.acc.org/latest-in-cardiology/journal-scans/2022/09/06/12/42/the-prognostic-value-of-cac-zero)
+21. BHOF clinician guide. [Open source](https://pmc.ncbi.nlm.nih.gov/articles/PMC9546973/)
+22. ISCD positions. [Open source](https://iscd.org/official-positions-2023/)
+23. MedlinePlus nitrite interpretation. [Open source](https://medlineplus.gov/lab-tests/nitrites-in-urine/)
+24. MedlinePlus urine specific gravity. [Open source](https://medlineplus.gov/ency/article/003587.htm)
+25. NIDDK bladder infection symptoms. [Open source](https://www.niddk.nih.gov/health-information/urologic-diseases/bladder-infection-uti-in-adults/symptoms-causes)
+26. NIDDK bladder infection diagnosis. [Open source](https://www.niddk.nih.gov/health-information/urologic-diseases/bladder-infection-uti-in-adults/diagnosis)
+27. IDSA asymptomatic bacteriuria guideline. [Open source](https://www.idsociety.org/practice-guideline/asymptomatic-bacteriuria/)
+28. NIDDK UACR and GFR guidance. [Open source](https://www.niddk.nih.gov/health-information/professionals/advanced-search/quick-reference-uacr-gfr)
+29. Trazodone prescribing information. [Open source](https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=78c3188c-d42f-4d3d-aa42-3c146dfe08ee&type=display)
+30. Effexor XR prescribing information. [Open source](https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=c848a5d8-ba94-4c84-80e3-0bf35fb8e32e)
+31. AHA secondary-prevention guideline. [Open source](https://professional.heart.org/en/science-news/2021-guideline-for-the-prevention-of-stroke-in-patients-with-stroke-and-transient-ischemic-attack/top-things-to-know)
+32. CDC CO guidance. [Open source](https://www.cdc.gov/carbon-monoxide/hcp/clinical-guidance/index.html)
+33. CDC mold guidance. [Open source](https://www.cdc.gov/mold-health/about/index.html)
+34. CDC mycotoxin guidance. [Open source](https://www.cdc.gov/mmwr/preview/mmwrhtml/mm6406a7.htm)
