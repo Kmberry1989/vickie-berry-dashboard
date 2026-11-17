@@ -53,8 +53,8 @@
 <body>
   <div class="shell">
     <aside class="card p-5 mb-6" aria-label="Current medical review">
-      <p><strong>Archived dashboard: June 2026.</strong> The current medical review is dated October 10, 2026.</p>
-      <p class="mt-2"><a class="font-bold text-blue-700 underline" href="docs/medical-review/2026-10-10/medical-review.pdf">Open current review PDF</a> · <a class="font-bold text-blue-700 underline" href="docs/medical-review/2026-10-10/medical-review.md">Read current review</a></p>
+      <p><strong>Archived dashboard: June 2026.</strong> The current medical review is dated November 17, 2026.</p>
+      <p class="mt-2"><a class="font-bold text-blue-700 underline" href="docs/medical-review/2026-11-17/medical-review.md">Read current review (Nov 17, 2026)</a> · <a class="font-bold text-blue-700 underline" href="docs/medical-review/2026-10-10/medical-review.md">Read October 10, 2026 review</a> · <a class="font-bold text-blue-700 underline" href="docs/medical-review/2026-10-10/medical-review.pdf">October 10 review PDF</a></p>
     </aside>
     <header class="card p-5 md:p-7 mb-6">
       <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
@@ -62,8 +62,8 @@
           <img src="734E7D60-B1B5-4037-B7CF-760E0730ADA6.png" alt="Dashboard logo" class="w-16 h-16 object-contain" onerror="this.style.display='none'" />
           <div>
             <div class="flex flex-wrap items-center gap-2 mb-2">
-              <span class="pill info">Updated Jun 2, 2026</span>
-              <span class="pill watch">New labs + dyspnea workup</span>
+              <span class="pill info">Updated Nov 17, 2026</span>
+              <span class="pill watch">Echo + elbow + stress test Nov 23</span>
               <span class="pill">Identifiers minimized</span>
             </div>
             <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Vickie Berry Care Dashboard</h1>
@@ -102,7 +102,7 @@
               <div class="flex flex-wrap justify-between gap-3 mb-5">
                 <div>
                   <h2 class="text-2xl font-extrabold">Current snapshot</h2>
-                  <p class="text-slate-600">Newest findings imported from May 2026 MyChart results and the Jun 2026 health summary.</p>
+                  <p class="text-slate-600">Newest findings: Oct 16 BMP, Oct 30 echocardiogram, and Nov 15–16 family reports.</p>
                 </div>
                 <span class="pill alert">3 items need clinician review</span>
               </div>
@@ -241,26 +241,36 @@
 <script>
 const DATA = {
   snapshot: [
-    {label:'eGFR', value:'50', unit:'mL/min/1.73m²', status:'watch', note:'May 2026 CMP was flagged low; Dec 2025 eGFR was 56.'},
-    {label:'Creatinine', value:'1.15', unit:'mg/dL', status:'watch', note:'May 2026 CMP flagged high; Dec 2025 was 0.98.'},
-    {label:'Triglycerides', value:'181', unit:'mg/dL', status:'watch', note:'Only lipid item flagged high in the May panel.'},
-    {label:'Chest X-ray', value:'Clear', unit:'', status:'ok', note:'No acute cardiopulmonary disease reported.'}
+    {label:'eGFR', value:'48', unit:'mL/min/1.73m²', status:'watch', note:'Oct 16 BMP was flagged low; May 2026 eGFR was 50, Dec 2025 was 56.'},
+    {label:'Creatinine', value:'1.2', unit:'mg/dL', status:'watch', note:'Oct 16 BMP flagged high; May 2026 was 1.15, Dec 2025 was 0.98.'},
+    {label:'Echo EF', value:'60%', unit:'', status:'ok', note:'Oct 30 echo: EF ~60%, Grade I diastolic dysfunction, RV systolic function reduced. Trivial pericardial effusion.'},
+    {label:'Blood pressure', value:'151/83', unit:'', status:'watch', note:'Usual BP at Oct 30 echo. Swings down to 91 systolic with dizziness; 132/75 on Nov 15.'}
   ],
   priorities: [
-    {title:'Complete dyspnea workup', status:'watch', detail:'Chest X-ray was reassuring, but PFT was ordered after reports of shortness of breath and wheezing. Track inhaler response and triggers.'},
-    {title:'Clarify kidney staging and repeat timing', status:'watch', detail:'eGFR moved from 56 to 50 across available reports. Urine microalbumin/creatinine ratio was normal at 6 mg/g in Dec 2025.'},
-    {title:'Medication reconciliation', status:'alert', detail:'The health summary lists both pravastatin and atorvastatin, and both omeprazole and pantoprazole. Confirm the intended current regimen.'},
-    {title:'Follow mildly abnormal labs', status:'watch', detail:'Triglycerides were high at 181 and absolute lymphocytes were mildly high at 3.77; consider whether repeat testing is planned.'}
+    {title:'Elbow exam and X-ray — unexamined since July/August fall', status:'alert', detail:'Hot, enlarging swelling at the elbow tip; never examined or imaged. On clopidogrel 75 mg daily. Needs an exam and an X-ray.'},
+    {title:'No current EKG', status:'alert', detail:'Last EKG August 2025. None in the October 10 ER workup despite troponin and NT-proBNP. Cardiolite stress test is scheduled Nov 23.'},
+    {title:'Complete dyspnea workup', status:'watch', detail:'PFT and pulmonology referral ordered Oct 16; no result. Oct 10 chest CTA showed small left-lung tree-in-bud opacities with no repeat imaging. Prednisone trial ordered; no result.'},
+    {title:'Clarify kidney staging and repeat timing', status:'watch', detail:'eGFR moved from 56 (Dec 2025) to 50 (May 2026) to 48 (Oct 16). No repeat labs since Oct 16.'},
+    {title:'Medication reconciliation', status:'alert', detail:'Parkview vs Community lists still disagree: thyroid 112 vs 100 mcg, cholesterol 10 vs 40 mg, sleep medicine 600 vs 50 mg, clopidogrel missing from Oct 10 ER list, daily aspirin on one list. Neither verified against bottles.'},
+    {title:'Blood-pressure swings and dizziness', status:'watch', detail:'Usual 151/83, down to 91 systolic, dizzy with low readings, on three BP medicines plus trazodone, buspirone, and Wegovy. Ask for orthostatic vitals and a documented medication review.'}
   ],
   tasks: [
-    {task:'Primary care follow-up', due:'Around Aug 20, 2026', note:'May visit requested follow-up in about 3 months.'},
-    {task:'Pulmonary function test', due:'Pending / future', note:'Ordered for dyspnea/wheezing workup.'},
+    {task:'Elbow exam and X-ray', due:'As soon as possible', note:'Hot, enlarging swelling since July/August fall; never examined or imaged. On clopidogrel.'},
+    {task:'Cardiolite 1 DAY stress test', due:'Mon Nov 23, 2026, 10:30 AM', note:'Community Howard Cardiac Testing, Door B. Fast 3–3.5 hrs; no caffeine/tea/chocolate 12 hrs before.'},
+    {task:'Current EKG', due:'Not yet ordered', note:'Last EKG Aug 2025. None in Oct 10 ER workup. Largest single gap in the record.'},
+    {task:'Pulmonary function test', due:'Ordered Oct 16 — no result', note:'Ordered for dyspnea/wheezing workup with pulmonology referral.'},
+    {task:'Memory follow-up', due:'Around Nov 13 — no confirmed time', note:'Deferred at Oct 16 visit. No result in records.'},
     {task:'Mammogram', due:'Order already placed', note:'Health summary/visit note says mammogram was ordered and should be completed.'},
-    {task:'Flu vaccine', due:'2026 season', note:'Health maintenance shows seasonal flu due later in 2026.'},
     {task:'Bone density monitoring', due:'Jul 1, 2027', note:'Osteoporosis screening interval noted in health summary.'}
   ],
-  problems: ['Dyspnea','Autoimmune hypothyroidism','Hypothyroidism','Hypertension','Hyperlipidemia','History of CVA','Chronic kidney disease','Anemia in CKD','Iron deficiency anemia','GAD','Prolonged grief disorder','Osteoporosis','Numbness of feet','Brain atrophy','GERD','Severe headache','Sudden unilateral headache','Aphasia','Bilateral cataracts','Keratoconus','Hemorrhoid','Chronic pain'],
+  problems: ['Dyspnea','Autoimmune hypothyroidism','Hypothyroidism','Hypertension','Hyperlipidemia','History of CVA','Chronic kidney disease','Anemia in CKD','Iron deficiency anemia','GAD','Prolonged grief disorder','Osteoporosis','Numbness of feet','Brain atrophy','GERD','Severe headache','Sudden unilateral headache','Aphasia','Bilateral cataracts','Keratoconus','Hemorrhoid','Chronic pain','Elbow swelling (unexamined)','Dizziness','Blood pressure swings'],
   labs: [
+    {date:'2026-10-16', cat:'Kidney/BMP', test:'eGFR', value:'48 mL/min/1.73m²', range:'>60', status:'Low', note:'Oct 16 BMP; described as stable worsening eGFR. Drink at least 64 oz water daily.'},
+    {date:'2026-10-16', cat:'Kidney/BMP', test:'Creatinine', value:'1.2 mg/dL', range:'0.52–1.04', status:'High', note:'Oct 16 BMP flagged high; May 2026 was 1.15, Dec 2025 was 0.98.'},
+    {date:'2026-10-10', cat:'ER Labs', test:'WBC', value:'15.5 x10E3/uL', range:'3.2–11.0', status:'High', note:'Oct 10 ER; absolute neutrophils 12.23 (range 1.60–6.50). Supports assessing infection or inflammation.'},
+    {date:'2026-10-10', cat:'ER Labs', test:'NT-proBNP', value:'287 pg/mL', range:'0–125', status:'High', note:'Oct 10 ER, drawn for shortness of breath. Above lab range but below the common acute HF exclusion threshold of 300. No EKG was done in that workup.'},
+    {date:'2026-10-10', cat:'ER Labs', test:'Troponin T Gen 5', value:'7 ng/L', range:'0–10', status:'Normal', note:'Oct 10 ER. Within range; only one result included.'},
+    {date:'2026-10-10', cat:'ER Labs', test:'Creatinine', value:'1.17 mg/dL', range:'0.52–1.04', status:'High', note:'Oct 10 ER; eGFR 49 at that visit.'},
     {date:'2026-05-20', cat:'Kidney/CMP', test:'BUN', value:'23 mg/dL', range:'7–17', status:'High', note:'Review hydration, medications, and repeat timing with clinician.'},
     {date:'2026-05-20', cat:'Kidney/CMP', test:'Creatinine', value:'1.15 mg/dL', range:'0.52–1.04', status:'High', note:'Trend with eGFR; compare to Dec 2025 value 0.98.'},
     {date:'2026-05-20', cat:'Kidney/CMP', test:'eGFR', value:'50 mL/min/1.73m²', range:'>60', status:'Low', note:'Printed report notes chronic 45–59 may correspond to G3a if present for 3+ months.'},
@@ -286,7 +296,7 @@ const DATA = {
     {date:'2025-09-12', cat:'Thyroid', test:'TSH', value:'3.72 mIU/L', range:'0.40–4.50', status:'Normal', note:'Prior thyroid comparator.'},
     {date:'2025-09-12', cat:'Iron', test:'Iron / TIBC / saturation', value:'65 mcg/dL / 281 mcg/dL / 23%', range:'Iron 45–160; TIBC 250–450; Sat 16–45', status:'Normal', note:'Iron study values in range.'}
   ],
-  imaging: {date:'2026-05-21', title:'Chest X-ray, 2 views', status:'No acute cardiopulmonary disease', details:'Lungs clear and well expanded; no pleural effusion or pneumothorax; heart normal size; no acute bone/soft tissue abnormality.'},
+  imaging: {date:'2026-10-30', title:'Echocardiogram', status:'EF ~60%; Grade I diastolic dysfunction', details:'Mild septal hypertrophy (IVSd 1.26 cm). Right ventricle normal size with reduced systolic function (RV S\' 7 cm/s, RVSP 23 mmHg). Trivial pericardial effusion. BP 151/83 at the study. Read by Anil Kumar Ranginani, MD. Prior imaging: Oct 10, 2026 chest CTA (no PE; small left-lung tree-in-bud opacities) and noncontrast head CT (no acute abnormality).'},
   meds: [
     {name:'clopidogrel (Plavix) 75 mg', directions:'Take 75 mg by mouth daily.', note:'Antiplatelet / stroke prevention context', started:''},
     {name:'trazodone 50 mg', directions:'Take 50 mg by mouth nightly.', note:'Sleep / mood support', started:''},
@@ -309,17 +319,26 @@ const DATA = {
   medAlerts: [
     {title:'Two statins listed', detail:'Pravastatin and atorvastatin both appear on the newest medication list. Confirm whether one replaced the other before continuing both.'},
     {title:'Two PPIs listed', detail:'Omeprazole and pantoprazole both appear. Confirm intended GERD regimen and timing.'},
+    {title:'Parkview vs Community dose conflicts', detail:'Thyroid 112 vs 100 mcg, cholesterol 10 vs 40 mg, sleep medicine 600 vs 50 mg. Clopidogrel is missing from the Oct 10 ER list, and daily aspirin appears on one list. Neither list is verified against her bottles.'},
+    {title:'Nosebleeds on clopidogrel', detail:'Severe nosebleeds started around Oct 15 and were not addressed Oct 16. Ask whether a bleeding workup is warranted. Do not take ibuprofen or naproxen while on clopidogrel.'},
     {title:'Levothyroxine timing check', detail:'Calcium, iron, multivitamins, and PPIs can complicate thyroid-med timing. Ask the clinician/pharmacist for a simple daily schedule.'},
     {title:'Clopidogrel safety note', detail:'Keep a medication card/list available for urgent care, procedures, dental work, and bleeding questions.'}
   ],
   timing: ['Morning anchor: levothyroxine first if that is her prescribed routine; confirm separation from calcium/iron/multivitamin with pharmacist.', 'Blood pressure meds: lisinopril, amlodipine, and clonidine are listed; keep a home BP log if available.', 'Evening anchor: statin appears nightly, but the exact statin should be reconciled.', 'As-needed: Airsupra for shortness of breath/wheezing as prescribed; log frequency and response.'],
   pathways: {
-    dyspnea: ['Chest X-ray result is reassuring, but it does not replace pulmonary function testing.', 'Track shortness-of-breath severity, wheezing, triggers, Airsupra use, and whether symptoms improve.', 'Escalate urgently for severe shortness of breath, chest pain, blue lips, fainting, confusion, or symptoms that rapidly worsen.'],
-    kidney: ['May eGFR was 50 and creatinine was 1.15, compared with Dec eGFR 56 and creatinine 0.98.', 'Urine microalbumin/creatinine ratio was normal at 6 in Dec 2025, which is useful context for kidney risk.', 'Ask whether to repeat CMP/BMP and urine ACR, and whether any BP or reflux medications need kidney-focused review.'],
-    vascular: ['History of CVA, hypertension, hyperlipidemia, clopidogrel, and statin therapy make medication accuracy important.', 'LDL was 72 and non-HDL was 98 in May 2026; triglycerides were the main lipid flag at 181.', 'Bring BP readings and the reconciled statin plan to the next visit.'],
+    dyspnea: ['Chest X-ray result is reassuring, but it does not replace pulmonary function testing.', 'Oct 10 chest CTA showed small left-lung tree-in-bud opacities with no repeat imaging yet.', 'PFT and pulmonology referral were ordered Oct 16; no result. Prednisone trial ordered; no result.', 'Cardiolite stress test is scheduled Mon Nov 23, 10:30 AM at Community Howard Cardiac Testing.', 'Track shortness-of-breath severity, wheezing, triggers, Airsupra use, and whether symptoms improve.', 'Escalate urgently for severe shortness of breath, chest pain, blue lips, fainting, confusion, or symptoms that rapidly worsen.'],
+    kidney: ['Oct 16 eGFR was 48 and creatinine was 1.2, compared with May eGFR 50 and creatinine 1.15, and Dec eGFR 56 and creatinine 0.98.', 'Urine microalbumin/creatinine ratio was normal at 6 in Dec 2025, which is useful context for kidney risk.', 'No repeat kidney labs since Oct 16. Ask whether to repeat CMP/BMP and urine ACR, and whether any BP or reflux medications need kidney-focused review.'],
+    vascular: ['History of CVA, hypertension, hyperlipidemia, clopidogrel, and statin therapy make medication accuracy important.', 'Oct 30 echo: EF ~60%, Grade I diastolic dysfunction, mild septal hypertrophy, RV systolic function reduced. Ask about the reduced RV function.', 'Last EKG was Aug 2025; none in the Oct 10 ER workup. Cardiolite stress test Nov 23.', 'Left carotid was 70% narrowed in Aug 2025 with no repeat imaging since. Ask whether surveillance is due.', 'Bring BP readings and the reconciled statin plan to the next visit.'],
     maintenance: ['Schedule or confirm completion of the mammogram order.', 'Keep osteoporosis monitoring on the calendar; DXA monitoring was listed for 2027.', 'Update seasonal flu vaccine when available and bring immunization records to visits.']
   },
   timeline: [
+    {date:'2026-11-23', type:'info', title:'Cardiolite 1 DAY (nuclear stress test) scheduled', detail:'Mon Nov 23, 10:30 AM EST, Community Howard Cardiac Testing, 3500 S Lafountain St, Kokomo. Door B. Fast 3–3.5 hrs before; no caffeine/tea/chocolate 12 hrs before. Beta-blocker and morning-meds questions to settle with her doctor before Sat Nov 21.'},
+    {date:'2026-11-16', type:'alert', title:'Elbow still unexamined; test-gap review', detail:'Hot, enlarging elbow swelling since July/August fall, never examined or imaged. Dizziness and BP swinging 151 down to 91 on clopidogrel. Still at home, not seen at ER as of Nov 16, 2:20 PM. Records review found no current EKG (last Aug 2025), no stress test, no orthostatic vitals, no rhythm monitoring, no elbow workup, no nosebleed workup, no sleep study, no repeat lung imaging, no cognitive testing, no carotid surveillance since Aug 2025, no repeat kidney labs since Oct 16.'},
+    {date:'2026-11-15', type:'alert', title:'Elbow swelling reported', detail:'Large, round, pink swelling at elbow tip, hot, bigger than in October. Fall July/August 2026 (pool ladder, family recollection). ER check-in card prepared.'},
+    {date:'2026-11-05', type:'info', title:'Two visits — outcomes unreported', detail:'Anil Ranginani, MD, 9:15 AM (read the Oct 30 echo) and Dr. Baha Obaidat, 10:00 AM. Both stood as timed; no outcome reported as of Nov 16.'},
+    {date:'2026-10-30', type:'ok', title:'Echocardiogram finalized', detail:'EF ~60%, Grade I diastolic dysfunction, mild septal hypertrophy, RV normal size with reduced systolic function, trivial pericardial effusion. BP 151/83. Closes the Oct 16 echo order.'},
+    {date:'2026-10-16', type:'watch', title:'Dr. Samonte visit', detail:'No new EKG; echo ordered. Nosebleeds not addressed; clopidogrel unchanged. Prednisone trial for dyspnea; PFT and pulmonology referral ordered. BMP eGFR 48, creatinine 1.2. Weight 176 to 164 lb; Wegovy continued. Memory deferred to around Nov 13.'},
+    {date:'2026-10-10', type:'watch', title:'ER visit, Logansport', detail:'Worsening breathlessness/lightheadedness. WBC 15.5, NT-proBNP 287, troponin 7. Chest CTA: no PE; small left-lung tree-in-bud opacities. Head CT: no acute abnormality. No EKG in that workup.'},
     {date:'2026-06-02', type:'info', title:'Health summary generated', detail:'New dashboard update created from Jun 2026 patient-supplied records.'},
     {date:'2026-05-21', type:'ok', title:'Chest X-ray finalized', detail:'No acute cardiopulmonary disease reported after dyspnea/wheezing complaint.'},
     {date:'2026-05-20', type:'watch', title:'Annual wellness / chronic condition follow-up', detail:'Dyspnea assessed; suspected asthma; Airsupra trial started; PFT and chest X-ray ordered; labs ordered.'},
@@ -328,8 +347,9 @@ const DATA = {
     {date:'2025-09-12', type:'info', title:'Iron and thyroid labs', detail:'Iron study values in range; TSH 3.72 in range.'}
   ],
   appointments: [
-    {date:'Around Aug 20, 2026', desc:'Primary care follow-up after May 2026 annual wellness/chronic condition visit'},
-    {date:'Pending / future', desc:'Pulmonary function test ordered for dyspnea and wheezing'},
+    {date:'Mon Nov 23, 2026, 10:30 AM', desc:'Cardiolite 1 DAY nuclear stress test — Community Howard Cardiac Testing, Door B'},
+    {date:'Ordered Oct 16 — no result', desc:'Pulmonary function test + pulmonology referral'},
+    {date:'Nov 5, 2026 — done, outcome unreported', desc:'Ranginani 9:15 AM and Dr. Baha Obaidat 10:00 AM'},
     {date:'Order placed', desc:'Mammogram screening'},
     {date:'Jul 1, 2027', desc:'Bone density / osteoporosis monitoring'}
   ],
@@ -347,7 +367,15 @@ const DATA = {
     'What should we watch for while using Airsupra, and what PFT result would change the treatment plan?',
     'Do triglycerides of 181 need a fasting repeat, nutrition plan, or medication adjustment?',
     'Does the mildly high absolute lymphocyte count need follow-up, or is it acceptable to watch with the next CBC?',
-    'Given history of CVA and clopidogrel use, are there special bleeding/procedure precautions to keep on the care card?'
+    'Given history of CVA and clopidogrel use, are there special bleeding/procedure precautions to keep on the care card?',
+    'The elbow has never been examined or imaged since the July/August fall. It is hot and getting bigger, and she is on clopidogrel. Does it need an X-ray, labs, or antibiotics?',
+    'The last EKG was August 2025, and none was done in the October 10 ER visit. Is a current EKG needed before the November 23 stress test?',
+    'For the November 23 Cardiolite test, should she take her beta blocker and her other morning blood-pressure medicines? The instructions say to follow the physician’s guidance within 48 hours.',
+    'Severe nosebleeds started around October 15 and were not addressed on October 16. Does she need a bleeding workup while on clopidogrel?',
+    'Her blood pressure swings from 151 down to 91 and she is dizzy with the low readings. Should orthostatic vitals be checked, and does any medicine need adjusting?',
+    'The left carotid was 70% narrowed in August 2025. Is repeat imaging due?',
+    'The October 10 chest CT showed small left-lung tree-in-bud opacities. Is repeat lung imaging planned?',
+    'The October 16 pulmonary function test and pulmonology referral have no result. Have they been scheduled?'
   ]
 };
 
