@@ -1,8 +1,14 @@
 # Vickie medical records and review
 
-The current medical review is dated **November 17, 2026**. It updates the October 10, 2026 review with the October 16 primary-care visit, the October 30 echocardiogram, the November 5 visits, the elbow problem reported November 15–16, a review of tests not yet done, and the Cardiolite stress test scheduled for November 23, 2026.
+The current medical review is dated **November 20, 2026**. It updates the November 17, 2026 update with the fall date settled from Vickie's own messages (about July 16–17, 2026, off the pool ladder), the November 18 elbow X-ray (no fracture; soft tissue swelling over the olecranon), the October 16 kidney-lab auto-summary, the full October 30 echocardiogram report, and a record-matching flag (the echo scan carries a different medical record number than the MyChart files).
 
-## Current review — November 17, 2026
+## Current review — November 20, 2026
+
+- [Read the November 20 update](docs/medical-review/2026-11-20/medical-review.md)
+
+The update covers the November 18 elbow X-ray and 106/83 blood pressure at that visit, the kidney trend (eGFR 56 in December 2025, 50 in May 2026, 48 on October 16, described as stable), the echo full report (confirms the October 30 summary, no new findings), and the updated missing-test list (elbow X-ray now done; CBC/CRP, uric acid, aspiration, and blood cultures still not done; no repeat kidney labs since October 16).
+
+## Previous review — November 17, 2026
 
 - [Read the November 17 update](docs/medical-review/2026-11-17/medical-review.md)
 
@@ -22,7 +28,7 @@ Urinary symptom onset and whether symptoms are worse than baseline remain unclea
 
 ## Archived interactive dashboard
 
-[Open the restored care dashboard](index.html) for the June 2026 tracker, contacts, charts, and symptom log. Its data was updated November 17, 2026 with the October 16 BMP, October 30 echocardiogram, November 5 visits, elbow, test-gap review, and November 23 Cardiolite appointment; its header links to the current November 17 review above.
+[Open the restored care dashboard](index.html) for the June 2026 tracker, contacts, charts, and symptom log. Its data was updated November 20, 2026 with the November 18 elbow X-ray, the settled fall date, the kidney trend and October 16 auto-summary, and the November 23 Cardiolite appointment; its header links to the current November 20 review above.
 
 ## Existing records
 

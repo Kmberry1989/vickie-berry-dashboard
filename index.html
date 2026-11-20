@@ -53,8 +53,8 @@
 <body>
   <div class="shell">
     <aside class="card p-5 mb-6" aria-label="Current medical review">
-      <p><strong>Archived dashboard: June 2026.</strong> The current medical review is dated November 17, 2026.</p>
-      <p class="mt-2"><a class="font-bold text-blue-700 underline" href="docs/medical-review/2026-11-17/medical-review.md">Read current review (Nov 17, 2026)</a> · <a class="font-bold text-blue-700 underline" href="docs/medical-review/2026-10-10/medical-review.md">Read October 10, 2026 review</a> · <a class="font-bold text-blue-700 underline" href="docs/medical-review/2026-10-10/medical-review.pdf">October 10 review PDF</a></p>
+      <p><strong>Archived dashboard: June 2026.</strong> The current medical review is dated November 20, 2026.</p>
+      <p class="mt-2"><a class="font-bold text-blue-700 underline" href="docs/medical-review/2026-11-20/medical-review.md">Read current review (Nov 20, 2026)</a> · <a class="font-bold text-blue-700 underline" href="docs/medical-review/2026-11-17/medical-review.md">Read November 17, 2026 update</a> · <a class="font-bold text-blue-700 underline" href="docs/medical-review/2026-10-10/medical-review.md">Read October 10, 2026 review</a> · <a class="font-bold text-blue-700 underline" href="docs/medical-review/2026-10-10/medical-review.pdf">October 10 review PDF</a></p>
     </aside>
     <header class="card p-5 md:p-7 mb-6">
       <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
@@ -62,8 +62,8 @@
           <img src="734E7D60-B1B5-4037-B7CF-760E0730ADA6.png" alt="Dashboard logo" class="w-16 h-16 object-contain" onerror="this.style.display='none'" />
           <div>
             <div class="flex flex-wrap items-center gap-2 mb-2">
-              <span class="pill info">Updated Nov 17, 2026</span>
-              <span class="pill watch">Echo + elbow + stress test Nov 23</span>
+              <span class="pill info">Updated Nov 20, 2026</span>
+              <span class="pill watch">Elbow X-ray done Nov 18 · stress test Nov 23</span>
               <span class="pill">Identifiers minimized</span>
             </div>
             <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Vickie Berry Care Dashboard</h1>
@@ -244,10 +244,10 @@ const DATA = {
     {label:'eGFR', value:'48', unit:'mL/min/1.73m²', status:'watch', note:'Oct 16 BMP was flagged low; May 2026 eGFR was 50, Dec 2025 was 56.'},
     {label:'Creatinine', value:'1.2', unit:'mg/dL', status:'watch', note:'Oct 16 BMP flagged high; May 2026 was 1.15, Dec 2025 was 0.98.'},
     {label:'Echo EF', value:'60%', unit:'', status:'ok', note:'Oct 30 echo: EF ~60%, Grade I diastolic dysfunction, RV systolic function reduced. Trivial pericardial effusion.'},
-    {label:'Blood pressure', value:'151/83', unit:'', status:'watch', note:'Usual BP at Oct 30 echo. Swings down to 91 systolic with dizziness; 132/75 on Nov 15.'}
+    {label:'Blood pressure', value:'151/83', unit:'', status:'watch', note:'Usual BP at Oct 30 echo. Swings down to 91 systolic with dizziness; 132/75 on Nov 15; 106/83 at Nov 18 visit.'}
   ],
   priorities: [
-    {title:'Elbow exam and X-ray — unexamined since July/August fall', status:'alert', detail:'Hot, enlarging swelling at the elbow tip; never examined or imaged. On clopidogrel 75 mg daily. Needs an exam and an X-ray.'},
+    {title:'Elbow X-ray done Nov 18 — no fracture; swelling persists', status:'watch', detail:'Left elbow X-ray Nov 18: no fracture or bone lesion, normal alignment, no arthritic changes, soft tissue swelling overlying the olecranon. Swelling still present. On clopidogrel 75 mg daily. Ask whether labs, aspiration, or follow-up are needed.'},
     {title:'No current EKG', status:'alert', detail:'Last EKG August 2025. None in the October 10 ER workup despite troponin and NT-proBNP. Cardiolite stress test is scheduled Nov 23.'},
     {title:'Complete dyspnea workup', status:'watch', detail:'PFT and pulmonology referral ordered Oct 16; no result. Oct 10 chest CTA showed small left-lung tree-in-bud opacities with no repeat imaging. Prednisone trial ordered; no result.'},
     {title:'Clarify kidney staging and repeat timing', status:'watch', detail:'eGFR moved from 56 (Dec 2025) to 50 (May 2026) to 48 (Oct 16). No repeat labs since Oct 16.'},
@@ -255,7 +255,7 @@ const DATA = {
     {title:'Blood-pressure swings and dizziness', status:'watch', detail:'Usual 151/83, down to 91 systolic, dizzy with low readings, on three BP medicines plus trazodone, buspirone, and Wegovy. Ask for orthostatic vitals and a documented medication review.'}
   ],
   tasks: [
-    {task:'Elbow exam and X-ray', due:'As soon as possible', note:'Hot, enlarging swelling since July/August fall; never examined or imaged. On clopidogrel.'},
+    {task:'Elbow exam and X-ray', due:'Done Nov 18, 2026', note:'Left elbow X-ray Nov 18: no fracture; soft tissue swelling over olecranon. Swelling persists — ask about labs, aspiration, or follow-up. On clopidogrel.'},
     {task:'Cardiolite 1 DAY stress test', due:'Mon Nov 23, 2026, 10:30 AM', note:'Community Howard Cardiac Testing, Door B. Fast 3–3.5 hrs; no caffeine/tea/chocolate 12 hrs before.'},
     {task:'Current EKG', due:'Not yet ordered', note:'Last EKG Aug 2025. None in Oct 10 ER workup. Largest single gap in the record.'},
     {task:'Pulmonary function test', due:'Ordered Oct 16 — no result', note:'Ordered for dyspnea/wheezing workup with pulmonology referral.'},
@@ -263,9 +263,9 @@ const DATA = {
     {task:'Mammogram', due:'Order already placed', note:'Health summary/visit note says mammogram was ordered and should be completed.'},
     {task:'Bone density monitoring', due:'Jul 1, 2027', note:'Osteoporosis screening interval noted in health summary.'}
   ],
-  problems: ['Dyspnea','Autoimmune hypothyroidism','Hypothyroidism','Hypertension','Hyperlipidemia','History of CVA','Chronic kidney disease','Anemia in CKD','Iron deficiency anemia','GAD','Prolonged grief disorder','Osteoporosis','Numbness of feet','Brain atrophy','GERD','Severe headache','Sudden unilateral headache','Aphasia','Bilateral cataracts','Keratoconus','Hemorrhoid','Chronic pain','Elbow swelling (unexamined)','Dizziness','Blood pressure swings'],
+  problems: ['Dyspnea','Autoimmune hypothyroidism','Hypothyroidism','Hypertension','Hyperlipidemia','History of CVA','Chronic kidney disease','Anemia in CKD','Iron deficiency anemia','GAD','Prolonged grief disorder','Osteoporosis','Numbness of feet','Brain atrophy','GERD','Severe headache','Sudden unilateral headache','Aphasia','Bilateral cataracts','Keratoconus','Hemorrhoid','Chronic pain','Elbow swelling (X-rayed Nov 18, no fracture)','Dizziness','Blood pressure swings'],
   labs: [
-    {date:'2026-10-16', cat:'Kidney/BMP', test:'eGFR', value:'48 mL/min/1.73m²', range:'>60', status:'Low', note:'Oct 16 BMP; described as stable worsening eGFR. Drink at least 64 oz water daily.'},
+    {date:'2026-10-16', cat:'Kidney/BMP', test:'eGFR', value:'48 mL/min/1.73m²', range:'>60', status:'Low', note:'Oct 16 BMP; described as stable worsening eGFR. Drink at least 64 oz water daily. MyChart auto-summary: decreased since last check but not significantly changed, stable.'},
     {date:'2026-10-16', cat:'Kidney/BMP', test:'Creatinine', value:'1.2 mg/dL', range:'0.52–1.04', status:'High', note:'Oct 16 BMP flagged high; May 2026 was 1.15, Dec 2025 was 0.98.'},
     {date:'2026-10-10', cat:'ER Labs', test:'WBC', value:'15.5 x10E3/uL', range:'3.2–11.0', status:'High', note:'Oct 10 ER; absolute neutrophils 12.23 (range 1.60–6.50). Supports assessing infection or inflammation.'},
     {date:'2026-10-10', cat:'ER Labs', test:'NT-proBNP', value:'287 pg/mL', range:'0–125', status:'High', note:'Oct 10 ER, drawn for shortness of breath. Above lab range but below the common acute HF exclusion threshold of 300. No EKG was done in that workup.'},
@@ -332,6 +332,7 @@ const DATA = {
     maintenance: ['Schedule or confirm completion of the mammogram order.', 'Keep osteoporosis monitoring on the calendar; DXA monitoring was listed for 2027.', 'Update seasonal flu vaccine when available and bring immunization records to visits.']
   },
   timeline: [
+    {date:'2026-11-18', type:'ok', title:'Elbow X-ray done — no fracture', detail:'Left elbow X-ray, 3 views, at Community. No fracture or bone lesion, normal alignment, no arthritic changes; soft tissue swelling overlying the olecranon. Lump worsening since July fall. BP 106/83 at 1:00 PM that visit. Fall date settled Nov 17: about Jul 16–17, 2026, off the pool ladder (Vickie’s own texts).'},
     {date:'2026-11-23', type:'info', title:'Cardiolite 1 DAY (nuclear stress test) scheduled', detail:'Mon Nov 23, 10:30 AM EST, Community Howard Cardiac Testing, 3500 S Lafountain St, Kokomo. Door B. Fast 3–3.5 hrs before; no caffeine/tea/chocolate 12 hrs before. Beta-blocker and morning-meds questions to settle with her doctor before Sat Nov 21.'},
     {date:'2026-11-16', type:'alert', title:'Elbow still unexamined; test-gap review', detail:'Hot, enlarging elbow swelling since July/August fall, never examined or imaged. Dizziness and BP swinging 151 down to 91 on clopidogrel. Still at home, not seen at ER as of Nov 16, 2:20 PM. Records review found no current EKG (last Aug 2025), no stress test, no orthostatic vitals, no rhythm monitoring, no elbow workup, no nosebleed workup, no sleep study, no repeat lung imaging, no cognitive testing, no carotid surveillance since Aug 2025, no repeat kidney labs since Oct 16.'},
     {date:'2026-11-15', type:'alert', title:'Elbow swelling reported', detail:'Large, round, pink swelling at elbow tip, hot, bigger than in October. Fall July/August 2026 (pool ladder, family recollection). ER check-in card prepared.'},
@@ -368,7 +369,7 @@ const DATA = {
     'Do triglycerides of 181 need a fasting repeat, nutrition plan, or medication adjustment?',
     'Does the mildly high absolute lymphocyte count need follow-up, or is it acceptable to watch with the next CBC?',
     'Given history of CVA and clopidogrel use, are there special bleeding/procedure precautions to keep on the care card?',
-    'The elbow has never been examined or imaged since the July/August fall. It is hot and getting bigger, and she is on clopidogrel. Does it need an X-ray, labs, or antibiotics?',
+    'The elbow X-ray on Nov 18 showed no fracture, with soft tissue swelling over the olecranon. The swelling is still hot and getting bigger, and she is on clopidogrel. Does it need labs, aspiration, or follow-up?',
     'The last EKG was August 2025, and none was done in the October 10 ER visit. Is a current EKG needed before the November 23 stress test?',
     'For the November 23 Cardiolite test, should she take her beta blocker and her other morning blood-pressure medicines? The instructions say to follow the physician’s guidance within 48 hours.',
     'Severe nosebleeds started around October 15 and were not addressed on October 16. Does she need a bleeding workup while on clopidogrel?',
@@ -419,7 +420,7 @@ function makeCharts(){
   if(chartsMade){ chartInstances.forEach(chart => chart.resize()); return; }
   chartsMade = true;
   chartInstances = [
-    new Chart($('kidneyChart'), { type:'line', data:{ labels:['Dec 2025','May 2026'], datasets:[{ label:'eGFR', data:[56,50], tension:.25 }, { label:'Creatinine', data:[0.98,1.15], yAxisID:'y1', tension:.25 }, { label:'BUN', data:[19,23], yAxisID:'y2', tension:.25 }] }, options:chartOptions({ scales:{ y:{ title:{display:true,text:'eGFR'} }, y1:{ position:'right', grid:{drawOnChartArea:false}, title:{display:true,text:'Creatinine'} }, y2:{ display:false } } }) }),
+    new Chart($('kidneyChart'), { type:'line', data:{ labels:['Dec 2025','May 2026','Oct 2026'], datasets:[{ label:'eGFR', data:[56,50,48], tension:.25 }, { label:'Creatinine', data:[0.98,1.15,1.2], yAxisID:'y1', tension:.25 }, { label:'BUN', data:[19,23,13], yAxisID:'y2', tension:.25 }] }, options:chartOptions({ scales:{ y:{ title:{display:true,text:'eGFR'} }, y1:{ position:'right', grid:{drawOnChartArea:false}, title:{display:true,text:'Creatinine'} }, y2:{ display:false } } }) }),
     new Chart($('thyroidChart'), { type:'line', data:{ labels:['Sep 2025','May 2026'], datasets:[{ label:'TSH', data:[3.72,3.98], tension:.25 }] }, options:chartOptions({ scales:{ y:{ min:0, suggestedMax:4.5, title:{display:true,text:'mIU/L'} } } }) }),
     new Chart($('lipidChart'), { type:'bar', data:{ labels:['Total','HDL','Triglycerides','LDL','Non-HDL'], datasets:[{ label:'mg/dL', data:[158,60,181,72,98] }] }, options:chartOptions() }),
     new Chart($('cbcChart'), { type:'bar', data:{ labels:['WBC','Abs Lymph','Hemoglobin','Platelets'], datasets:[{ label:'Value', data:[9.7,3.77,13.8,331] }] }, options:chartOptions() })
