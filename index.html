@@ -315,8 +315,8 @@ const DATA = {
     {name:'albuterol-budesonide (Airsupra) 90-80 mcg', directions:'Inhale 2 puffs every 6 hours as needed for shortness of breath, wheezing, or other.', note:'Started for suspected asthma/dyspnea trial; rinse mouth after use per note', started:'05/20/2026'}
   ],
   medAlerts: [
-    {title:'Two statins listed', detail:'Pravastatin and atorvastatin both appear on the newest medication list. Confirm whether one replaced the other before continuing both.'},
-    {title:'Two PPIs listed', detail:'Omeprazole and pantoprazole both appear. Confirm intended GERD regimen and timing.'},
+    {title:'Two statins listed', detail:'Resolved Nov 23, 2026 (Kyle): atorvastatin 40 mg nightly is current; pravastatin is NOT current. Confirmed by the Nov 23 Cardiolite medication list.', resolved:true},
+    {title:'Two PPIs listed', detail:'Resolved Nov 23, 2026 (Kyle): pantoprazole 40 mg twice daily is current; omeprazole is NOT current. Confirmed by the Nov 23 Cardiolite medication list.', resolved:true},
     {title:'Parkview vs Community dose conflicts', detail:'Thyroid 112 vs 100 mcg, cholesterol 10 vs 40 mg, sleep medicine 600 vs 50 mg. Clopidogrel is missing from the Oct 10 ER list, and daily aspirin appears on one list. Neither list is verified against her bottles.'},
     {title:'Nosebleeds on clopidogrel', detail:'Severe nosebleeds started around Oct 15 and were not addressed Oct 16. Ask whether a bleeding workup is warranted. Do not take ibuprofen or naproxen while on clopidogrel.'},
     {title:'Levothyroxine timing check', detail:'Calcium, iron, multivitamins, and PPIs can complicate thyroid-med timing. Ask the clinician/pharmacist for a simple daily schedule.'},
@@ -382,7 +382,7 @@ const DATA = {
 const $ = (id) => document.getElementById(id);
 const statusClass = (status) => /high|low|watch/i.test(status) ? 'watch' : /alert|critical/i.test(status) ? 'alert' : 'ok';
 const pill = (text, cls='') => `<span class="pill ${cls}">${text}</span>`;
-const card = (title, detail, cls='info') => `<div class="soft-card status-left ${cls} p-4"><div class="flex justify-between gap-3 mb-2"><h3 class="font-extrabold">${title}</h3>${pill(cls==='ok'?'In range':cls==='alert'?'Review':'Watch',cls)}</div><p class="text-sm text-slate-600">${detail}</p></div>`;
+const card = (title, detail, cls='info', pillText) => `<div class="soft-card status-left ${cls} p-4"><div class="flex justify-between gap-3 mb-2"><h3 class="font-extrabold">${title}</h3>${pill(pillText || (cls==='ok'?'In range':cls==='alert'?'Review':'Watch'),cls)}</div><p class="text-sm text-slate-600">${detail}</p></div>`;
 
 function renderOverview(){
   $('snapshotGrid').innerHTML = DATA.snapshot.map(m => `<div class="soft-card status-left ${m.status} p-4 metric"><div class="metric-label">${m.label}</div><div class="metric-value">${m.value}</div><div class="font-bold text-slate-500">${m.unit}</div><p class="text-sm text-slate-600">${m.note}</p></div>`).join('');
@@ -428,7 +428,7 @@ function makeCharts(){
 
 function renderMeds(){
   $('medTableBody').innerHTML = DATA.meds.map(m => `<tr><td class="font-bold">${m.name}</td><td>${m.directions}</td><td>${m.note}</td><td>${m.started || '—'}</td></tr>`).join('');
-  $('medAlerts').innerHTML = DATA.medAlerts.map(a => card(a.title, a.detail, /two|timing/i.test(a.title) ? 'alert' : 'watch')).join('');
+  $('medAlerts').innerHTML = DATA.medAlerts.map(a => card(a.title, a.detail, a.resolved ? 'ok' : (/two|timing/i.test(a.title) ? 'alert' : 'watch'), a.resolved ? 'Resolved' : undefined)).join('');
   $('timingHelper').innerHTML = DATA.timing.map(t => `<div class="soft-card p-3">${t}</div>`).join('');
 }
 
